@@ -8,4 +8,4 @@ beneficial in places such as a green house. The user will have access to these t
 to something such as a thermometer which only measures temperature. The user will also be able to view
 the data on a website and will be able to retrieve feedback from the data. With a wireless socket - it can
 connect to a humidifier and turn on and off based on the users given maximum and minimum humidity
-values
+values.
