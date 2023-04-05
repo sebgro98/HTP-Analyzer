@@ -1,6 +1,6 @@
 # HTP-Analyzer
 
-This project for a product called HTP-analyzer (Humidity, Temperature, Pressure) for measuring
+This is our project for a product called HTP-analyzer (Humidity, Temperature, Pressure) for measuring
 temperature, pressure and humidity. In our project we will use an ESP32 connected with a BME280 sensor
 that can detect temperature, humidity and pressure. The ESP32 will be connected to the cloud using
 Wi-Fi. This product will be able to measure the local temperature, humidity and pressure data which can be
