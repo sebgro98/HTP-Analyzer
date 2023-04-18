@@ -11,3 +11,22 @@ to something such as a thermometer which only measures temperature. The user wil
 the data on a website and will be able to retrieve feedback from the data. With a wireless socket - it can
 connect to a humidifier and turn on and off based on the users given maximum and minimum humidity
 values.
+
+## Project setup
+[![REQUIRES - NodeJS](https://img.shields.io/static/v1?label=REQUIRES&message=NodeJS&color=%23339933&style=for-the-badge&logo=Node.js)](https://nodejs.org/en/)
+
+1. Download and install [node](https://nodejs.org/en/) if you haven't already.
+2. Clone the repository to your local machine using `git clone`
+```bash
+git clone [git@gits-15.sys.kth.se:benron/know-your-country.git](https://github.com/sebgro98/HTP-Analyzer.git)
+```
+3. Navigate to the directory where you cloned this repo your terminal and `cd` into the local repo.
+4. Install the required dependencies using
+```bash
+npm install
+```
+7. After dependencies have installed, start a development server.
+```bash
+npm run start
+```
+8. Open your `localhost` URL indicated by your terminal and start app!
