@@ -3,7 +3,7 @@ import {
   RouterProvider,
 } from "react-router-dom"
 import "./index.css"
-
+import "./views/Styled.css"
 import Login from "./presenters/LoginPresenter"
 import MainPage from "./presenters/MainPagePresenter"
 

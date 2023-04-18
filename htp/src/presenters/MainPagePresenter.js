@@ -1,5 +1,5 @@
 import React from "react";
-import MainPageView from "../views/ProfilePageView";
+import MainPageView from "../views/MainPageView";
 
 const MainPage = () => {
     return (
