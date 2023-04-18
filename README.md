@@ -18,7 +18,7 @@ values.
 1. Download and install [node](https://nodejs.org/en/) if you haven't already.
 2. Clone the repository to your local machine using `git clone`
 ```bash
-git clone [git@gits-15.sys.kth.se:benron/know-your-country.git](https://github.com/sebgro98/HTP-Analyzer.git)
+git clone https://github.com/sebgro98/HTP-Analyzer.git
 ```
 3. Navigate to the directory where you cloned this repo your terminal and `cd` into the local repo.
 4. Install the required dependencies using
