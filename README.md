@@ -25,8 +25,8 @@ git clone [git@gits-15.sys.kth.se:benron/know-your-country.git](https://github.c
 ```bash
 npm install
 ```
-7. After dependencies have installed, start a development server.
+5. After dependencies have installed, start a development server.
 ```bash
 npm run start
 ```
-8. Open your `localhost` URL indicated by your terminal and start app!
+6. Open your `localhost` URL indicated by your terminal and start app!
