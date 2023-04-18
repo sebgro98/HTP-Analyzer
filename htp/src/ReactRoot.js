@@ -3,9 +3,9 @@ import {
   RouterProvider,
 } from "react-router-dom"
 import "./index.css"
-import "./views/Styled.css"
-import Login from "./presenters/LoginPresenter"
-import MainPage from "./presenters/MainPagePresenter"
+import "./Styled.css"
+import Login from "./components/presenters/LoginPresenter"
+import MainPage from "./components/presenters/MainPagePresenter"
 
 
 const router = createBrowserRouter([

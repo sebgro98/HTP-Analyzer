@@ -1,5 +1,5 @@
 import React from "react";
-import LoginView from "../views/LoginView";
+import LoginView from "./../views/LoginView.js";
 
 const Login = () => {
 
