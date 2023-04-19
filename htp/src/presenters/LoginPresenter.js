@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import LoginView from "../views/LoginView";
+import Model from "../Test";
+
 
 const Login = () => {
+  const model = new Model();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,13 +18,17 @@ const Login = () => {
   };
 
   const handleLoginCB = (email, password) => {
-    setIsLoggedIn(true);
-    window.location.href = "/";
+    model.logIn(email,password).then(() => {
+      console.log("hello")
+      window.location.href = "/";
+    });
+
   };
 
   const handleRegistrationCB = (email, password) => {
-    setIsLoggedIn(true);
-    window.location.href = "/";
+    model.Registration(email, password).then(() => {
+      window.location.href = "/";
+    });
   };
 
   const handleSubmitCB = (e) => {

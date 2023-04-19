@@ -5,7 +5,7 @@ import SignUpView from "../views/SignUpView";
 const SignUp = () => {
     const handleLogin = (username, password) => {
         const model = new Model();
-        model.Details(username, password);
+        model.Registration(username, password);
     };
 
     return (

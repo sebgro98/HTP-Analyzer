@@ -9,8 +9,16 @@ const SignUpView = ({ onLogin }) => {
         onLogin(username, password);
     };
 
+    const divStyle = {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+    };
+
     return (
-        <div>
+        <div style={divStyle}>
             <h2>Sign up</h2>
             <form onSubmit={handleSubmit}>
                 <label htmlFor="username">Username:</label>
@@ -33,7 +41,7 @@ const SignUpView = ({ onLogin }) => {
                     required
                 />
 
-                <button type="submit">Sign up</button>
+                <button type="submit" >Sign up</button>
             </form>
         </div>
     );
