@@ -80,12 +80,12 @@ class Model {
     }
 
     async getTemplateList() {
-        let data = []
+        let template = []
         await getDocs(collection(db, "Templates")).then((snapshot) => {
             snapshot.docs.forEach((doc) => {
-                data.push({ ...doc.data(), id:doc.id })
+                template.push({ ...doc.data(), id:doc.id })
             })
-            this.templates = data;
+            this.templates = template;
         })
     }
 }
