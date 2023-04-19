@@ -19,8 +19,7 @@ const Login = () => {
 
   const handleLoginCB = (email, password) => {
     model.logIn(email,password).then(() => {
-      console.log("hello")
-      window.location.href = "/";
+      //window.location.href = "/";
     });
 
   };

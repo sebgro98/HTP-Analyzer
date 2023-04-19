@@ -7,6 +7,7 @@ class Model {
     constructor() {
         this.currentUserUID = undefined;
         this.correctLogInInfo = undefined;
+        this.templates = {};
     }
 
     async Registration(email, password) {
@@ -16,15 +17,34 @@ class Model {
                 email,
                 password,
             );
-
+            await setDoc(doc(db, "Data", email), {
+                TemplateName: [],
+                TemplateTempMin: [],
+                TemplateTempMax: [],
+                TemplateHumMin: [],
+                TemplateHumMax: [],
+                TemplatePresMin: [],
+                TemplatePresMax: [],
+                WeatherDataTime: [],
+                WeatherDataDate: [],
+                WeatherDataHumData: [],
+                WeatherDataTempData: [],
+                WeatherDataPresData: [],
+                CurrentTemplateName: [],
+                CurrentIntervalsTempMin: [],
+                CurrentIntervalsTempMax: [],
+                CurrentIntervalsHumMin: [],
+                CurrentIntervalsHumMax: [],
+                CurrentIntervalsPresMin: [],
+                CurrentIntervalsPresMax: [],
+                NotificationsType: [],
+                NotificationsValue: [],
+                NotificationsLimitValue: [],
+            })
             await setDoc(doc(db, "Users", userCredential.user.uid), {
                 email: userCredential.user.email,
                 password: password,
-
             });
-            await setDoc(doc(db, "data", email), {
-                data: []
-            })
 
         } catch (error) {
             alert(error.message);
@@ -35,6 +55,7 @@ class Model {
         this.correctLogInInfo = true;
         signInWithEmailAndPassword(getAuth(), email, password).then((data) => {
             this.currentUserUID = data.user.uid;
+            console.log(email)
         }).catch((error) => {
             this.correctLogInInfo = false;
             switch (error.code){
@@ -55,6 +76,16 @@ class Model {
             if (this.correctLogInInfo){
                 this.currentLoggedInUser = email;
             }
+        })
+    }
+
+    async getTemplateList() {
+        let data = []
+        await getDocs(collection(db, "Templates")).then((snapshot) => {
+            snapshot.docs.forEach((doc) => {
+                data.push({ ...doc.data(), id:doc.id })
+            })
+            this.templates = data;
         })
     }
 }
