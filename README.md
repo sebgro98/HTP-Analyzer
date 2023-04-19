@@ -27,6 +27,6 @@ npm install
 ```
 5. After dependencies have installed, start a development server.
 ```bash
-npm run start
+npm start
 ```
 6. Open your `localhost` URL indicated by your terminal and start app!
