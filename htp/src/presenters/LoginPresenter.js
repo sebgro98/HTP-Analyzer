@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import LoginView from "../views/LoginView";
 import Model from "../Model";
+import Sidebar from "../components/Sidebar";
 
 const Login = () => {
   const model = new Model();
@@ -18,20 +19,38 @@ const Login = () => {
   };
 
   const handleLoginCB = (email, password) => {
-    model.logIn(email, password).then(() => {
-      model.retrieveDataForEmail(email);
-      setIsLoggedIn(true);
-      setSuccessMessage("Successfully logged in!");
-    });
+    model.logIn(email, password)
+      .then(() => {
+        model.retrieveDataForEmail(email);
+        setIsLoggedIn(true);
+        setSuccessMessage("Successfully logged in!");
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
   
+
   const handleRegistrationCB = (email, password) => {
-    model.Registration(email, password).then(() => {
-      setIsLoggedIn(true);
-      setSuccessMessage("Successfully registered!");
-    });
+    model.Registration(email, password)
+      .then(() => {
+        setIsLoggedIn(true);
+        setSuccessMessage("Successfully registered!");
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
-  
+
+  const handleLogout = () => {
+    model.logout()
+      .then(() => {
+        setIsLoggedIn(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const handleSubmitCB = async (e) => {
     e.preventDefault();
@@ -70,30 +89,34 @@ const Login = () => {
   };
 
   const handleToggleCB = () => {
-    setIsRegistering(!isRegistering);
-    setError("");
+    if (isLoggedIn) {
+      handleLogout();
+    } else {
+      setIsRegistering(!isRegistering);
+      setError("");
+    }
   };
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      window.location.href = "/";
-    }
-  }, [isLoggedIn]);
-
   return (
-    <LoginView
-      email={email}
-      password={password}
-      confirmPassword={confirmPassword}
-      error={error}
-      isRegistering={isRegistering}
-      setEmail={setEmail}
-      setPassword={setPassword}
-      setConfirmPassword={setConfirmPassword}
-      handleSubmit={handleSubmitCB}
-      handleToggle={handleToggleCB}
-      successMessage={successMessage}
-    />
+    <>
+      <Sidebar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      {isLoggedIn ? null : (
+        <LoginView
+          email={email}
+          password={password}
+          confirmPassword={confirmPassword}
+          error={error}
+          successMessage={successMessage}
+          isRegistering={isRegistering}
+          setEmail={setEmail}
+          setPassword={setPassword}
+          setConfirmPassword={setConfirmPassword}
+          handleSubmit={handleSubmitCB}
+          handleToggle={handleToggleCB}
+          isLoggedIn={isLoggedIn}
+        />
+      )}
+    </>
   );
 };
 
