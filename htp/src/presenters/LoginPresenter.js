@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import LoginView from "../views/LoginView";
-import Model from "../Test";
+import Model from "../Model";
 
 
 const Login = () => {
@@ -19,6 +19,7 @@ const Login = () => {
 
   const handleLoginCB = (email, password) => {
     model.logIn(email,password).then(() => {
+      model.retrieveDataForEmail(email)
       //window.location.href = "/";
     });
 

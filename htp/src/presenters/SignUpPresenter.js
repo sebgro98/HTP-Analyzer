@@ -1,5 +1,5 @@
 import React from "react";
-import Model from "../Test";
+import Model from "../Model";
 import SignUpView from "../views/SignUpView";
 
 const SignUp = () => {

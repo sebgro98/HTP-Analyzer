@@ -6,12 +6,14 @@ import MainPage from "./presenters/MainPagePresenter";
 import Sidebar from "./components/Sidebar";
 import loggedIn from "./loggedIn";
 import SignUp from "./presenters/SignUpPresenter"
+import Display from "./presenters/DisplayPresenter"
 
 
 const router = createBrowserRouter([
   { path: "/", element: <MainPage /> },
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <SignUp /> },
+  { path: "/display", element: <Display/> },
 ]);
 
 function ReactRoot() {

@@ -1,0 +1,10 @@
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* optionally, to make the container take up the full viewport height */
+}
+
+.centered-container div {
+    text-align: center;
+}
