@@ -12,7 +12,7 @@ function DisplayView(props) {
                 <p>WeatherDataHumData: {props.data.WeatherDataHumData}</p>
                 <p>WeatherDataTempData: {props.data.WeatherDataTempData}</p>
                 <p>WeatherDataPresData: {props.data.WeatherDataPresData}</p>
-                <p>WeatherDataTime: {props.data.WeatherDataDate}</p>
+                <p>WeatherDataDate: {props.data.WeatherDataDate}</p>
             </div>
 
     );
