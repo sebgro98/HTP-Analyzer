@@ -173,3 +173,46 @@
 .sidebar-item.active a {
   background-color: #34495e;
 }
+
+/* ------------------------------------------- DateTime --------------------------------- */
+
+.timeDateLight {
+  display: block;
+	height: 100%;
+	margin: -20px 0 0 -20px;
+	font-family: "Bank Gothic", "Futura", "Arial";
+	font-size: 30px;
+	text-align: center;
+	color: rgb(8, 8, 8);
+	text-shadow: 0 0 30px rgb(32, 87, 2);
+}
+
+.timeDateDark {
+  display: block;
+	height: 100%;
+	margin: -20px 0 0 -20px;
+	font-family: "Bank Gothic", "Futura", "Arial";
+	font-size: 30px;
+	text-align: center;
+	color: rgb(255, 255, 255);
+	text-shadow: 0 0 30px rgb(147, 211, 238);
+}
+
+/* ------------------------------------------- Dark/light mode --------------------------------- */
+
+.dark {
+  background-color: #333;
+  color: #fff;
+}
+
+.light {
+  background-color: #fff;
+  color: #333;
+}
+
+.button {
+  position: absolute;
+  right: 50px;
+  top: 50px;
+}
+
