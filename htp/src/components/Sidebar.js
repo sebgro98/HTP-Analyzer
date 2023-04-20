@@ -1,7 +1,8 @@
 import React from "react";
 import "../views/Styled.css";
 
-const Sidebar = ({ isLoggedIn }) => {
+const Sidebar = ({ isLoggedIn, handleLogout }) => {
+  console.log("isLoggedIn in Sidebar: ", isLoggedIn);
   return (
     <div className="sidebar-container">
       <ul className="sidebar-list">
@@ -11,10 +12,7 @@ const Sidebar = ({ isLoggedIn }) => {
               <a href="/">Home</a>
             </li>
             <li className="sidebar-item">
-              <a href="/profile">Profile</a>
-            </li>
-            <li className="sidebar-item">
-              <a href="/logout">Logout</a>
+              <button className="logout-button" onClick={handleLogout}>Logout</button>
             </li>
           </>
         ) : (
