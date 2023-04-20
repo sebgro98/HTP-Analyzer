@@ -13,6 +13,7 @@ const LoginView = ({
   setConfirmPassword,
   handleSubmit,
   handleToggle,
+  isLoggedIn
 }) => {
   return (
     <div className="login-container">
@@ -51,16 +52,30 @@ const LoginView = ({
               />
             </label>
           )}
-          <button className="login-button" type="submit">
-            {isRegistering ? "Register" : "Login"}
-          </button>
-          <button
-            className="login-toggle-button"
-            type="button"
-            onClick={handleToggle}
-          >
-            {isRegistering ? "Go back to Login" : "Register"}
-          </button>
+
+          {isLoggedIn ? ( // render Logout button if user is logged in
+            <button
+              className="login-button"
+              type="button"
+              onClick={handleToggle}
+            >
+              Logout
+            </button>
+          ) : (
+            <button className="login-button" type="submit">
+              {isRegistering ? "Register" : "Login"}
+            </button>
+          )}
+
+          {!isLoggedIn && (
+            <button
+              className="login-toggle-button"
+              type="button"
+              onClick={handleToggle}
+            >
+              {isRegistering ? "Go back to Login" : "Register"}
+            </button>
+          )}
         </form>
       </>
     </div>
