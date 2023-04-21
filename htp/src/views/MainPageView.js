@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import DateTimeView from "./DateTimeView";
 import { DarkModeSwitch } from 'react-toggle-dark-mode';
+import WeatherCardView from "./WeatherCardView";
 
 const MainPageView = (props) => {
     const [theme, setTheme] = useState('light');
@@ -28,6 +29,7 @@ const MainPageView = (props) => {
             />
             <h1>Main Page</h1>
             <DateTimeView darkMode = {darkMode}/>
+            <WeatherCardView darkMode = {darkMode}/>
         </div>
     );
 }

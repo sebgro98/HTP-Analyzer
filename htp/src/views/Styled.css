@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Orbitron');
+
 :root {
   /* Add variables for commonly used values */
   --color-blue: #0095ff;
@@ -9,7 +11,6 @@
   --spacing-medium: 20px;
 }
 body {
-  background-image: url("../image/login.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -315,43 +316,42 @@ body {
 .timeDateLight {
   display: block;
 	height: 100%;
-	margin: -20px 0 0 -20px;
-	font-family: "Bank Gothic", "Futura", "Arial";
-	font-size: 30px;
+	font-family: orbitron;
 	text-align: center;
-	color: rgb(241, 8, 8);
-	text-shadow: 0 0 30px rgb(32, 87, 2);
+	text-shadow: 0 0 30px hsl(49, 61%, 64%);
+  line-height: 100%;
+  font-size: 80px;
+  font-weight: 100;
+  position: relative;
+  align-content: center;
 }
+
 
 .timeDateDark {
   display: block;
 	height: 100%;
-	margin: -20px 0 0 -20px;
-	font-family: "Bank Gothic", "Futura", "Arial";
-	font-size: 30px;
+	font-family: orbitron;
+	font-size: 100px;
 	text-align: center;
-	color: rgb(255, 255, 255);
+	color: rgba(255, 255, 255, 0.5);
 	text-shadow: 0 0 30px rgb(147, 211, 238);
+  line-height: 100%;
+  font-size: 80px;
+  font-weight: 100;
+  position: relative;
+  align-content: center;
 }
 
 /* ------------------------------------------- Dark/light mode --------------------------------- */
 
 .dark {
-  background-color: #333;
-  color: #fff;
-  background-image: url("../image/login.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-color: #1a1a1b;
+  color: #e0e0e0;
 }
 
 .light {
-  background-image: url("../image/login.jpg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-color: #fff;
-  color: #333;
+  background-color: #e0e0e0;
+  color: #1a1a1b;
 }
 
 .button {
@@ -360,3 +360,50 @@ body {
   top: 50px;
 }
 
+/* ------------------------------------------- Weather card --------------------------------- */
+
+.cardLight {
+  margin-top: 10rem;
+  display: grid;
+  position: relative;
+  line-height: 100%;
+  font-size: 2rem;
+  font-family: orbitron;
+  font-weight: normal;
+  text-shadow: 0 0 30px hsl(49, 61%, 64%);
+  text-align: center;
+  
+}
+
+.cardDark {
+  margin-top: 10rem;
+  display: grid;
+  position: relative;
+  line-height: 100%;
+  font-size: 2rem;
+  font-family: orbitron;
+  font-weight: normal;
+  text-shadow: 0 0 30px rgb(147, 211, 238);
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  
+}
+
+.svg-icon {
+  width: 40px;
+  height: 40px;
+  vertical-align: middle;
+  margin-right: 0.2rem;
+  opacity: 0.8;
+}
+
+.heading {
+  margin-top: 1rem;
+  border-bottom: 100px solid transparent;
+}
+.value {
+  line-height: 100%;
+  font-size: 120px;
+  font-family: orbitron;
+  font-weight: 100;
+}
