@@ -3,7 +3,7 @@ import Model from "../Model";
 import DisplayView from '../views/DisplayView';
 
 
-function DisplayPresenter() {
+function DisplayPresenter({darkMode}) {
     const [data, setData] = useState(null);
 
     useEffect(() => {
@@ -23,7 +23,7 @@ function DisplayPresenter() {
         <div className="DisplayPresenter">
             <h1>Display Data</h1>
             {data ? (
-                <DisplayView data={data} />
+                <DisplayView darkMode = {darkMode} data={data} />
             ) : (
                 <p>Loading data...</p>
             )}
