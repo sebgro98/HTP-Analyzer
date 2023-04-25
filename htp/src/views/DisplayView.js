@@ -9,7 +9,7 @@ function DisplayView({ darkMode, data }) {
     return <p>Loading data...</p>;
   }
 
-  const { humidity, temperature, pressure } = data;
+  const { WeatherDataHumData, WeatherDataTempData, WeatherDataPresData } = data;
 
   return (
     <div className={`card${darkMode ? 'Dark' : 'Light'}`}>
@@ -17,7 +17,7 @@ function DisplayView({ darkMode, data }) {
         <div className="box">
           <img className="svg-icon" src={hmdty} alt="Humidity" />
           <div className="measurement">Humidity</div>
-          <div className="parameter">{humidity}%</div>
+          <div className="parameter">{WeatherDataHumData[0]}%</div>
         </div>
       </div>
 
@@ -25,7 +25,7 @@ function DisplayView({ darkMode, data }) {
         <div className="box">
           <img className="svg-icon" src={temp} alt="Temperature" />
           <div className="measurement">Temperature</div>
-          <div className="parameter">{temperature}&deg;C</div>
+          <div className="parameter">{WeatherDataTempData[0]}&deg;C</div>
         </div>
       </div>
 
@@ -33,7 +33,7 @@ function DisplayView({ darkMode, data }) {
         <div className="box">
           <img className="svg-icon" src={prs} alt="Pressure" />
           <div className="measurement">Pressure</div>
-          <div className="parameter">{pressure}hPa</div>
+          <div className="parameter">{WeatherDataPresData[0]}hPa</div>
         </div>
       </div>
     </div>
