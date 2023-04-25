@@ -407,3 +407,202 @@ body {
   font-family: orbitron;
   font-weight: 100;
 }
+
+/*----------------------------------------------------------------Profilers----------------------------------------------------------------*/
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.input-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3em;
+}
+
+.profile {
+  position: relative;
+}
+
+.profile-image {
+  width: 20em;
+  height: 20em;
+  border-radius: 50%;
+  background-image: url('');
+  background-size: cover;
+  box-shadow: 0px 0px 1.5em rgba(0, 0, 0, 0.3);
+  margin-bottom: 3vh;
+}
+
+.upload-profile-button {
+  position: absolute;
+  bottom: -2vh;
+  right: 50%;
+  transform: translateX(50%);
+  background-color: #0077B5;
+  color: white;
+  padding: 1em 2em;
+  font-size: 1em;
+  line-height: 1em;
+  border-radius: 2em;
+  border: none;
+}
+
+
+.input-details input {
+  width: 100%;
+  padding: 1em;
+  margin-bottom: 2vh;
+  border: none;
+  border-bottom: 0.2em solid gray;
+  font-size: 1.2em;
+}
+
+.input-details label {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 2vh;
+}
+
+.input-details label span {
+  font-size: 0.8em;
+  margin-bottom: 0.5vh;
+}
+
+.save-button {
+  background-color: #0077B5;
+  color: white;
+  border-radius: 2em;
+  border: none;
+  padding: 1em 2em;
+  display: block;
+  margin: 0 auto;
+}
+
+.details-container {
+  margin-top: 3em;
+
+}
+
+/* ProfilePageView.css */
+
+/* Mobile devices (portrait) */
+@media only screen and (max-width: 480px) {
+
+
+  .profile-image {
+    width: 10em;
+    height: 10em;
+  }
+
+  .upload-profile-button {
+    font-size: 0.8em;
+    padding: 0.5em 1em;
+  }
+
+  .details-container {
+    width: 80%;
+  }
+
+  .input-details input {
+    font-size: 1em;
+  }
+
+  .save-button {
+    font-size: 1em;
+    padding: 0.8em 1.5em;
+  }
+}
+
+/* Tablet devices (landscape) */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+
+
+  .profile-image {
+    width: 12em;
+    height: 12em;
+  }
+
+  .upload-profile-button {
+    font-size: 0.8em;
+    padding: 0.7em 1.5em;
+  }
+
+  .details-container {
+    width: 70%;
+  }
+
+  .input-details input {
+    font-size: 1.2em;
+  }
+
+  .save-button {
+    font-size: 1.2em;
+    padding: 1em 2em;
+  }
+}
+
+/* Small desktop devices */
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+
+  .profile-image {
+    width: 15em;
+    height: 15em;
+  }
+
+  .upload-profile-button {
+    font-size: 1em;
+    padding: 1em 2em;
+  }
+
+  .details-container {
+    width: 50%;
+  }
+
+  .input-details input {
+    font-size: 1.5em;
+  }
+
+  .save-button {
+    font-size: 1.5em;
+    padding: 1em 2em;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media (min-width: 992px) {
+  .container {
+    max-width: 70%;
+  }
+
+  .input-details {
+    flex-direction: row;
+    margin-top: 5em;
+  }
+
+  .profile {
+    margin-right: 5em;
+  }
+
+  .details-container {
+    width: 50%;
+  }
+
+  .input-details input {
+    font-size: 1.4em;
+  }
+
+  .input-details label {
+    width: 40%;
+  }
+
+  .save-button {
+    font-size: 1.2em;
+  }
+}
