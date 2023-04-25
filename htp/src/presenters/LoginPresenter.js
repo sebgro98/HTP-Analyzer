@@ -127,6 +127,7 @@ const Login = () => {
           handleSubmit={handleSubmitCB}
           handleToggle={handleToggleCB}
           isLoggedIn={isLoggedIn}
+          handleLogout={handleLogout}
         />
       )}
     </>
