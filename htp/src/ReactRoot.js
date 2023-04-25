@@ -6,12 +6,13 @@ import MainPage from "./presenters/MainPagePresenter";
 import Sidebar from "./components/Sidebar";
 import loggedIn from "./loggedIn";
 import Display from "./presenters/DisplayPresenter"
-
+import ProfilePage from "./presenters/ProfilePresenter"
 
 const router = createBrowserRouter([
   { path: "/", element: <MainPage /> },
   { path: "/login", element: <Login /> },
   { path: "/display", element: <Display/> },
+  { path: "/profile", element: <ProfilePage /> },
 ]);
 
 function ReactRoot() {
@@ -21,6 +22,9 @@ function ReactRoot() {
   const loginClickCB = () => {
     window.location.href = "/login";
   };
+  const profileClickCB = () => {
+    window.location.href = "/profile"
+  }
 
   const var_loggedIn = loggedIn();
 
@@ -32,6 +36,7 @@ function ReactRoot() {
         <div className="flexRow tempNav">
           <button onClick={homeClickCB}>Home</button>
           <button onClick={loginClickCB}>Login</button>
+          <button onClick={profileClickCB}>Profile</button>
         </div>
       )}
 
