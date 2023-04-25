@@ -6,7 +6,13 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { IconButton } from "@mui/material";
-import { FaHome, FaSignOutAlt, FaSignInAlt, FaBars, FaUserAlt } from "react-icons/fa";
+import {
+  FaHome,
+  FaSignOutAlt,
+  FaSignInAlt,
+  FaBars,
+  FaUserAlt,
+} from "react-icons/fa";
 
 export default function Sidebar({ isLoggedIn, handleLogout }) {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
@@ -39,7 +45,10 @@ export default function Sidebar({ isLoggedIn, handleLogout }) {
     >
       <List>
         {routes.map((route, index) => (
-          <ListItemButton key={route} onClick={() => (window.location.href = route)}>
+          <ListItemButton
+            key={route}
+            onClick={() => (window.location.href = route)}
+          >
             <ListItemIcon>{icons[index]}</ListItemIcon>
             <ListItemText primary={route === "/" ? "Home" : "Profile"} />
           </ListItemButton>
