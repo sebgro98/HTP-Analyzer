@@ -1,9 +1,11 @@
-import { Link, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./index.css";
 import "./views/Styled.css";
 import Login from "./presenters/LoginPresenter";
 import MainPage from "./presenters/MainPagePresenter";
 import Sidebar from "./components/Sidebar";
+import ProfilePage from "./presenters/ProfilePresenter"
+
 import {useState} from "react";
 import Model from "./Model";
 
@@ -28,14 +30,9 @@ function ReactRoot() {
     return (
         <div style={{ width: "100%" }}>
             <Sidebar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
-            {isLoggedIn ? null : (
-                <div className="flexRow tempNav">
-                    <Link to="/">Home</Link>
-                    <Link to="/login">Login</Link>
-                </div>
-            )}
 
             <Routes>
+                <Route path="/profile" element={ <ProfilePage /> } />
                 <Route path="/" element={<MainPage />} />
                 <Route path="/login" element={<Login />} />
             </Routes>
