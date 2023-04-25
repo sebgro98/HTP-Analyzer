@@ -40,8 +40,7 @@ const Login = () => {
   };
 
   const handleRegistrationCB = (email, password) => {
-    model
-        .Registration(email, password)
+    model.Registration(email, password)
         .then(() => {
           localStorage.setItem("isLoggedIn", JSON.stringify(true));
           setIsLoggedIn(true);

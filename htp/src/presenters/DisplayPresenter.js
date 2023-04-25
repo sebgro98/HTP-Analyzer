@@ -26,7 +26,7 @@ function DisplayPresenter({darkMode}) {
             {data ? (
                 <DisplayView darkMode = {darkMode} data={data} />
             ) : (
-                <p>Loading data...</p>
+                <p>You need to sign in/register to see your data</p>
             )}
         </div>
     );
