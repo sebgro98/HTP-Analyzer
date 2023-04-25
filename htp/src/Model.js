@@ -72,6 +72,7 @@ class Model {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       this.currentUserUID = userCredential.user.uid;
       this.currentLoggedInUser = email;
+      console.log(this.currentLoggedInUser)
       return email;
     } catch (error) {
       switch (error.code) {

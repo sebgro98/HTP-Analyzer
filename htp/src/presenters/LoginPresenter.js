@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import LoginView from "../views/LoginView";
 import Model from "../Model";
 import Sidebar from "../components/Sidebar";
+import {useNavigate, Usenavigate} from "react-router-dom";
 
 const Login = () => {
   const model = new Model();
@@ -27,14 +28,13 @@ const Login = () => {
     return regex.test(email);
   };
 
-  const handleLoginCB = async (event) => {
+  const HandleLoginCB = async (event) => {
     try {
-
-      const user = await model.logIn(email, password);
-      setIsLoggedIn(!!user);
-      console.log(user)
-      const userData = await model.retrieveDataForEmail(email);
-      //console.log(userData)
+      //const navigate = useNavigate();
+      const user = await model.logIn(email, password)
+        setIsLoggedIn(!!user);
+        window.location.href = '/'
+      //console.log(user)
     } catch (error) {
       console.log(`Error logging in: ${error}`);
     }
@@ -44,8 +44,10 @@ const Login = () => {
   const handleRegistrationCB = (email, password) => {
     model.Registration(email, password)
       .then(() => {
+        console.log("hella")
         setIsLoggedIn(true);
         setSuccessMessage("Successfully registered!");
+        window.location.href = '/'
       })
       .catch((error) => {
         setError(error.message);
@@ -86,7 +88,7 @@ const Login = () => {
       if (isRegistering) {
         await handleRegistrationCB(email, password);
       } else {
-        await handleLoginCB(email, password);
+        await HandleLoginCB(email, password);
       }
       // Reset form fields and error message
       setEmail("");
