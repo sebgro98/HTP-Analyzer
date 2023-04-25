@@ -5,7 +5,6 @@ import Login from "./presenters/LoginPresenter";
 import MainPage from "./presenters/MainPagePresenter";
 import Sidebar from "./components/Sidebar";
 import ProfilePage from "./presenters/ProfilePresenter"
-
 import {useState} from "react";
 import Model from "./Model";
 
