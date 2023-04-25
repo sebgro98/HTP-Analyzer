@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import LoginView from "../views/LoginView";
 import Model from "../Model";
 import Sidebar from "../components/Sidebar";
@@ -13,21 +13,31 @@ const Login = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
+  useEffect(() => {
+    const checkUser = async () => {
+      const user = await model.getUser();
+      console.log(user)
+      setIsLoggedIn(!!user);
+    };
+    checkUser();
+  }, []);
+
   const validateEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
   };
 
-  const handleLoginCB = (email, password) => {
-    model.logIn(email, password)
-      .then(() => {
-        model.retrieveDataForEmail(email);
-        setIsLoggedIn(true);
-        setSuccessMessage("Successfully logged in!");
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
+  const handleLoginCB = async (event) => {
+    try {
+
+      const user = await model.logIn(email, password);
+      setIsLoggedIn(!!user);
+      console.log(user)
+      const userData = await model.retrieveDataForEmail(email);
+      //console.log(userData)
+    } catch (error) {
+      console.log(`Error logging in: ${error}`);
+    }
   };
   
 

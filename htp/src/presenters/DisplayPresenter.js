@@ -10,7 +10,8 @@ function DisplayPresenter({darkMode}) {
         async function fetchData() {
             const model = new Model();
             console.log('fetching data...');
-            const result = await model.retrieveDataForEmail('hej@gmail.com');
+            console.log(model.currentLoggedInUser)
+            const result = await model.retrieveDataForEmail(model.currentLoggedInUser);
             console.log('data retrieved:', result);
             setData(result);
         }

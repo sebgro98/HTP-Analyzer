@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom";
 import "./index.css";
 import "./views/Styled.css";
 import Login from "./presenters/LoginPresenter";
@@ -15,11 +15,12 @@ const router = createBrowserRouter([
 ]);
 
 function ReactRoot() {
+  const navigate = useNavigate()
   const homeClickCB = () => {
     window.location.href = "/";
   };
   const loginClickCB = () => {
-    window.location.href = "/login";
+    navigate('/login');
   };
 
   const var_loggedIn = loggedIn();
@@ -37,6 +38,7 @@ function ReactRoot() {
 
       <RouterProvider router={router} />
     </div>
+
   );
 }
 export default ReactRoot;

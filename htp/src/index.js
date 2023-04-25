@@ -4,12 +4,20 @@ import { createRoot } from "react-dom/client"; // updated import
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import ReactRoot from './ReactRoot';
+import  AuthProvider  from './Auth';
+import Model from "./Model";
+import {Router} from "react-router-dom";
+const model = new Model();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <ReactRoot />
-  </React.StrictMode>
+    <Router>
+    <React.StrictMode>
+        <AuthProvider model={model}>
+            <ReactRoot />
+        </AuthProvider>
+    </React.StrictMode>,
+    </Router>
 );
 
 // If you want to start measuring performance in your app, pass a function

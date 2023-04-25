@@ -1,13 +1,14 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { db } from "./firebaseModel";
-import { doc, setDoc, getDocs, collection, getDoc } from "firebase/firestore";
+import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,  setPersistence,
+  browserLocalPersistence, onAuthStateChanged} from "firebase/auth";
+import {db} from "./firebaseModel";
+import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
 
 class Model {
   constructor() {
     this.currentUserUID = undefined;
     this.correctLogInInfo = undefined;
     this.templates = {};
+    this.currentLoggedInUser = undefined;
   }
 
   async Registration(email, password) {
@@ -50,45 +51,53 @@ class Model {
     }
   }
 
-  async logIn(email, password) {
-    this.correctLogInInfo = true;
-    signInWithEmailAndPassword(getAuth(), email, password)
-      .then((data) => {
-        this.currentUserUID = data.user.uid;
-      })
-      .catch((error) => {
-        this.correctLogInInfo = false;
-        switch (error.code) {
-          case "auth/invalid-email":
-            alert("Invalid email!");
-            break;
-          case "auth/user-not-found":
-            alert("Account does not exist!");
-            break;
-          case "auth/wrong-password":
-            alert("Invalid password!");
-            break;
-          default:
-            alert("Email or password invalid!");
-            break;
-        }
-      })
-      .then(() => {
-        if (this.correctLogInInfo) {
-          this.currentLoggedInUser = email;
-        }
-      });
-  }
-  // define a function to log out the user
-async  logout() {
+  async getUser() {
     return new Promise((resolve, reject) => {
-      // perform logout logic here
-      // for example, remove the user's access token
-      localStorage.removeItem("access_token");
-
-      // resolve the promise when logout is successful
-      resolve();
+      const auth = getAuth();
+      onAuthStateChanged(auth, (user) => {
+        resolve(user);
+      }, (error) => {
+        reject(error);
+      });
     });
+  }
+
+  async logIn(email, password) {
+    const auth = getAuth();
+
+    // Set the persistence type to local
+    await setPersistence(auth, browserLocalPersistence);
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      this.currentUserUID = userCredential.user.uid;
+      this.currentLoggedInUser = email;
+      return email;
+    } catch (error) {
+      switch (error.code) {
+        case "auth/invalid-email":
+          throw new Error("Invalid email!");
+        case "auth/user-not-found":
+          throw new Error("Account does not exist!");
+        case "auth/wrong-password":
+          throw new Error("Invalid password!");
+        default:
+          throw new Error("Email or password invalid!");
+      }
+    }
+  }
+
+  async logout() {
+    const auth = getAuth();
+    try {
+      console.log(this.currentLoggedInUser);
+      await auth.signOut();
+      console.log(this.currentLoggedInUser);
+      this.currentLoggedInUser = undefined;
+      console.log(auth.currentUser);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async getTemplateList() {
@@ -134,7 +143,7 @@ async  logout() {
         // The document exists, so retrieve its data
         const data = doc.data();
         // Store the data in an object
-        const retrievedData = {
+        return {
           WeatherDataTime: data.WeatherDataTime,
           WeatherDataDateMin: data.WeatherDataDateMin,
           WeatherDataHumData: data.WeatherDataHumData,
@@ -152,7 +161,6 @@ async  logout() {
           notificationsValue: data.NotificationsValue,
           notificationsLimitValue: data.NotificationsLimitValue,
         };
-        return retrievedData;
       } else {
         console.log(`No data found for email: ${email}`);
       }
@@ -160,6 +168,7 @@ async  logout() {
       console.log(`Error retrieving data: ${error}`);
     }
   }
+
 }
 
 export default Model;
