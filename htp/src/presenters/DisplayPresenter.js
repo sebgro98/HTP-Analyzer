@@ -11,7 +11,6 @@ function DisplayPresenter({darkMode}) {
             const model = new Model();
             const user = await model.getUser();
             console.log('fetching data...');
-            //console.log(user.email)
             const result = await model.retrieveDataForEmail(user.email);
             console.log(user.email)
             console.log('data retrieved:', result);
@@ -24,7 +23,6 @@ function DisplayPresenter({darkMode}) {
 
     return (
         <div className="DisplayPresenter">
-            <h1>Display Data</h1>
             {data ? (
                 <DisplayView darkMode = {darkMode} data={data} />
             ) : (

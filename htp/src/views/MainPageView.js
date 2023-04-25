@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import DateTimeView from "./DateTimeView";
 import { DarkModeSwitch } from "react-toggle-dark-mode";
-import DisplayView from "./DisplayView";
 import DisplayPresenter from "../presenters/DisplayPresenter";
-import LogoutButton from "./LogoutView";
 
-const MainPageView = ({ isLoggedIn, handleLogout }) => {
+const MainPageView = () => {
     const [theme, setTheme] = useState("light");
     const [darkMode, setDarkMode] = useState(false);
     const toggleTheme = () => {
@@ -22,7 +20,6 @@ const MainPageView = ({ isLoggedIn, handleLogout }) => {
     }, [theme]);
     return (
         <div className={`MainPageView ${theme}`}>
-            {isLoggedIn && <LogoutButton handleLogout={handleLogout} />}
             <DarkModeSwitch
                 style={{ marginBottom: "2rem" }}
                 checked={darkMode}
@@ -30,13 +27,9 @@ const MainPageView = ({ isLoggedIn, handleLogout }) => {
                 size={50}
                 className="button"
             />
-            <h1>Main Page</h1>
             <DateTimeView darkMode={darkMode} />
             <DisplayPresenter darkMode={darkMode} />
-            {isLoggedIn && (
-                <button className="logout-button" onClick={handleLogout}>
-                    Logout
-                </button>
+
             )}
         </div>
     );

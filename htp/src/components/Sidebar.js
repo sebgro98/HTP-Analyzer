@@ -10,6 +10,7 @@ import { FaHome, FaSignOutAlt, FaSignInAlt, FaBars, FaUserAlt } from "react-icon
 import { Link } from "react-router-dom";
 
 export default function Sidebar({ isLoggedIn, handleLogout }) {
+    console.log("Is this true or false:" + isLoggedIn)
     const [sidebarOpen, setSidebarOpen] = React.useState(false);
     const routes = ["/", "/profile"];
     const icons = [<FaHome />, <FaUserAlt />];
