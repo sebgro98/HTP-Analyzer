@@ -111,65 +111,6 @@ class Model {
     });
   }
 
-  async retrieveDataForEmail(email) {
-    // Create a reference to the Data collection
-    const dataCollectionRef = collection(db, "Data");
-
-    //Create a reference to the document for the specified email account
-    const documentRef = doc(dataCollectionRef, email);
-
-    // Specify the fields you want to retrieve from the document
-    const fieldsToRetrieve = [
-      "WeatherDataTime",
-      "WeatherDataDateMin",
-      "WeatherDataHumData",
-      "WeatherDataTempData",
-      "WeatherDataPresData",
-      "WeatherDataDate",
-      "CurrentTemplateName",
-      "CurrentIntervalsTempMin",
-      "CurrentIntervalsTempMax",
-      "CurrentIntervalsHumMin",
-      "CurrentIntervalsHumMax",
-      "CurrentIntervalsPresMin",
-      "CurrentIntervalsPresMax",
-      "NotificationsType",
-      "NotificationsValue",
-      "NotificationsLimitValue",
-    ];
-    try {
-      // Retrieve only the specified fields from the document
-      const doc = await getDoc(documentRef, { fieldPaths: fieldsToRetrieve });
-      if (doc.exists()) {
-        // The document exists, so retrieve its data
-        const data = doc.data();
-        // Store the data in an object
-        return {
-          WeatherDataTime: data.WeatherDataTime,
-          WeatherDataDateMin: data.WeatherDataDateMin,
-          WeatherDataHumData: data.WeatherDataHumData,
-          WeatherDataTempData: data.WeatherDataTempData,
-          WeatherDataPresData: data.WeatherDataPresData,
-          WeatherDataDate: data.WeatherDataDate,
-          currentTemplateName: data.CurrentTemplateName,
-          currentIntervalsTempMin: data.CurrentIntervalsTempMin,
-          currentIntervalsTempMax: data.CurrentIntervalsTempMax,
-          currentIntervalsHumMin: data.CurrentIntervalsHumMin,
-          currentIntervalsHumMax: data.CurrentIntervalsHumMax,
-          currentIntervalsPresMin: data.CurrentIntervalsPresMin,
-          currentIntervalsPresMax: data.CurrentIntervalsPresMax,
-          notificationsType: data.NotificationsType,
-          notificationsValue: data.NotificationsValue,
-          notificationsLimitValue: data.NotificationsLimitValue,
-        };
-      } else {
-        console.log(`No data found for email: ${email}`);
-      }
-    } catch (error) {
-      console.log(`Error retrieving data: ${error}`);
-    }
-  }
-
 }
 
 export default Model;
