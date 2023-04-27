@@ -1,79 +1,67 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Styled.css";
+import Login from "../presenters/LoginPresenter";
+import ProfileImage from "../components/ProfileImage";
+import Sidebar from "../components/Sidebar";
 
-const user = {
-  firstName: "John",
-  lastName: "Smith",
-  email: "example@example.com",
-  imageURL: "",
-};
+const ProfileView = ({ isLoggedIn, firstName, setFirstName, lastName, setLastName, email, setEmail, profilePicture, setProfilePicture, error, handleLogout, handleLogin, handleImageUpload, handleSaveChanges }) => {
 
-const ProfilePageView = () => {
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [email, setEmail] = useState(user.email);
-  const [image, setImage] = useState(user.imageURL);
-  
-  function handleImageUpload(e) {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setImage(reader.result);
-    };
+  const greeting = firstName && lastName ? `Hello, ${firstName} ${lastName}!` : "Hello!";
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleSaveChanges(firstName, lastName, email, profilePicture);
+  };
+
+  if (!isLoggedIn) {
+    return <Login handleLogin={handleLogin} error={error} />;
   }
-  
-  function handleSaveChanges() {
-    const updatedUser = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      imageURL: image,
-    };
-    // Save updatedUser to the server or perform any other necessary action
-    console.log(updatedUser);
-  }
-  
+
   return (
-    <div className="profil-container">
-      <h1 style={{ marginTop: '100px' }}>Profile Page</h1>
-      <div className="input-details">
-        <div className="profile">
-          <div className="profile-image" style={{backgroundImage: `url(${image})`}}></div>
-          <input type="file" onChange={handleImageUpload} />
+    <>
+      <Sidebar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
+      <div className="profil-container">
+        <h1 className="greeting">{greeting}</h1>
+        <div className="profile-image-container">
+          <ProfileImage imageURL={profilePicture} onImageUpload={handleImageUpload} />
         </div>
-        <div className="details-container">
-          <div>
-            <label>Firstname</label>
-            <input
-              placeholder={firstName}
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
+        <form onSubmit={handleSubmit}>
+          <div className="input-details">
+            <div className="details-container">
+              <div>
+                <label>Firstname</label>
+                <input
+                  placeholder={firstName}
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label>Lastname</label>
+                <input
+                  placeholder={lastName}
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label>Email:</label>
+                <input
+                  placeholder={email}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="button-container">
+              <button type="submit">Save changes</button>
+              {error && <div className="error-message">{error}</div>}
+            </div>
           </div>
-          <div>
-            <label>Lastname</label>
-            <input
-              placeholder={lastName}
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          </div>
-          <div>
-            <label>Email:</label>
-            <input
-              placeholder={email}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <button className="save-button" onClick={handleSaveChanges}>
-            Save changes
-          </button>
-        </div>
+        </form>
       </div>
-    </div>
+    </>
   );
 };
 
-export default ProfilePageView;
+export default ProfileView;
