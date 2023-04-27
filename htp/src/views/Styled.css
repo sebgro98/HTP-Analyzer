@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Orbitron");
+@import "rsuite/dist/rsuite.css";
 
 :root {
   /* Add variables for commonly used values */
@@ -330,7 +331,6 @@ body {
   height: 100%;
   font-family: orbitron;
   text-align: left;
-  text-shadow: 0 0 30px hsl(49, 61%, 64%);
   line-height: 100%;
   font-size: 20px;
   font-weight: 100;
@@ -344,8 +344,7 @@ body {
   font-family: orbitron;
   font-size: 100px;
   text-align: left;
-  color: rgba(255, 255, 255, 0.5);
-  text-shadow: 0 0 30px rgb(147, 211, 238);
+  color: #ffffff;
   line-height: 100%;
   font-size: 20px;
   font-weight: 100;
@@ -372,15 +371,19 @@ body {
 
 /* ------------------------------------------- Weather card --------------------------------- */
 .cardLight {
-  display: flex;
-  justify-content: space-between;
+  display:flex; 
+  font-family: orbitron;
+  position: relative;
+  font-weight: normal;
   align-items: center;
 }
 
 .cardDark {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  font-family: orbitron;
+  position: relative;
+  font-weight: normal;
+  text-align:center;
 }
 
 .column {
@@ -394,8 +397,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  margin: 1rem;
+  margin: 7rem;
 }
 
 .svg-icon {
@@ -404,7 +406,7 @@ body {
 }
 
 .measurement {
-  font-size: 1.5rem;
+  font-size: 2rem;
   margin-top: 1rem;
 }
 
@@ -433,6 +435,7 @@ body {
   margin: 0;
   font-size: 2rem;
   margin-left: 100px;
+  font-family: orbitron;
 }
 
 .header-icons {
@@ -442,7 +445,7 @@ body {
 }
 
 .fa-bell {
-  margin-left: 1rem;
+  margin: 2rem;
 }
 
 .main-grid {
@@ -465,3 +468,11 @@ body {
 .dark-mode-switch {
   justify-self: end;
 }
+
+.value {
+  font-size: 5rem;
+  font-family: orbitron;
+  font-weight: 100;
+}
+
+/* ------------------------------------------- Max/Min button --------------------------------- */

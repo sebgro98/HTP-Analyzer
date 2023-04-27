@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Model from "../Model";
 import DisplayView from '../views/DisplayView';
 
+import { db } from '../firebaseModel';
+import { doc, onSnapshot } from "firebase/firestore";
+
 
 function DisplayPresenter({darkMode}) {
     const [data, setData] = useState(null);
@@ -10,11 +13,11 @@ function DisplayPresenter({darkMode}) {
         async function fetchData() {
             const model = new Model();
             const user = await model.getUser();
-            console.log('fetching data...');
-            const result = await model.retrieveDataForEmail(user.email);
-            console.log(user.email)
-            console.log('data retrieved:', result);
-            setData(result);
+            const docRef = doc(db, "Data", user.email);
+            onSnapshot(docRef, (doc) => {
+                setData(doc.data());
+            })
+
         }
         fetchData();
     }, []);
