@@ -10,6 +10,7 @@ import { db } from '../firebaseModel';
 
 import "../views/Styled.css";
 import 'bootstrap/dist/css/bootstrap.css';
+import Model from "../Model";
 
 
 
@@ -18,12 +19,11 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin}) => {
     const [initiateMin, setInitiateMin] = useState(initMin);
     const [initiateMax, setInitiateMax] = useState(initMax);
 
-    
-    const email = "hej@gmail.com";
-
    
-    const updateData = () => {
-        const docRef = doc(db, "Data", email);
+    const updateData = async () => {
+        const model = new Model();
+        const user =  await model.getUser();
+        const docRef = doc(db, "Data", user.email);
             updateDoc(docRef, {
             [minName]: [min],
             [maxName]: [max]
