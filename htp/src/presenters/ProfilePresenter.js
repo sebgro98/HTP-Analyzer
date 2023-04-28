@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from "react";
 import ProfileView from "../views/ProfileView";
 import Model from "../Model";
-import { db } from "../firebaseModel";
+import { db, auth } from "../firebaseModel";
+import { collection, doc, setDoc, onSnapshot } from "firebase/firestore";
 
-const ProfilePage = ({ user }) => {
+const userProfileCollection = collection(db, "userProfiles");
+
+const ProfilePage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
     JSON.parse(localStorage.getItem("isLoggedIn")) || false
   );
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  
+  const [address, setAddress] = useState("");
+  const [telephone, setTelephone] = useState("");
   const [profilePicture, setProfilePicture] = useState("");
   const [error, setError] = useState("");
-
+  const [imageURL, setImageURL] = useState("");
   useEffect(() => {
     const model = new Model();
     const checkUser = async () => {
@@ -22,7 +25,8 @@ const ProfilePage = ({ user }) => {
       if (user) {
         setFirstName(user.firstName);
         setLastName(user.lastName);
-        setEmail(user.email);
+        setAddress(user.address);
+        setTelephone(user.telephone);
         setProfilePicture(user.profilePicture);
       }
     };
@@ -30,6 +34,27 @@ const ProfilePage = ({ user }) => {
       checkUser();
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    const unsubscribeAuth = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const { uid: userId } = user;
+        const userProfileDoc = doc(userProfileCollection, userId);
+        const unsubscribeProfile = onSnapshot(userProfileDoc, (doc) => {
+          if (doc.exists()) {
+            const userData = doc.data();
+            setFirstName(userData.firstName);
+            setLastName(userData.lastName);
+            setAddress(userData.address);
+            setTelephone(userData.telephone);
+            setImageURL(userData.imageURL);
+          }
+        });
+        return () => unsubscribeProfile();
+      }
+    });
+    return () => unsubscribeAuth();
+  }, []);
 
   const handleLogout = () => {
     const model = new Model();
@@ -44,22 +69,6 @@ const ProfilePage = ({ user }) => {
       });
   };
 
-  const handleLogin = async (email, password) => {
-    const model = new Model();
-    try {
-      const response = await model.login(email, password);
-      if (response.status === 200) {
-        localStorage.setItem("isLoggedIn", JSON.stringify(true));
-        setIsLoggedIn(true);
-        setError("");
-      } else {
-        setError("Invalid email or password");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     if (!file || !file.type.startsWith("image/")) {
@@ -72,40 +81,63 @@ const ProfilePage = ({ user }) => {
     };
   };
 
-  const handleSaveChanges = async () => {
-    try {
-      const userRef = db.collection("users").doc(user.uid);
-      await userRef.update({
-        firstName,
-        lastName,
-        email,
-        profilePicture,
-      });
-      setError("");
-      alert("Changes saved successfully!");
-    } catch (error) {
-      console.log(error);
-      setError("Error saving changes");
+  async function handleSaveChanges() {
+    if (!firstName || !lastName || !address || !telephone) {
+      setError("Please fill out all required fields");
+      return;
     }
-  };
+    const updatedUser = {
+      firstName,
+      lastName,
+      address,
+      telephone,
+      imageURL,
+    };
+    const { uid: userId } = auth.currentUser || {};
+    if (userId) {
+      try {
+        const userProfileDoc = doc(userProfileCollection, userId);
+        await setDoc(userProfileDoc, updatedUser);
+        console.log("User profile saved successfully");
+      } catch (error) {
+        console.log("Error saving user profile:", error);
+      }
+    }
+  }
 
   return (
-    <ProfileView
-      isLoggedIn={isLoggedIn}
-      firstName={firstName}
-      setFirstName={setFirstName}
-      lastName={lastName}
-      setLastName={setLastName}
-      email={email}
-      setEmail={setEmail}
-      profilePicture={profilePicture}
-      setProfilePicture={setProfilePicture}
-      error={error}
-      handleLogout={handleLogout}
-      handleLogin={handleLogin}
-      handleImageUpload={handleImageUpload}
-      handleSaveChanges={handleSaveChanges}
-    />
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      {auth.currentUser ? (
+        <div style={{ maxWidth: 600 }}>
+          <ProfileView
+            isLoggedIn={isLoggedIn}
+            firstName={firstName}
+            setFirstName={setFirstName}
+            lastName={lastName}
+            setLastName={setLastName}
+            address={address}
+            setAddress={setAddress}
+            telephone={telephone}
+            setTelephone={setTelephone}
+            profilePicture={profilePicture}
+            setProfilePicture={setProfilePicture}
+            error={error}
+            handleLogout={handleLogout}
+            handleImageUpload={handleImageUpload}
+            handleSaveChanges={handleSaveChanges}
+          />
+        </div>
+      ) : (
+        <p>Please log in to access the profile page.</p>
+      )}
+    </div>
   );
 };
 
