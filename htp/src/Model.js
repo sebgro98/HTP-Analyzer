@@ -1,7 +1,7 @@
 import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,  setPersistence,
   browserLocalPersistence, onAuthStateChanged} from "firebase/auth";
 import {db} from "./firebaseModel";
-import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
 
 class Model {
   constructor() {
@@ -14,15 +14,21 @@ class Model {
   async Registration(email, password) {
     try {
       const userCredential = await createUserWithEmailAndPassword(
-        getAuth(),
-        email,
-        password
+          getAuth(),
+          email,
+          password
       );
       await setDoc(doc(db, "Data", email), {
-        CurrentTemplate: null,
-
-        Templates: {
+        Template: {
+          Name: [],
+          TempMin: [],
+          TempMax: [],
+          HumMin: [],
+          HumMax: [],
+          PresMin: [],
+          PresMax: [],
         },
+
         WeatherData: {
           Time: [],
           DateMin: [],
@@ -57,7 +63,7 @@ class Model {
         password: password,
       });
     } catch (error) {
-      alert(error.message);
+      throw error;
     }
   }
 
@@ -111,7 +117,7 @@ class Model {
     }
   }
 
-  async getGeneralTemplateList() {
+  async getTemplateList() {
     let template = [];
     await getDocs(collection(db, "Templates")).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
@@ -121,22 +127,6 @@ class Model {
     });
   }
 
-  async setCurrentTemplate(template) {
-    if (!template.id || !template.HumidityMin || !template.HumidityMax || !template.TempMin || !template.TempMax || !template.PressureMin || !template.PressureMax) return;
-    const user = await this.getUser();
-    const docRef = doc(db, "Data", user.email);
-    updateDoc(docRef, {
-      CurrentTemplate: template.id,
-      CurrentIntervals: {
-        TempMin: [template.TempMin],
-        TempMax: [template.TempMax],
-        HumMin: [template.HumidityMin],
-        HumMax: [template.HumidityMax],
-        PresMin: [template.PressureMin],
-        PresMax: [template.PressureMax],
-      }
-    });
-  }
 }
 
 export default Model;

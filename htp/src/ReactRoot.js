@@ -5,6 +5,7 @@ import Login from "./presenters/LoginPresenter";
 import MainPage from "./presenters/MainPagePresenter";
 import Sidebar from "./components/Sidebar";
 import ProfilePage from "./presenters/ProfilePresenter"
+import Forum from "./presenters/ForumPresenter"
 import {useState} from "react";
 import Model from "./Model";
 
@@ -31,6 +32,7 @@ function ReactRoot() {
             <Sidebar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
 
             <Routes>
+                <Route path="/forum" element={ <Forum /> } />
                 <Route path="/profile" element={ <ProfilePage /> } />
                 <Route path="/" element={<MainPage />} />
                 <Route path="/login" element={<Login />} />

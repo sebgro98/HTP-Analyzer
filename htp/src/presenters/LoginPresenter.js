@@ -48,7 +48,10 @@ const Login = () => {
           window.location.href = "/";
         })
         .catch((error) => {
-          setError(error.message);
+          setError(<span style={{ color: 'red' }}>error.message</span>);
+          if (error.message) {
+            setIsLoggedIn(false);
+          }
         });
   };
 
@@ -69,17 +72,17 @@ const Login = () => {
 
     // Validate user input
     if (!email || !password) {
-      setError("Please enter both email and password");
+      setError(<span style={{ color: 'red' }}>Please enter both email and password</span>);
       return;
     }
 
     if (!validateEmail(email)) {
-      setError("Please enter a valid email address");
+      setError(<span style={{ color: 'red' }}>Please enter a valid email address</span>);
       return;
     }
 
     if (isRegistering && password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError(<span style={{ color: 'red' }}>Passwords do not match</span>);
       return;
     }
 

@@ -6,14 +6,14 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { IconButton } from "@mui/material";
-import { FaHome, FaSignOutAlt, FaSignInAlt, FaBars, FaUserAlt } from "react-icons/fa";
+import { FaHome, FaSignOutAlt, FaSignInAlt, FaBars, FaUserAlt,  FaComments } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export default function Sidebar({ isLoggedIn, handleLogout }) {
     console.log("Is this true or false:" + isLoggedIn)
     const [sidebarOpen, setSidebarOpen] = React.useState(false);
-    const routes = ["/", "/profile"];
-    const icons = [<FaHome />, <FaUserAlt />];
+    const routes = ["/", "/profile", "/forum"];
+    const icons = [<FaHome />, <FaUserAlt />, <FaComments />];
 
     const toggleDrawer = (open) => (event) => {
         if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
@@ -25,6 +25,7 @@ export default function Sidebar({ isLoggedIn, handleLogout }) {
     const list = () => (
         <Box
             sx={{
+                color: "black",
                 width: 250,
                 display: "flex",
                 flexDirection: "column",
@@ -35,14 +36,46 @@ export default function Sidebar({ isLoggedIn, handleLogout }) {
             onKeyDown={toggleDrawer(false)}
         >
             <List>
-                {routes.map((route, index) => (
-                    <ListItemButton key={route} component={Link} to={route} onClick={() => setSidebarOpen(false)}>
-                        <ListItemIcon>{icons[index]}</ListItemIcon>
-                        <ListItemText primary={route === "/" ? "Home" : "Profile"} />
-                    </ListItemButton>
-                ))}
+                <ListItemButton
+                    key="/"
+                    component={Link}
+                    to="/"
+                    onClick={() => setSidebarOpen(false)}
+                >
+                    <ListItemIcon>
+                        <FaHome />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                </ListItemButton>
+
+                <ListItemButton
+                    key="/profile"
+                    component={Link}
+                    to="/profile"
+                    onClick={() => setSidebarOpen(false)}
+                >
+                    <ListItemIcon>
+                        <FaUserAlt />
+                    </ListItemIcon>
+                    <ListItemText primary="Profile" />
+                </ListItemButton>
+                <ListItemButton
+                    key="/forum"
+                    component={Link}
+                    to="/forum"
+                    onClick={() => setSidebarOpen(false)}
+                >
+                    <ListItemIcon>
+                        <FaComments />
+                    </ListItemIcon>
+                    <ListItemText primary="Forum" />
+                </ListItemButton>
                 {!isLoggedIn ? (
-                    <ListItemButton component={Link} to="/login" onClick={() => setSidebarOpen(false)}>
+                    <ListItemButton
+                        component={Link}
+                        to="/login"
+                        onClick={() => setSidebarOpen(false)}
+                    >
                         <ListItemIcon>
                             <FaSignInAlt />
                         </ListItemIcon>
@@ -59,6 +92,7 @@ export default function Sidebar({ isLoggedIn, handleLogout }) {
             </List>
         </Box>
     );
+
 
     return (
         <div
