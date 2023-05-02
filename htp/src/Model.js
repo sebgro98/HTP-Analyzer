@@ -1,7 +1,7 @@
 import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,  setPersistence,
   browserLocalPersistence, onAuthStateChanged} from "firebase/auth";
 import {db} from "./firebaseModel";
-import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, serverTimestamp, addDoc,} from "firebase/firestore";
 
 class Model {
   constructor() {
@@ -49,9 +49,6 @@ class Model {
           Value: [],
           LimitValue: [],
         },
-        Forum: {
-          Posts: [],
-        },
         Outlets: {
           Temp: [],
           Hum: [],
@@ -62,10 +59,61 @@ class Model {
         email: userCredential.user.email,
         password: password,
       });
+
     } catch (error) {
       throw error;
     }
   }
+
+
+  async getPostsForUser() {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (user) {
+      const postsCollectionRef = collection(db, 'Posts', user.email, 'posts');
+      const postsSnapshot = await getDocs(postsCollectionRef);
+      const posts = postsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      return posts;
+    } else {
+      return [];
+    }
+  }
+
+  async getAllPosts() {
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (user) {
+        const postsCollectionRef = collection(db, 'Posts');
+        const postsSnapshot = await getDocs(postsCollectionRef);
+        const posts = postsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        return posts;
+      } else {
+        return [];
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+  async addPost(title, content) {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) {
+      throw new Error('User must be signed in to create a post.');
+    }
+    const userDocRef = collection(db, 'Posts', user.email, 'posts');
+    await addDoc(userDocRef, {
+      title: title,
+      content: content,
+      author: user.email,
+      timestamp: serverTimestamp()
+    });
+  }
+
+
+
 
   async getUser() {
     return new Promise((resolve, reject) => {
@@ -81,7 +129,7 @@ class Model {
   async logIn(email, password) {
     const auth = getAuth();
 
-    // Set the persistence type to local
+
     await setPersistence(auth, browserLocalPersistence);
 
     try {

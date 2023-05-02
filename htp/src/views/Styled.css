@@ -475,4 +475,11 @@ body {
   font-weight: 100;
 }
 
+.forum-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 /* ------------------------------------------- Max/Min button --------------------------------- */
