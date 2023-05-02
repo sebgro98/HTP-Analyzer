@@ -476,3 +476,17 @@ body {
 }
 
 /* ------------------------------------------- Max/Min button --------------------------------- */
+
+
+/* ------------------------------------------- Template --------------------------------- */
+
+.template-icon {
+  display: flex;
+  border: 5px solid;
+  padding: 8px;
+  border-radius: 15px;
+}
+
+.template-icon img {
+  margin-right: 10px;
+}

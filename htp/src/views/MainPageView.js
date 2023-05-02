@@ -4,6 +4,7 @@ import { DarkModeSwitch } from "react-toggle-dark-mode";
 import DisplayPresenter from "../presenters/DisplayPresenter";
 import { FaBell } from "react-icons/fa";
 import "./Styled.css";
+import temicon from "./images/template-icon.svg"
 
 const MainPageView = () => {
   const [theme, setTheme] = useState("light");
@@ -25,6 +26,10 @@ const MainPageView = () => {
       <header className="header">
       <h1 className="header-title">HTP-Analyzer <DateTimeView darkMode={darkMode} /></h1>
         <div className="header-icons">
+          <div className="template-icon">
+            <img src={temicon} width="40"/>
+            <h2>Templates</h2>
+          </div>
           <FaBell className="fa-bell" />
           <DarkModeSwitch
             checked={darkMode}
