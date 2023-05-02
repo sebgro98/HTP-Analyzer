@@ -14,40 +14,56 @@ class Model {
   async Registration(email, password) {
     try {
       const userCredential = await createUserWithEmailAndPassword(
-        getAuth(),
-        email,
-        password
+          getAuth(),
+          email,
+          password
       );
       await setDoc(doc(db, "Data", email), {
-        TemplateName: [],
-        TemplateTempMin: [],
-        TemplateTempMax: [],
-        TemplateHumMin: [],
-        TemplateHumMax: [],
-        TemplatePresMin: [],
-        TemplatePresMax: [],
-        WeatherDataTime: [],
-        WeatherDataDateMin: [],
-        WeatherDataHumData: [],
-        WeatherDataTempData: [],
-        WeatherDataPresData: [],
-        CurrentTemplateName: [],
-        CurrentIntervalsTempMin: [],
-        CurrentIntervalsTempMax: [],
-        CurrentIntervalsHumMin: [],
-        CurrentIntervalsHumMax: [],
-        CurrentIntervalsPresMin: [],
-        CurrentIntervalsPresMax: [],
-        NotificationsType: [],
-        NotificationsValue: [],
-        NotificationsLimitValue: [],
+        Template: {
+          Name: [],
+          TempMin: [],
+          TempMax: [],
+          HumMin: [],
+          HumMax: [],
+          PresMin: [],
+          PresMax: [],
+        },
+
+        WeatherData: {
+          Time: [],
+          DateMin: [],
+          Hum: [],
+          Temp: [],
+          Pres: [],
+        },
+        CurrentIntervals: {
+          TempMin: [],
+          TempMax: [],
+          HumMin: [],
+          HumMax: [],
+          PresMin: [],
+          PresMax: [],
+        },
+        Notifications: {
+          Type: [],
+          Value: [],
+          LimitValue: [],
+        },
+        Forum: {
+          Posts: [],
+        },
+        Outlets: {
+          Temp: [],
+          Hum: [],
+          Pres: [],
+        },
       });
       await setDoc(doc(db, "Users", userCredential.user.uid), {
         email: userCredential.user.email,
         password: password,
       });
     } catch (error) {
-      alert(error.message);
+      throw error;
     }
   }
 
