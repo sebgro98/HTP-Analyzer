@@ -15,6 +15,7 @@ function DisplayPresenter({darkMode}) {
             const user = await model.getUser();
             const docRef = doc(db, "Data", user.email);
             onSnapshot(docRef, (doc) => {
+
                 setData(doc.data());
             })
 
