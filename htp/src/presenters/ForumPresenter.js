@@ -1,59 +1,90 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Model from '../Model';
-import AddPostForm from "./ForumAddPostPresenter";
-import ForumView from "../views/ForumView";
-
-function AllPosts({ posts }) {
-    if (posts.length === 0) {
-        return <p>Loading...</p>;
-    }
-
-    return (
-        <div>
-            {posts.map(post => (
-                <div key={post.id}>
-                    <h2>{post.title}</h2>
-                    <p>{post.content}</p>
-                    <p>{post.author}</p>
-                    {post.timestamp ? (
-                        <p>{new Date(post.timestamp.seconds * 1000).toLocaleString()}</p>
-                    ) : (
-                        <p>No timestamp available</p>
-                    )}
-                </div>
-            ))}
-        </div>
-    );
-}
+import ForumView from '../views/ForumView';
 
 function Forum() {
     const model = new Model();
-    const [posts, setPosts] = useState([]);
+    const [posts, setPosts] = useState(null);
+    const [filteredPosts, setFilteredPosts] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedPost, setSelectedPost] = useState(null);
+
+    const fetchPosts = useCallback(async () => {
+        console.log("Fetching posts...");
+        try {
+            const allPosts = await model.getAllPosts();
+            console.log("Fetched posts successfully:", allPosts);
+            setPosts(allPosts);
+            setFilteredPosts(allPosts); // update filtered posts state
+        } catch (error) {
+            console.error("Error fetching posts:", error);
+        }
+    }, [model]);
+
+    const handleAddComment = useCallback(async (postId, comment) => {
+        try {
+            const post = await model.getPostById(postId);
+            const updatedPosts = await model.addComment(postId, comment, post.author);
+            setPosts(updatedPosts);
+            console.log("helo")
+        } catch (error) {
+            console.error(error);
+        }
+    }, [model]);
 
     useEffect(() => {
+        fetchPosts();
+
         const intervalId = setInterval(() => {
-            async function fetchPosts() {
-                const allPosts = await model.getAllPosts();
-                setPosts(allPosts);
-            }
             fetchPosts();
-        }, 10000);
+        }, 100000);
+
         return () => clearInterval(intervalId);
-    }, [model, setPosts]);
+    }, []);
 
     const handleAddPost = async (title, content) => {
         await model.addPost(title, content);
-        const allPosts = await model.getPostsForUser();
-        setPosts(allPosts);
+        fetchPosts();
+    };
+
+    const handleSearchChange = (event) => {
+        console.log('handleSearchChange called with event:', event);
+        const query = event.target.value;
+        setSearchQuery(query);
+        filterPosts(query);
+    };
+
+    const handlePostClick = (post) => {
+        setSelectedPost(post);
+        const updatedFilteredPosts = filteredPosts.map((p) =>
+            p.id === post.id ? { ...p, showDetails: !p.showDetails } : p
+        );
+        setFilteredPosts(updatedFilteredPosts);
+    };
+
+    const filterPosts = (query) => {
+        if (!query) {
+            setFilteredPosts(posts);
+            return;
+        }
+        const filtered = posts.filter((post) =>
+            post.title.toLowerCase().includes(query.toLowerCase())
+        );
+        console.log('Filtered Posts:', filtered);
+        setFilteredPosts(filtered);
     };
 
     return (
-        <div>
-            <ForumView>
-            <AddPostForm onAddPost={handleAddPost} />
-            <AllPosts posts={posts} />
-            </ForumView>
-        </div>
+        <ForumView
+            searchQuery={searchQuery}
+            handleAddComment={handleAddComment}
+            onSearchChange={handleSearchChange}
+            handleAddPost={handleAddPost}
+            filteredPosts={filteredPosts}
+            selectedPost={selectedPost}
+            handlePostClick={handlePostClick}
+        >
+        </ForumView>
     );
 }
 
