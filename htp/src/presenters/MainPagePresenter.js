@@ -6,23 +6,30 @@ import Model from "../Model";
 const MainPage = ({ isLoggedIn, handleLogout }) => {
     const [showTemplates, setShowTemplates] = useState(false);
     const [templates, setTemplates] = useState([]);
-    const toggleShowTemplates = () => {
-        setShowTemplates(!showTemplates);
-    }
     const model = new Model();
 
     useEffect(() => {
         async function fetchData() {
-            await model.getTemplateList()
+            await model.getGeneralTemplateList()
             setTemplates(model.templates);
-            console.log(model.templates)
         }
         fetchData();
     }, []);
+
+    const toggleShowTemplates = () => {
+        setShowTemplates(!showTemplates);
+    }
+
+    function changeTemplate(template) {
+        model.setCurrentTemplate(template);
+    }
     return (
         <div style={{ position: "relative", display: "flex" }}>
             <MainPageView onTemplateClick={toggleShowTemplates}/>
-            {showTemplates && <TemplateView onTemplateClick={toggleShowTemplates} defaultTemplates={templates}/>}
+            {showTemplates && <TemplateView
+                onTemplateButtonClick={toggleShowTemplates}
+                onTemplateClick={changeTemplate}
+                defaultTemplates={templates}/>}
         </div>
     )
 };

@@ -3,24 +3,14 @@ import "./Styled.css";
 import closetab from "./images/close-tab.svg";
 import temicon from "./images/template-icon.svg"
 
-const TemplateView = ({onTemplateClick, defaultTemplates}) => {
-
-    useEffect(() => {
-        console.log(defaultTemplates)
-    })
-
-    const items = [];
-
-    function test() {
-        console.log(defaultTemplates);
-    }
+const TemplateView = ({onTemplateButtonClick, onTemplateClick, defaultTemplates}) => {
 
     return (
         <div className="template-root">
             <div className="template-background"></div>
             <div className="template-main">
                 <div className="close-tab">
-                    <img src={closetab} onClick={onTemplateClick}/>
+                    <img src={closetab} onClick={onTemplateButtonClick}/>
                 </div>
                 <div className="template-header">
                     <img src={temicon}/>
@@ -29,10 +19,10 @@ const TemplateView = ({onTemplateClick, defaultTemplates}) => {
                 <hr/>
                 <div className="template-section">
                     {Object.keys(defaultTemplates).length !== 0 && defaultTemplates.map((template, index) => (
-                        <div className="template-item" key={index}>
+                        <div className="template-item" key={index} onClick={() => onTemplateClick(template)}>
                             <h2>{template.id}</h2>
                             <h3>Humidity</h3>
-                            <h4>Min: {template.HumidtyMin} Max: {template.HumidityMax}</h4>
+                            <h4>Min: {template.HumidityMin} Max: {template.HumidityMax}</h4>
                             <h3>Temperature</h3>
                             <h4>Min: {template.TempMin} Max: {template.TempMax}</h4>
                             <h3>Pressure</h3>

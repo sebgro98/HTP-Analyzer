@@ -1,7 +1,7 @@
 import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,  setPersistence,
   browserLocalPersistence, onAuthStateChanged} from "firebase/auth";
 import {db} from "./firebaseModel";
-import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, updateDoc} from "firebase/firestore";
 
 class Model {
   constructor() {
@@ -19,28 +19,38 @@ class Model {
         password
       );
       await setDoc(doc(db, "Data", email), {
-        TemplateName: [],
-        TemplateTempMin: [],
-        TemplateTempMax: [],
-        TemplateHumMin: [],
-        TemplateHumMax: [],
-        TemplatePresMin: [],
-        TemplatePresMax: [],
-        WeatherDataTime: [],
-        WeatherDataDateMin: [],
-        WeatherDataHumData: [],
-        WeatherDataTempData: [],
-        WeatherDataPresData: [],
-        CurrentTemplateName: [],
-        CurrentIntervalsTempMin: [],
-        CurrentIntervalsTempMax: [],
-        CurrentIntervalsHumMin: [],
-        CurrentIntervalsHumMax: [],
-        CurrentIntervalsPresMin: [],
-        CurrentIntervalsPresMax: [],
-        NotificationsType: [],
-        NotificationsValue: [],
-        NotificationsLimitValue: [],
+        CurrentTemplate: null,
+
+        Templates: {
+        },
+        WeatherData: {
+          Time: [],
+          DateMin: [],
+          Hum: [],
+          Temp: [],
+          Pres: [],
+        },
+        CurrentIntervals: {
+          TempMin: [],
+          TempMax: [],
+          HumMin: [],
+          HumMax: [],
+          PresMin: [],
+          PresMax: [],
+        },
+        Notifications: {
+          Type: [],
+          Value: [],
+          LimitValue: [],
+        },
+        Forum: {
+          Posts: [],
+        },
+        Outlets: {
+          Temp: [],
+          Hum: [],
+          Pres: [],
+        },
       });
       await setDoc(doc(db, "Users", userCredential.user.uid), {
         email: userCredential.user.email,
@@ -101,7 +111,7 @@ class Model {
     }
   }
 
-  async getTemplateList() {
+  async getGeneralTemplateList() {
     let template = [];
     await getDocs(collection(db, "Templates")).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
@@ -111,6 +121,21 @@ class Model {
     });
   }
 
+  async setCurrentTemplate(template) {
+    //if (!template.id || !template.HumidityMin || !template.HumidityMax || !template.TempMin || !template.TempMax || !template.PressureMin || !template.PressureMax) return;
+    const user = await this.getUser();
+    console.log(template);
+    const docRef = doc(db, "Data", user.email);
+    updateDoc(docRef, {
+      CurrentTemplate: template.id,
+      "CurrentIntervals.TempMin": [template.TempMin],
+      "CurrentIntervals.TempMax": [template.TempMax],
+      "CurrentIntervals.HumMin": [template.HumidityMin],
+      "CurrentIntervals.HumMax": [template.HumidityMax],
+      "CurrentIntervals.PresMin": [template.PressureMin],
+      "CurrentIntervals.PresMax": [template.PressureMax],
+      });
+  }
 }
 
 export default Model;
