@@ -16,6 +16,8 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+
 /* -----------------------------------------------------------Login Style------------------------------------------------- */
 /* Container */
 .login-container {
@@ -424,7 +426,7 @@ button:hover {
 
 /* DateTime section */
 .timeDateLight {
-  display:grid;
+  display: block;
   height: 100%;
   font-family: orbitron;
   text-align: left;
@@ -433,7 +435,6 @@ button:hover {
   font-weight: 100;
   position: relative;
   align-content: center;
-  margin-top: 1rem;
 }
 
 .timeDateDark {
@@ -448,18 +449,17 @@ button:hover {
   font-weight: 100;
   position: relative;
   align-content: center;
-  margin-top: 1rem;
 }
 
 /* ------------------------------------------- Dark/light mode --------------------------------- */
 .dark {
-  background-color: #1a1a1a;
+  background-color: #1a1a1b;
   color: #e0e0e0;
 }
 
 .light {
-  background-color: #ffffff;
-  color: #1a1a1a;
+  background-color: #e0e0e0;
+  color: #1a1a1b;
 }
 
 .button {
@@ -468,12 +468,15 @@ button:hover {
   top: 50px;
 }
 
-/* ------------------------------------------- Display data --------------------------------- */
+/* ------------------------------------------- Weather card --------------------------------- */
 .cardLight {
   display:flex; 
   font-family: orbitron;
   position: relative;
   font-weight: normal;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .cardDark {
@@ -481,7 +484,11 @@ button:hover {
   font-family: orbitron;
   position: relative;
   font-weight: normal;
+  text-align:center;
+  width: 100%;
+  justify-content: space-between;
 }
+
 
 .column {
   display: flex;
@@ -494,20 +501,22 @@ button:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 2rem;
+  margin: 7rem;
 }
 
 .svg-icon {
-  width: 2rem;
-  height: 2rem;
+  width: 4rem;
+  height: 4rem;
 }
 
 .measurement {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  margin-top: 1rem;
 }
 
 .parameter {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  margin-top: 1rem;
 }
 
 
@@ -527,6 +536,7 @@ button:hover {
 }
 
 .header-title {
+  margin: 0;
   font-size: 2rem;
   margin-left: 100px;
   font-family: orbitron;
@@ -538,77 +548,37 @@ button:hover {
   font-size: 50px;
 }
 
+.fa-bell {
+  margin: 2rem;
+}
+
 .main-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
   gap: 2rem;
   padding: 2rem;
   height: calc(100% - 5rem);
 }
+
 
 .datetime-container {
   grid-column: 1 / 2;
 }
 
 .display-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
+  grid-column: 2 / 3;
 }
 
 .dark-mode-switch {
   justify-self: end;
-  margin-top: -50px;
 }
 
 .value {
-  font-size: 3rem;
+  font-size: 5rem;
   font-family: orbitron;
   font-weight: 100;
 }
 
-.noData {
-  font-size: 2rem;
-  font-family: orbitron;
-}
 
-.title {
-  margin-bottom: 1rem;
-}
-
-
-
-/* ------------------------------------------- Notification system --------------------------------- */
-.font {
-  font-family: orbitron;
-  color: #1a1a1b;
-  font-size: 0.6rem;
-}
-.notificationButton {
-  font-family: orbitron;
-  font-size: 0.6rem;
-  background: #499BDA;
-}
-.unreadOnly {
-  font-family: orbitron;
-  font-size: 0.6rem;
-  color: #e0e0e0;
-}
-.notificationCenter {
-  font-family: orbitron;
-  font-size: 0.8rem;
-}
-
-.msgText {
-  font-family: orbitron;
-  font-size: 0.6rem;
-}
-
-.test {
-  color: #499BDA;
-  border: #1a1a1a;
-}
-
-
+/* ------------------------------------------- Max/Min button --------------------------------- */
