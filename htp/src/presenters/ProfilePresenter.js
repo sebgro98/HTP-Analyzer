@@ -1,143 +1,146 @@
 import React, { useState, useEffect } from "react";
 import ProfileView from "../views/ProfileView";
-import Model from "../Model";
 import { db, auth } from "../firebaseModel";
-import { collection, doc, setDoc, onSnapshot } from "firebase/firestore";
-
-const userProfileCollection = collection(db, "userProfiles");
+import { getAuth } from "firebase/auth";
+import { doc, updateDoc, getDoc, onSnapshot } from "firebase/firestore";
 
 const ProfilePage = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    JSON.parse(localStorage.getItem("isLoggedIn")) || false
-  );
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [address, setAddress] = useState("");
-  const [telephone, setTelephone] = useState("");
-  const [profilePicture, setProfilePicture] = useState("");
-  const [error, setError] = useState("");
-  const [imageURL, setImageURL] = useState("");
-  useEffect(() => {
-    const model = new Model();
-    const checkUser = async () => {
-      const user = await model.getUser();
-      console.log(user);
-      if (user) {
-        setFirstName(user.firstName);
-        setLastName(user.lastName);
-        setAddress(user.address);
-        setTelephone(user.telephone);
-        setProfilePicture(user.profilePicture);
-      }
-    };
-    if (isLoggedIn) {
-      checkUser();
-    }
-  }, [isLoggedIn]);
+  const [gender, setGender] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
+  
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
-      if (user) {
-        const { uid: userId } = user;
-        const userProfileDoc = doc(userProfileCollection, userId);
-        const unsubscribeProfile = onSnapshot(userProfileDoc, (doc) => {
-          if (doc.exists()) {
-            const userData = doc.data();
-            setFirstName(userData.firstName);
-            setLastName(userData.lastName);
-            setAddress(userData.address);
-            setTelephone(userData.telephone);
-            setImageURL(userData.imageURL);
+      if (!user) {
+        setErrorMessage("Please log in to view this page");
+      } else {
+        // User is authenticated, fetch user data from Firestore
+        const docRef = doc(db, "Users", user.uid);
+        const unsubscribeFirestore = onSnapshot(docRef, (doc) => {
+          if (doc.exists) {
+            const data = doc.data();
+            setFirstName(data?.firstName || '');
+            setLastName(data?.lastName || '');
+            setGender(data?.gender || '');
+            setEmail(user.email);
           }
         });
-        return () => unsubscribeProfile();
+        return () => unsubscribeFirestore();
       }
     });
     return () => unsubscribeAuth();
   }, []);
-
-  const handleLogout = () => {
-    const model = new Model();
-    model
-      .logout()
-      .then(() => {
-        localStorage.setItem("isLoggedIn", JSON.stringify(false));
-        setIsLoggedIn(false);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  
+  const handleFirstNameChange = (event) => {
+    setFirstName(event.target.value);
   };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    if (!file || !file.type.startsWith("image/")) {
-      return;
-    }
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      setProfilePicture(reader.result);
-    };
+  const handleLastNameChange = (event) => {
+    setLastName(event.target.value);
   };
 
-  async function handleSaveChanges() {
-    if (!firstName || !lastName || !address || !telephone) {
-      setError("Please fill out all required fields");
+  const handleGenderChange = (event) => {
+    setGender(event.target.value);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleConfirmPasswordChange = (event) => {
+    setConfirmPassword(event.target.value);
+  };
+
+  const handleSaveChanges = async (event) => {
+    event.preventDefault();
+  
+    const user = getAuth().currentUser;
+  
+    if (!user) {
+      setErrorMessage("User not authenticated");
       return;
     }
-    const updatedUser = {
-      firstName,
-      lastName,
-      address,
-      telephone,
-      imageURL,
-    };
-    const { uid: userId } = auth.currentUser || {};
-    if (userId) {
-      try {
-        const userProfileDoc = doc(userProfileCollection, userId);
-        await setDoc(userProfileDoc, updatedUser);
-        console.log("User profile saved successfully");
-      } catch (error) {
-        console.log("Error saving user profile:", error);
+  
+    if (password && password !== confirmPassword) {
+      setErrorMessage("Passwords do not match");
+      return;
+    }
+  
+    try {
+      // Update the user's email and password
+      if (email !== user.email) {
+        await user.updateEmail(email);
       }
+      if (password) {
+        await user.updatePassword(password);
+      }
+  
+      // Update the user's Firestore document
+      const docRef = doc(db, "Users", user.uid);
+      await updateDoc(docRef, {
+        firstName,
+        lastName,
+        gender,
+        email,
+      });
+  
+      setSuccessMessage("Changes saved successfully!");
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+    } catch (error) {
+      setErrorMessage(`Error: ${error.message}`);
     }
+  };
+  
+  
+
+  if (errorMessage) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <p style={{ fontSize: "24px", fontWeight: "bold", color: "red" }}>
+          {errorMessage}
+        </p>
+      </div>
+    );
   }
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      {auth.currentUser ? (
-        <div style={{ maxWidth: 600 }}>
-          <ProfileView
-            isLoggedIn={isLoggedIn}
-            firstName={firstName}
-            setFirstName={setFirstName}
-            lastName={lastName}
-            setLastName={setLastName}
-            address={address}
-            setAddress={setAddress}
-            telephone={telephone}
-            setTelephone={setTelephone}
-            profilePicture={profilePicture}
-            setProfilePicture={setProfilePicture}
-            error={error}
-            handleLogout={handleLogout}
-            handleImageUpload={handleImageUpload}
-            handleSaveChanges={handleSaveChanges}
-          />
-        </div>
-      ) : (
-        <p>Please log in to access the profile page.</p>
-      )}
-    </div>
+    <ProfileView
+      firstName={firstName}
+      onFirstNameChange={handleFirstNameChange}
+      lastName={lastName}
+      onLastNameChange={handleLastNameChange}
+      gender={gender}
+      onGenderChange={handleGenderChange}
+      email={email}
+      onEmailChange={handleEmailChange}
+      password={password}
+      onPasswordChange={handlePasswordChange}
+      confirmPassword={confirmPassword}
+      onConfirmPasswordChange={handleConfirmPasswordChange}
+      onSaveChanges={handleSaveChanges}
+      setGender={setGender}
+      currentEmail={email}
+      successMessage={successMessage}
+    />
   );
 };
 
