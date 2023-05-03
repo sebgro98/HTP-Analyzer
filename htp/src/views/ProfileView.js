@@ -1,78 +1,72 @@
-import React from "react";
-import "./Styled.css"
+import React from 'react';
+import { TextField, Select, MenuItem, Button, Grid, Box, Typography } from '@mui/material';
 
-
-const ProfileView = ({
-  isLoggedIn,
-  firstName,
-  setFirstName,
-  lastName,
-  setLastName,
-  address,
-  setAddress,
-  telephone,
-  setTelephone,
-  profilePicture,
-  setProfilePicture,
-  error,
-  handleLogout,
-  handleImageUpload,
-  handleSaveChanges,
-}) => {
-  const greeting = `Hello, ${firstName}!`;
+function ProfileView(props){
+  const greeting = `Hello, ${props.firstName ? props.firstName : 'Guest'}!`;
 
   return (
-    <div className="profile-view-container">
-      <h2>{greeting}</h2>
-      <div className="profile-view-form">
-        <label htmlFor="first-name" className="profile-view-label">First Name:</label>
-        <input
-          type="text"
-          id="first-name"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          className="profile-view-input"
-        />
-        <label htmlFor="last-name" className="profile-view-label">Last Name:</label>
-        <input
-          type="text"
-          id="last-name"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          className="profile-view-input"
-        />
-        <label htmlFor="address" className="profile-view-label">Address:</label>
-        <input
-          type="text"
-          id="address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          className="profile-view-input"
-        />
-        <label htmlFor="telephone" className="profile-view-label">Telephone:</label>
-        <input
-          type="text"
-          id="telephone"
-          value={telephone}
-          onChange={(e) => setTelephone(e.target.value)}
-          className="profile-view-input"
-        />
-        <div className="profile-view-image-container">
-          <label htmlFor="profile-picture" className="profile-view-label">Profile Picture:</label>
-          <input
-            type="file"
-            accept="image/*"
-            id="profile-picture"
-            onChange={handleImageUpload}
-            className="profile-view-input"
-          />
-          <img src={profilePicture} alt="Profile" style={{ maxWidth: 100 }} />
-        </div>
-        {error && <p className="profile-view-error">{error}</p>}
-        <button onClick={handleSaveChanges}>Save Changes</button>
-      </div>
-    </div>
+    <Grid
+      container
+      direction="row"
+      justifyContent="center"
+      alignItems="center"
+      spacing={1}
+      sx={{ marginTop: "2em", marginLeft: "25%", marginRight: "25%" }}
+    >  
+      <Grid item xs={12}>
+        <Box direction="row" justifyContent="center" alignItems="center">
+          <Typography variant="h4" sx={{ fontFamily: "inherit", fontWeight: "bold", color: "black" }}>{greeting}</Typography>
+        </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Box justifyContent="center" alignItems="center">
+          <TextField label={'Firstname'} name={'firstName'} value={props.firstName || ''} sx={{ width: '50%' }} onChange={props.onFirstNameChange} />
+        </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Box justifyContent="center" alignItems="center">
+          <TextField label={'Lastname'} name={'lastName'} value={props.lastName || ''} sx={{ width: '50%' }} onChange={props.onLastNameChange} />
+        </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Box justifyContent="center" alignItems="center">
+          <TextField label={'Email'} name={'email'} value={props.email || ''} sx={{ width: '50%' }} onChange={props.onEmailChange} />
+        </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Box justifyContent="center" alignContent="center">
+        <TextField
+            labelId="gender-select-label"
+            id="gender-select"
+            value={props.gender}
+            label="Gender"
+            onChange={(e) => props.setGender(e.target.value)}
+            sx={{ width: '50%' }}
+          select>
+            <MenuItem value="male">Male</MenuItem>
+            <MenuItem value="female">Female</MenuItem>
+          </TextField>
+        </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Box justifyContent="center" alignItems="center">
+          <TextField label={'Password'} name={'password'} variant="filled" type="password" sx={{ width: '50%' }} onChange={props.onPasswordChange} />
+        </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Box justifyContent="center" alignItems="center">
+          <TextField label={'Confirm Password'} name={'confirmPassword'} variant="filled" type="password" sx={{ width: '50%' }} onChange={props.onConfirmPasswordChange} />
+        </Box>
+      </Grid>
+      <Grid item xs={12}>
+        <Grid container spacing={2} justifyContent="start">
+          <Grid item>
+          <Button variant='contained' color='primary' size='large' onClick={props.onSaveChanges}>Save changes</Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Grid>
   );
-};
+}
 
 export default ProfileView;
