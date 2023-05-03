@@ -10,7 +10,7 @@ function DisplayView({ darkMode, data }) {
     return <p>Loading data...</p>;
   }
 
-  const { WeatherDataHumData, WeatherDataTempData, WeatherDataPresData } = data;
+  const {WeatherData} = data;
   
   return (
     <div className={`card${darkMode ? 'Dark' : 'Light'}`}>
@@ -19,7 +19,7 @@ function DisplayView({ darkMode, data }) {
           <img className="svg-icon" src={hmdty} alt="Humidity" />
           <div className="measurement">Humidity</div>
           <div className="parameter">
-            <span className="value">{WeatherDataHumData[0]}</span>
+            <span className="value">{WeatherData.Hum[0]}</span>
             <span>%</span>
           </div>
           <MaxMinPresenter maxName = {"CurrentIntervalsHumMax"} minName = {"CurrentIntervalsHumMin"} initMax={100} initMin={12} />
@@ -31,7 +31,7 @@ function DisplayView({ darkMode, data }) {
           <img className="svg-icon" src={temp} alt="Temperature" />
           <div className="measurement">Temperature</div>
           <div className="parameter">
-            <span className="value">{WeatherDataTempData[0]}</span>
+            <span className="value">{WeatherData.Temp[0]}</span>
             <span>&deg;C</span>
           </div>
           <MaxMinPresenter maxName = {"CurrentIntervalsTempMax"} minName = {"CurrentIntervalsTempMin"} initMax={28} initMin={2} />
@@ -43,7 +43,7 @@ function DisplayView({ darkMode, data }) {
           <img className="svg-icon" src={prs} alt="Pressure" />
           <div className="measurement">Pressure</div>
           <div className="parameter">
-            <span className="value">{WeatherDataPresData[0]}</span>
+            <span className="value">{WeatherData.Pres[0]}</span>
             <span>hPa</span>
           </div>
           <MaxMinPresenter maxName = {"CurrentIntervalsPresMax"} minName = {"CurrentIntervalsPresMin"} initMax={1200} initMin={800} />
