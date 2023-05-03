@@ -6,7 +6,7 @@ import { FaBell } from "react-icons/fa";
 import "./Styled.css";
 import temicon from "./images/template-icon.svg"
 
-const MainPageView = () => {
+const MainPageView = ({onTemplateClick}) => {
   const [theme, setTheme] = useState("light");
   const [darkMode, setDarkMode] = useState(false);
   const toggleTheme = () => {
@@ -26,7 +26,7 @@ const MainPageView = () => {
       <header className="header">
       <h1 className="header-title">HTP-Analyzer <DateTimeView darkMode={darkMode} /></h1>
         <div className="header-icons">
-          <div className="template-icon">
+          <div onClick={onTemplateClick} className="template-icon">
             <img src={temicon} width="40"/>
             <h2>Templates</h2>
           </div>

@@ -1,12 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import MainPageView from "../views/MainPageView";
-import templateView from "../views/templateView";
+import TemplateView from "../views/templateView";
 
 const MainPage = ({ isLoggedIn, handleLogout }) => {
+    const [showTemplates, setShowTemplates] = useState(false);
+    const toggleShowTemplates = () => {
+        setShowTemplates(!showTemplates);
+    }
     return (
-        <div>
-            <templateView/>
-            <MainPageView isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
+        <div style={{ position: "relative", display: "flex" }}>
+            <MainPageView onTemplateClick={toggleShowTemplates}/>
+            {showTemplates && <TemplateView onTemplateClick={toggleShowTemplates}/>}
         </div>
     )
 };
