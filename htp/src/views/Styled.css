@@ -16,6 +16,8 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+
 /* -----------------------------------------------------------Login Style------------------------------------------------- */
 /* Container */
 .login-container {
@@ -473,6 +475,8 @@ button:hover {
   position: relative;
   font-weight: normal;
   align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .cardDark {
@@ -481,7 +485,10 @@ button:hover {
   position: relative;
   font-weight: normal;
   text-align:center;
+  width: 100%;
+  justify-content: space-between;
 }
+
 
 .column {
   display: flex;
@@ -547,12 +554,13 @@ button:hover {
 
 .main-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
   gap: 2rem;
   padding: 2rem;
   height: calc(100% - 5rem);
 }
+
 
 .datetime-container {
   grid-column: 1 / 2;
@@ -571,5 +579,6 @@ button:hover {
   font-family: orbitron;
   font-weight: 100;
 }
+
 
 /* ------------------------------------------- Max/Min button --------------------------------- */
