@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import Model from "../Model";
 import DisplayView from '../views/DisplayView';
-
 import { db } from '../firebaseModel';
 import { doc, onSnapshot } from "firebase/firestore";
 
-
-function DisplayPresenter({darkMode}) {
+function DisplayPresenter() {
     const [data, setData] = useState(null);
-
     useEffect(() => {
         async function fetchData() {
             const model = new Model();
             const user = await model.getUser();
             const docRef = doc(db, "Data", user.email);
             onSnapshot(docRef, (doc) => {
-
                 setData(doc.data());
             })
-
         }
         fetchData();
     }, []);
@@ -28,9 +23,9 @@ function DisplayPresenter({darkMode}) {
     return (
         <div className="DisplayPresenter">
             {data ? (
-                <DisplayView darkMode = {darkMode} data={data} />
+                <DisplayView data={data} />
             ) : (
-                <p>You need to sign in/register to see your data</p>
+                <p className='noData'>You need to sign in/register to see your data</p>
             )}
         </div>
     );
