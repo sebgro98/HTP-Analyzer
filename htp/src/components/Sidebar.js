@@ -10,6 +10,7 @@ import { FaHome, FaSignOutAlt, FaSignInAlt, FaBars, FaUserAlt,  FaComments } fro
 import { Link } from "react-router-dom";
 
 export default function Sidebar({ isLoggedIn, handleLogout }) {
+
     console.log("Is this true or false:" + isLoggedIn)
     const [sidebarOpen, setSidebarOpen] = React.useState(false);
     const routes = ["/", "/profile", "/forum"];
@@ -104,8 +105,8 @@ export default function Sidebar({ isLoggedIn, handleLogout }) {
             }}
         >
             <Box>
-                <IconButton onClick={toggleDrawer(true)}>
-                    <FaBars style={{ fontSize: "1.2em", padding: "0.5em" }} />
+                <IconButton sx={{ color: 'red' }} onClick={toggleDrawer(true)}>
+                    <FaBars style={{ color: "#499BDA", fontSize: '40px'}} />
                 </IconButton>
             </Box>
             <React.Fragment>

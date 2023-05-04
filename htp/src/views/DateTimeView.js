@@ -18,8 +18,8 @@ export const DateTimeView = ({darkMode}) => {
     
     return(
         <div className={darkMode ? 'timeDateDark' : 'timeDateLight'}>
-                <p>{date.toLocaleTimeString()}</p>
-                <p>{dateFormat.format(date)}</p>
+                <div>{date.toLocaleTimeString()}</div>
+                <div>{dateFormat.format(date)}</div>
         </div>
     )
 }
