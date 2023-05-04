@@ -583,3 +583,49 @@ body {
 .template-main h4 {
   font-size: 20px;
 }
+
+.template-main h5 {
+  font-size: 50px;
+  margin-left: 4%;
+}
+
+.template-main h6 {
+  font-size: 250px;
+  text-align: center;
+  color: #0ff30f;
+  margin-top: -63px;
+  margin-bottom: -35px;
+}
+
+.template-main input {
+  width: 30px;
+}
+
+.template-main label {
+  font-size: 20px;
+}
+
+.template-main button {
+  background-color: #0ff30f;
+  font-size: 30px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 20px;
+  margin-top: 15px;
+}
+
+.template-create {
+  background-color: #e0e0e0;
+  margin-left: 25%;
+  margin-top: 4%;
+  width: 50%;
+  height: auto;
+  position: absolute;
+  z-index: 3;
+  border-radius: 50px;
+  text-align: center;
+}
+
+.template-create h2 {
+  font-size: 30px;
+}

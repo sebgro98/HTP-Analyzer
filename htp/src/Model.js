@@ -122,19 +122,20 @@ class Model {
   }
 
   async setCurrentTemplate(template) {
-    //if (!template.id || !template.HumidityMin || !template.HumidityMax || !template.TempMin || !template.TempMax || !template.PressureMin || !template.PressureMax) return;
+    if (!template.id || !template.HumidityMin || !template.HumidityMax || !template.TempMin || !template.TempMax || !template.PressureMin || !template.PressureMax) return;
     const user = await this.getUser();
-    console.log(template);
     const docRef = doc(db, "Data", user.email);
     updateDoc(docRef, {
       CurrentTemplate: template.id,
-      "CurrentIntervals.TempMin": [template.TempMin],
-      "CurrentIntervals.TempMax": [template.TempMax],
-      "CurrentIntervals.HumMin": [template.HumidityMin],
-      "CurrentIntervals.HumMax": [template.HumidityMax],
-      "CurrentIntervals.PresMin": [template.PressureMin],
-      "CurrentIntervals.PresMax": [template.PressureMax],
-      });
+      CurrentIntervals: {
+        TempMin: [template.TempMin],
+        TempMax: [template.TempMax],
+        HumMin: [template.HumidityMin],
+        HumMax: [template.HumidityMax],
+        PresMin: [template.PressureMin],
+        PresMax: [template.PressureMax],
+      }
+    });
   }
 }
 
