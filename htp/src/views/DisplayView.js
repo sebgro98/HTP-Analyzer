@@ -10,7 +10,7 @@ import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import { darkModeAtom } from "../views/MainPageView";
 import { useRecoilState } from "recoil";
 
-function DisplayView({ darkMode }) {
+function DisplayView() {
   const [data, setData] = useState({
     WeatherData: {},
     CurrentIntervals: {},
@@ -18,7 +18,7 @@ function DisplayView({ darkMode }) {
   });
 
   const [darkMode] = useRecoilState(darkModeAtom);
-  
+
   const { WeatherData, CurrentIntervals, Outlets } = data || {};
 
   const formatGraphData = (data, type) => {
@@ -92,7 +92,12 @@ function DisplayView({ darkMode }) {
     !WeatherData.Temp ||
     !WeatherData.Pres
   )
-    if (!data) {
+    if (
+      !WeatherData ||
+      !WeatherData.Hum ||
+      !WeatherData.Temp ||
+      !WeatherData.Pres
+    ) {
       return <p>Loading data...</p>;
     }
 
@@ -104,11 +109,12 @@ function DisplayView({ darkMode }) {
             style={{ color: darkMode ? "#ffffff" : "#1a1a1a" }}
             sx={{ fontSize: 60 }}
           />
-          <div className="measurement">Humidity</div>
-          <div className="parameter">
-            <span className="value">{WeatherData.Hum[0]}</span>
-            <span>%</span>
-          </div>
+          {Array.isArray(WeatherData.Hum) && WeatherData.Hum.length > 0 && (
+            <div className="parameter">
+              <span className="value">{WeatherData.Hum[0]}</span>
+              <span>%</span>
+            </div>
+          )}
         </div>
         <MaxMinPresenter
           maxName="CurrentIntervals.HumMax"
