@@ -371,7 +371,7 @@ body {
 
 /* ------------------------------------------- Weather card --------------------------------- */
 .cardLight {
-  display:flex; 
+  display:flex;
   font-family: orbitron;
   position: relative;
   font-weight: normal;
