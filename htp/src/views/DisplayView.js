@@ -9,17 +9,38 @@ import { db } from "../firebaseModel";
 import { collection, onSnapshot } from "firebase/firestore";
 
 function DisplayView({ darkMode }) {
-  const [data, setData] = useState(null);
-  const { WeatherData, CurrentIntervals } = data || {};
+  const [data, setData] = useState({
+    WeatherData: {},
+    CurrentIntervals: {},
+    Outlets: {},
+  });
 
-  const formatGraphData = (data) => {
-    if (!Array.isArray(data)) {
+  const { WeatherData, CurrentIntervals, Outlets } = data || {};
+
+  const formatGraphData = (data, type) => {
+    if (!data || Object.keys(data).length === 0) {
       return [];
     }
-    return data.map((item) => ({
-      //date: item.timestamp.toDate().toLocaleString(),
-      value: item.value,
-    }));
+
+    const groupedData = [];
+
+    data.forEach((item) => {
+      if (!item.Time) {
+        return;
+      }
+
+      const date = item.Time.toDate();
+      const formattedDate = `${
+        date.getMonth() + 1
+      }, ${date.getDate()}, ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+
+      groupedData.push({
+        date: formattedDate,
+        value: item[type][0],
+      });
+    });
+
+    return groupedData;
   };
 
   useEffect(() => {
@@ -28,32 +49,49 @@ function DisplayView({ darkMode }) {
       querySnapshot.forEach((doc) => {
         data.push(doc.data());
       });
+      console.log("Checking data fetched from firestore");
+      console.log("Data from Firebase:", data);
+      console.log("End checking data fetched from firestore");
       setData(data[0]);
     });
-  
+
     return () => unsubscribe();
   }, []);
-  
+
   useEffect(() => {
     if (WeatherData) {
       console.log("================");
       console.log("WeatherData:", WeatherData);
       console.log("Type: humidity");
-      console.log("Formatted data:", formatGraphData(WeatherData.humidity));
+      console.log(
+        "Formatted data:",
+        formatGraphData(WeatherData.Hum, "humidity")
+      );
       console.log("Type: temperature");
-      console.log("Formatted data:", formatGraphData(WeatherData.temperature));
+      console.log(
+        "Formatted data:",
+        formatGraphData(WeatherData.Temp, "temperature")
+      );
       console.log("Type: pressure");
-      console.log("Formatted data:", formatGraphData(WeatherData.pressure));
+      console.log(
+        "Formatted data:",
+        formatGraphData(WeatherData.Pres, "pressure")
+      );
+
       console.log("================");
     }
   }, [WeatherData]);
 
-  if (!data) {
+  if (
+    !WeatherData ||
+    !WeatherData.Hum ||
+    !WeatherData.Temp ||
+    !WeatherData.Pres
+  ) {
     return <p>Loading data...</p>;
   }
-  
   return (
-    <div>
+    <div className="display-view">
       <div className={`card${darkMode ? "Dark" : "Light"}`}>
         <div className="column">
           <div className="box">
