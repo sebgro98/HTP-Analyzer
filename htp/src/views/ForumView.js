@@ -81,8 +81,8 @@ function ForumView({
                         />
                         {post.showDetails && (
                             <div className="post-details">
-                                <p>{post.content}</p>
-                                <p>{post.author}</p>
+                                <p><strong>Content:</strong> {post.content}</p>
+                                <p><strong>Author:</strong> {post.author}</p>
                                 {post.timestamp ? (
                                     <p>
                                         {Timestamp.fromMillis(post.timestamp.seconds * 1000)
