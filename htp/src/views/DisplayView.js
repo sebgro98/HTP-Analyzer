@@ -1,11 +1,15 @@
 import React from 'react';
 import MaxMinPresenter from '../presenters/MaxMinPresenter';
-import hmdty from "./images/water_2.svg"
-import temp from "./images/temperature-half-svgrepo-com.svg"
-import prs from "./images/pressure-svgrepo-com.svg"
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
+import WaterDropIcon from '@mui/icons-material/WaterDrop';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import "./Styled.css"
+import { darkModeAtom } from '../views/MainPageView';
+import { useRecoilState } from 'recoil';
 
-function DisplayView({ darkMode, data }) {
+
+function DisplayView({ data }) {
+  const [darkMode] = useRecoilState(darkModeAtom);
   if (!data) {
     return <p>Loading data...</p>;
   }
@@ -16,7 +20,7 @@ function DisplayView({ darkMode, data }) {
     <div className={`card${darkMode ? 'Dark' : 'Light'}`}>
       <div className="column">
         <div className="box">
-          <img className="svg-icon" src={hmdty} alt="Humidity" />
+        <WaterDropIcon style={{color: darkMode ? "#ffffff" : "#1a1a1a"}} sx={{ fontSize: 60 }}/>
           <div className="measurement">Humidity</div>
           <div className="parameter">
             <span className="value">{WeatherData.Hum[0]}</span>
@@ -28,7 +32,7 @@ function DisplayView({ darkMode, data }) {
 
       <div className="column">
         <div className="box">
-          <img className="svg-icon" src={temp} alt="Temperature" />
+          <DeviceThermostatIcon style={{color: darkMode ? "#ffffff" : "#1a1a1a"}} sx={{ fontSize: 60 }}/>
           <div className="measurement">Temperature</div>
           <div className="parameter">
             <span className="value">{WeatherData.Temp[0]}</span>
@@ -40,7 +44,7 @@ function DisplayView({ darkMode, data }) {
 
       <div className="column">
         <div className="box">
-          <img className="svg-icon" src={prs} alt="Pressure" />
+        <CompareArrowsIcon style={{color: darkMode ? "#ffffff" : "#1a1a1a"}} sx={{ fontSize: 60 }}/>
           <div className="measurement">Pressure</div>
           <div className="parameter">
             <span className="value">{WeatherData.Pres[0]}</span>

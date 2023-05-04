@@ -327,7 +327,7 @@ body {
 
 /* DateTime section */
 .timeDateLight {
-  display: block;
+  display:grid;
   height: 100%;
   font-family: orbitron;
   text-align: left;
@@ -336,6 +336,7 @@ body {
   font-weight: 100;
   position: relative;
   align-content: center;
+  margin-top: 1rem;
 }
 
 .timeDateDark {
@@ -350,17 +351,18 @@ body {
   font-weight: 100;
   position: relative;
   align-content: center;
+  margin-top: 1rem;
 }
 
 /* ------------------------------------------- Dark/light mode --------------------------------- */
 .dark {
-  background-color: #1a1a1b;
+  background-color: #1a1a1a;
   color: #e0e0e0;
 }
 
 .light {
-  background-color: #e0e0e0;
-  color: #1a1a1b;
+  background-color: #ffffff;
+  color: #1a1a1a;
 }
 
 .button {
@@ -369,13 +371,12 @@ body {
   top: 50px;
 }
 
-/* ------------------------------------------- Weather card --------------------------------- */
+/* ------------------------------------------- Display data --------------------------------- */
 .cardLight {
   display:flex; 
   font-family: orbitron;
   position: relative;
   font-weight: normal;
-  align-items: center;
 }
 
 .cardDark {
@@ -383,7 +384,6 @@ body {
   font-family: orbitron;
   position: relative;
   font-weight: normal;
-  text-align:center;
 }
 
 .column {
@@ -397,22 +397,20 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 7rem;
+  margin: 2rem;
 }
 
 .svg-icon {
-  width: 4rem;
-  height: 4rem;
+  width: 2rem;
+  height: 2rem;
 }
 
 .measurement {
-  font-size: 2rem;
-  margin-top: 1rem;
+  font-size: 1.5rem;
 }
 
 .parameter {
-  font-size: 2rem;
-  margin-top: 1rem;
+  font-size: 1.5rem;
 }
 
 
@@ -432,7 +430,6 @@ body {
 }
 
 .header-title {
-  margin: 0;
   font-size: 2rem;
   margin-left: 100px;
   font-family: orbitron;
@@ -442,10 +439,6 @@ body {
   display: flex;
   align-items: center;
   font-size: 50px;
-}
-
-.fa-bell {
-  margin: 2rem;
 }
 
 .main-grid {
@@ -462,17 +455,61 @@ body {
 }
 
 .display-container {
-  grid-column: 2 / 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
 }
 
 .dark-mode-switch {
   justify-self: end;
+  margin-top: -50px;
 }
 
 .value {
-  font-size: 5rem;
+  font-size: 3rem;
   font-family: orbitron;
   font-weight: 100;
 }
 
-/* ------------------------------------------- Max/Min button --------------------------------- */
+.noData {
+  font-size: 2rem;
+  font-family: orbitron;
+}
+
+.title {
+  margin-bottom: 1rem;
+}
+
+
+
+/* ------------------------------------------- Notification system --------------------------------- */
+.font {
+  font-family: orbitron;
+  color: #1a1a1b;
+  font-size: 0.6rem;
+}
+.notificationButton {
+  font-family: orbitron;
+  font-size: 0.6rem;
+  background: #499BDA;
+}
+.unreadOnly {
+  font-family: orbitron;
+  font-size: 0.6rem;
+  color: #e0e0e0;
+}
+.notificationCenter {
+  font-family: orbitron;
+  font-size: 0.8rem;
+}
+
+.msgText {
+  font-family: orbitron;
+  font-size: 0.6rem;
+}
+
+.test {
+  color: #499BDA;
+  border: #1a1a1a;
+}
