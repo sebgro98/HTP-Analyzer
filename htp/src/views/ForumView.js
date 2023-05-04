@@ -1,11 +1,24 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './Styled.css';
 import AddPostForm from '../presenters/ForumAddPostPresenter';
-import AddCommentForm from '../presenters/AddCommentForumPresenter';
+import PostDetails from '../presenters/AddCommentForumPresenter';
 import { Timestamp } from 'firebase/firestore';
 
-function PostTitle({ title, onPostClick, postId, handleCommentFormSubmit,  }) {
-    const [selectedPost, setSelectedPost] = useState(null);
+function PostTitle({ title, post, onPostClick, handleCommentFormSubmit }) {
+    const [selected, setSelected] = useState(false);
+    const [selectedPost, setSelectedPost] = useState(false);
+
+    const handleClick = () => {
+        setSelected((prevSelected) => !prevSelected);
+    };
+
+    useEffect(() => {
+        if (selected) {
+            setSelectedPost(post);
+        } else {
+            setSelectedPost(null);
+        }
+    }, [selected, post]);
 
     return (
         <div>
@@ -17,17 +30,19 @@ function PostTitle({ title, onPostClick, postId, handleCommentFormSubmit,  }) {
             >
                 {title}
             </h2>
-            <button onClick={() => setSelectedPost(postId)} disabled={!postId}>
-                Comment
+            <button onClick={handleClick} disabled={!post.id} className={selected ? "active" : ""}>
+                {selected ? "Comment" : "Comment"}
             </button>
-            {selectedPost === postId && (
+            {selected && (
                 <div>
-                    <AddCommentForm postId={postId} onSubmit={handleCommentFormSubmit} />
+                    <PostDetails post={post} onSubmit={handleCommentFormSubmit} />
                 </div>
             )}
         </div>
     );
 }
+
+
 
 function ForumView({
                        searchQuery,
@@ -45,8 +60,8 @@ function ForumView({
         return <p>Loading...</p>;
     }
 
-    const handleCommentFormSubmit = async (comment) => {
-        await handleAddComment(selectedPost.id, comment);
+    const handleCommentFormSubmit = async (post, comment) => {
+        await handleAddComment(post, comment);
         setShowCommentForm(false);
     };
 
@@ -71,13 +86,9 @@ function ForumView({
                     <div className="post-container" key={post.id}>
                         <PostTitle
                             title={post.title}
+                            post={post}
                             onPostClick={() => handlePostClick(post)}
-                            onCommentClick={() => {
-                                setSelectedPost(post);
-                                setPostId(post.id);
-                                setShowCommentForm(true);
-                            }}
-                            postId={post.id}
+                            handleCommentFormSubmit={handleCommentFormSubmit}
                         />
                         {post.showDetails && (
                             <div className="post-details">
@@ -99,8 +110,8 @@ function ForumView({
             </div>
             {showCommentForm && (
                 <div className="add-comment-form-container1">
-                    <AddCommentForm
-                        postId={postId}
+                    <PostDetails
+                        postId={selectedPost}
                         selectedPost={selectedPost}
                         onSubmit={handleCommentFormSubmit}
                     />
