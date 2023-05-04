@@ -426,7 +426,7 @@ button:hover {
 
 /* DateTime section */
 .timeDateLight {
-  display: block;
+  display:grid;
   height: 100%;
   font-family: orbitron;
   text-align: left;
@@ -435,6 +435,7 @@ button:hover {
   font-weight: 100;
   position: relative;
   align-content: center;
+  margin-top: 1rem;
 }
 
 .timeDateDark {
@@ -449,17 +450,18 @@ button:hover {
   font-weight: 100;
   position: relative;
   align-content: center;
+  margin-top: 1rem;
 }
 
 /* ------------------------------------------- Dark/light mode --------------------------------- */
 .dark {
-  background-color: #1a1a1b;
+  background-color: #1a1a1a;
   color: #e0e0e0;
 }
 
 .light {
-  background-color: #e0e0e0;
-  color: #1a1a1b;
+  background-color: #ffffff;
+  color: #1a1a1a;
 }
 
 .button {
@@ -468,7 +470,7 @@ button:hover {
   top: 50px;
 }
 
-/* ------------------------------------------- Weather card --------------------------------- */
+/* ------------------------------------------- Display data --------------------------------- */
 .cardLight {
   display:flex; 
   font-family: orbitron;
@@ -501,22 +503,20 @@ button:hover {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 7rem;
+  margin: 2rem;
 }
 
 .svg-icon {
-  width: 4rem;
-  height: 4rem;
+  width: 2rem;
+  height: 2rem;
 }
 
 .measurement {
-  font-size: 2rem;
-  margin-top: 1rem;
+  font-size: 1.5rem;
 }
 
 .parameter {
-  font-size: 2rem;
-  margin-top: 1rem;
+  font-size: 1.5rem;
 }
 
 
@@ -536,7 +536,6 @@ button:hover {
 }
 
 .header-title {
-  margin: 0;
   font-size: 2rem;
   margin-left: 100px;
   font-family: orbitron;
@@ -546,10 +545,6 @@ button:hover {
   display: flex;
   align-items: center;
   font-size: 50px;
-}
-
-.fa-bell {
-  margin: 2rem;
 }
 
 .main-grid {
@@ -567,18 +562,23 @@ button:hover {
 }
 
 .display-container {
-  grid-column: 2 / 3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
 }
 
 .dark-mode-switch {
   justify-self: end;
+  margin-top: -50px;
 }
 
 .value {
-  font-size: 5rem;
+  font-size: 3rem;
   font-family: orbitron;
   font-weight: 100;
 }
+
 
 .display-view {
   height: 100vh;
@@ -589,3 +589,160 @@ button:hover {
 }
 
 /* ------------------------------------------- Max/Min button --------------------------------- */
+.noData {
+  font-size: 2rem;
+  font-family: orbitron;
+}
+
+.title {
+  margin-bottom: 1rem;
+}
+
+
+
+/* ------------------------------------------- Notification system --------------------------------- */
+.font {
+  font-family: orbitron;
+  color: #1a1a1b;
+  font-size: 0.6rem;
+}
+.notificationButton {
+  font-family: orbitron;
+  font-size: 0.6rem;
+  background: #499BDA;
+}
+.unreadOnly {
+  font-family: orbitron;
+  font-size: 0.6rem;
+  color: #e0e0e0;
+}
+.notificationCenter {
+  font-family: orbitron;
+  font-size: 0.8rem;
+}
+
+.msgText {
+  font-family: orbitron;
+  font-size: 0.6rem;
+}
+
+.test {
+  color: #499BDA;
+  border: #1a1a1a;
+}
+.forum-title {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-align: center
+}
+
+/* Search bar */
+.search-bar {
+  margin-bottom: 2rem;
+}
+
+.search-bar input {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+/* Add post form container */
+.add-post-form-container1 {
+  margin-bottom: 2rem;
+}
+
+/* Post list */
+.post-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+/* Post container */
+.post-container {
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+/* Post title */
+.post-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+
+}
+
+/* Post details */
+.post-details {
+  margin-top: 1rem;
+}
+
+.post-details p {
+  margin: 0.5rem 0;
+}
+
+.add-post-form-container2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.add-post-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.add-post-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.add-post-form input,
+.add-post-form textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.add-post-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.add-post-form button:hover {
+  background-color: #0069d9;
+}
+
+.add-post-toggle {
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 8px;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
