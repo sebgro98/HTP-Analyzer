@@ -31,7 +31,6 @@ class Model {
 
         WeatherData: {
           Time: [],
-          DateMin: [],
           Hum: [],
           Temp: [],
           Pres: [],
