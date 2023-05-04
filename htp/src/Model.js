@@ -1,7 +1,7 @@
 import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,  setPersistence,
   browserLocalPersistence, onAuthStateChanged} from "firebase/auth";
 import {db} from "./firebaseModel";
-import {collection, doc, getDoc, getDocs, setDoc} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, serverTimestamp, addDoc,} from "firebase/firestore";
 
 class Model {
   constructor() {
@@ -48,9 +48,6 @@ class Model {
           Value: [],
           LimitValue: [],
         },
-        Forum: {
-          Posts: [],
-        },
         Outlets: {
           Temp: [],
           Hum: [],
@@ -61,10 +58,155 @@ class Model {
         email: userCredential.user.email,
         password: password,
       });
+
     } catch (error) {
       throw error;
     }
   }
+
+
+  async addComment(postId, comment, author) {
+    try {
+      author = "hej"
+      const auth = getAuth();
+      const user = auth.currentUser;
+      console.log('postId model:', postId);
+      console.log('comment:', comment)
+      console.log('author:', author)
+
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      const postRef = doc(db, 'Posts', user.email, 'user_posts', postId);
+      const postDoc = await getDoc(postRef);
+
+      if (!postDoc.exists()) {
+        throw new Error('Post not found');
+      }
+
+      const commentsCollectionRef = collection(postRef, 'comments');
+      const commentData = {
+        comment,
+        author,
+        created_at: new Date().toISOString(),
+      };
+      await addDoc(commentsCollectionRef, commentData);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+  async getPostById(postId) {
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      const postRef = doc(db, 'Posts', user.email, 'user_posts', postId);
+      console.log("haha", postRef)
+      const postDoc = await getDoc(postRef);
+
+      if (postDoc.exists()) {
+        const postData = postDoc.data();
+        return {
+          id: postDoc.id,
+          ...postData,
+          author: user.email // add the author to the returned post data
+        };
+      } else {
+        throw new Error('Post not found');
+      }
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+  /*async getPostsForUser(email) {
+    const auth = getAuth();
+    return new Promise((resolve, reject) => {
+      const unsubscribe = onAuthStateChanged(email, async (user) => {
+        unsubscribe();
+        if (user) {
+          try {
+            const postsCollectionRef = collection(db, 'Posts', user.email, 'user_posts');
+            const postsSnapshot = await getDocs(postsCollectionRef);
+            const posts = postsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            console.log(posts);
+            resolve(posts);
+          } catch (error) {
+            reject(error);
+          }
+        } else {
+          console.log("getPostsForUser: user not authenticated");
+          resolve([]);
+        }
+      });
+    });
+  }*/
+
+  async getAllPosts() {
+    try {
+      const auth = getAuth();
+      return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(auth, async user => {
+          if (user) {
+            const postsCollectionRef = collection(db, 'Posts');
+            const postsSnapshot = await getDocs(postsCollectionRef);
+            const allPosts = [];
+
+            for (const postDoc of postsSnapshot.docs) {
+              const userPostsCollectionRef = collection(postDoc.ref, 'user_posts');
+              const userPostsSnapshot = await getDocs(userPostsCollectionRef);
+
+              const userPosts = userPostsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+              allPosts.push(...userPosts);
+            }
+
+            console.log(allPosts);
+            resolve(allPosts);
+          } else {
+            console.log('No user found');
+            resolve([]);
+          }
+          unsubscribe();
+        }, error => {
+          console.error(error);
+          reject(error);
+        });
+      });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+
+  async addPost(title, content) {
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) {
+      throw new Error('User must be signed in to create a post.');
+    }
+
+    const userPostsCollectionRef = collection(db, 'Posts', user.email, 'user_posts');
+
+    // Check if the user_posts collection exists, and create it if it doesn't
+    const userPostsCollectionSnapshot = await getDocs(userPostsCollectionRef);
+    if (userPostsCollectionSnapshot.empty) {
+      await setDoc(userPostsCollectionRef.parent, { [userPostsCollectionRef.id]: {} });
+    }
+
+    // Create a new post document with server timestamp
+    await addDoc(userPostsCollectionRef, {
+      title: title,
+      content: content,
+      author: user.email,
+      timestamp: serverTimestamp()
+    });
+  }
+
+
+
 
   async getUser() {
     return new Promise((resolve, reject) => {
@@ -80,7 +222,7 @@ class Model {
   async logIn(email, password) {
     const auth = getAuth();
 
-    // Set the persistence type to local
+
     await setPersistence(auth, browserLocalPersistence);
 
     try {
