@@ -32,9 +32,9 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin}) => {
 
     return (
        <div>
-        <div>Set maximum and minimum value?</div>
-         <Toggle style={{margin: '10px'}}
-            size="lg" 
+        <div style={{fontSize:"1rem", color: "#499BDA"}}>Set maximum and minimum value?</div>
+         <Toggle style={{marginTop: '10px', marginBottom: '10px'}}
+            size="md" 
             checkedChildren="Yes" 
             unCheckedChildren="No" 
             onClick={() => {
@@ -53,7 +53,7 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin}) => {
                 <span class="input-group-text" id="inputGroup-sizing-sm">Max</span>
                 <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value={max} onChange={event => setMax(event.target.value)}/>
                 </div>
-                <button type="button" onClick={updateData} class="btn btn-outline-success">Sumbit</button>
+                <button type="button" class="btn btn-outline-primary btn-sm" onClick={updateData}>Sumbit</button>
             </form>
         )
 
