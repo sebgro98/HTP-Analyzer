@@ -476,12 +476,9 @@ button:hover {
   font-family: orbitron;
   position: relative;
   font-weight: normal;
-<<<<<<< HEAD
   align-items: center;
   width: 100%;
   justify-content: space-between;
-=======
->>>>>>> 109330d925c1d3a7f75a9b931dbb8a67a5b71f9d
 }
 
 .cardDark {
@@ -489,12 +486,9 @@ button:hover {
   font-family: orbitron;
   position: relative;
   font-weight: normal;
-<<<<<<< HEAD
   text-align:center;
   width: 100%;
   justify-content: space-between;
-=======
->>>>>>> 109330d925c1d3a7f75a9b931dbb8a67a5b71f9d
 }
 
 
@@ -585,7 +579,7 @@ button:hover {
   font-weight: 100;
 }
 
-<<<<<<< HEAD
+
 .display-view {
   height: 100vh;
   width: 100vw;
@@ -595,7 +589,6 @@ button:hover {
 }
 
 /* ------------------------------------------- Max/Min button --------------------------------- */
-=======
 .noData {
   font-size: 2rem;
   font-family: orbitron;
@@ -637,10 +630,6 @@ button:hover {
   color: #499BDA;
   border: #1a1a1a;
 }
-<<<<<<< HEAD
->>>>>>> 109330d925c1d3a7f75a9b931dbb8a67a5b71f9d
-=======
-
 .forum-title {
   font-size: 3rem;
   margin-bottom: 2rem;
@@ -757,4 +746,3 @@ button:hover {
   width: 100%;
   margin-bottom: 16px;
 }
->>>>>>> b3676c2723f624941a75bffb9c0c50b8c255bebc
