@@ -1,7 +1,7 @@
 import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,  setPersistence,
   browserLocalPersistence, onAuthStateChanged} from "firebase/auth";
 import {db} from "./firebaseModel";
-import {collection, doc, getDoc, getDocs, setDoc, serverTimestamp, addDoc,} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, serverTimestamp, addDoc, orderBy, query} from "firebase/firestore";
 
 class Model {
   constructor() {
@@ -149,20 +149,30 @@ class Model {
     try {
       const auth = getAuth();
       return new Promise((resolve, reject) => {
-        const unsubscribe = onAuthStateChanged(auth, async user => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
           if (user) {
-            const postRef = doc(db, 'Posts', author, 'user_posts', postId);
-            const commentsCollectionRef = collection(postRef, 'comments');
-            const commentsSnapshot = await getDocs(commentsCollectionRef);
-            const allComments = commentsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            console.log("This should be all comments from model", allComments);
+            const postRef = doc(db, "Posts", author, "user_posts", postId);
+            const commentsCollectionRef = collection(postRef, "comments");
+            console.log("commentsCollectionRef", commentsCollectionRef);
+
+            const querySnapshot = await getDocs(
+                query(commentsCollectionRef, orderBy("comment.timestamp", "desc"))
+            );
+            console.log("querySnapshot.empty", querySnapshot.empty);
+
+            const allComments = querySnapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+            console.log("allComments", allComments);
+
             resolve(allComments);
           } else {
-            console.log('No user found');
+            console.log("No user found");
             resolve([]);
           }
           unsubscribe();
-        }, error => {
+        }, (error) => {
           console.error(error);
           reject(error);
         });
@@ -172,6 +182,7 @@ class Model {
       throw error;
     }
   }
+
 
   async getAllPosts() {
     try {

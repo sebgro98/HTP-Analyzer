@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Model from '../Model';
-import'../views/Styled.css';
+import'../views/StyledAddPost.css';
 
 function AddPostForm() {
     const model = new Model();
@@ -11,7 +11,19 @@ function AddPostForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!title) {
+            alert("Please enter a title.");
+            return;
+        }
+
+        if (!content) {
+            alert("Please enter content.");
+            return;
+        }
+
         await model.addPost(title, content, author);
+
         setTitle('');
         setContent('');
         setAuthor('');

@@ -4,43 +4,45 @@ import AddPostForm from '../presenters/ForumAddPostPresenter';
 import PostDetails from '../presenters/AddCommentForumPresenter';
 import { Timestamp } from 'firebase/firestore';
 
-function PostTitle({ title, post, onPostClick, handleCommentFormSubmit }) {
+
+
+
+function PostTitle({ title, post, handleCommentFormSubmit }) {
     const [selected, setSelected] = useState(false);
-    const [selectedPost, setSelectedPost] = useState(false);
 
     const handleClick = () => {
-        setSelected((prevSelected) => !prevSelected);
+        setSelected(prevSelected => !prevSelected);
     };
 
-    useEffect(() => {
-        if (selected) {
-            setSelectedPost(post);
-        } else {
-            setSelectedPost(null);
-        }
-    }, [selected, post]);
-
     return (
-        <div>
+        <div className="post-title-container">
             <h2
-                onClick={onPostClick}
-                style={{ cursor: "pointer", textDecoration: "underline" }}
-                onMouseOver={(e) => (e.target.style.color = "#007bff")}
-                onMouseLeave={(e) => (e.target.style.color = "#000000")}
+                onClick={handleClick}
+                className="post-title"
             >
                 {title}
             </h2>
-            <button onClick={handleClick} disabled={!post.id} className={selected ? "active" : ""}>
-                {selected ? "Comment" : "Comment"}
-            </button>
             {selected && (
                 <div>
+                    <p className="post-content"><strong>Content:</strong> {post.content}</p>
+                    <p className="post-details"><strong>Author:</strong> {post.author}</p>
+                    {post.timestamp ? (
+                        <p className="post-details">
+                            {Timestamp.fromMillis(post.timestamp.seconds * 1000)
+                                .toDate()
+                                .toLocaleString()}
+                        </p>
+                    ) : (
+                        <p className="post-details">No timestamp available</p>
+                    )}
                     <PostDetails post={post} onSubmit={handleCommentFormSubmit} />
                 </div>
             )}
         </div>
     );
 }
+
+
 
 
 
@@ -53,8 +55,6 @@ function ForumView({
                        handlePostClick,
                    }) {
     const [showCommentForm, setShowCommentForm] = useState(false);
-    const [postId, setPostId] = useState(null);
-    const [selectedPost, setSelectedPost] = useState(null);
 
     if (filteredPosts === null || filteredPosts === undefined) {
         return <p>Loading...</p>;
@@ -90,33 +90,10 @@ function ForumView({
                             onPostClick={() => handlePostClick(post)}
                             handleCommentFormSubmit={handleCommentFormSubmit}
                         />
-                        {post.showDetails && (
-                            <div className="post-details">
-                                <p><strong>Content:</strong> {post.content}</p>
-                                <p><strong>Author:</strong> {post.author}</p>
-                                {post.timestamp ? (
-                                    <p>
-                                        {Timestamp.fromMillis(post.timestamp.seconds * 1000)
-                                            .toDate()
-                                            .toLocaleString()}
-                                    </p>
-                                ) : (
-                                    <p>No timestamp available</p>
-                                )}
-                            </div>
-                        )}
+
                     </div>
                 ))}
             </div>
-            {showCommentForm && (
-                <div className="add-comment-form-container1">
-                    <PostDetails
-                        postId={selectedPost}
-                        selectedPost={selectedPost}
-                        onSubmit={handleCommentFormSubmit}
-                    />
-                </div>
-            )}
         </div>
     );
 }
