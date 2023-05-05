@@ -2,6 +2,8 @@ import React, {useState, useEffect, useCallback} from 'react';
 import Model from '../Model';
 import { serverTimestamp } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import { Timestamp } from 'firebase/firestore'
+import'../views/StyledComment.css';
 
 function PostDetails({ post }) {
     const model = new Model();
@@ -28,39 +30,57 @@ function PostDetails({ post }) {
         const auth = getAuth();
         const user = auth.currentUser;
 
+        // Get the content of the comment and trim any leading/trailing whitespace
+        const content = event.target.content.value.trim();
+
+        // If the comment is empty, show an error message and return without adding the comment
+        if (!content) {
+            alert('Please enter a comment before submitting.');
+            return;
+        }
+
+        // Create the comment object
         const comment = {
-            content: event.target.content.value,
+            content,
             user: user.email,
             timestamp: serverTimestamp(),
         };
 
+        // Add the comment to the database
         await model.addComment(post.id, comment, post.author);
+
+        // Reset the form input
         event.target.content.value = '';
     };
 
     return (
-        <div>
-            <h2>Comments</h2>
+        <div className="post-details">
+            <h1 className="post-details__title">Comments</h1>
             {comments.length > 0 && (
-                <ul>
+                <ul className="post-details__list">
                     {comments.map((comment) => {
                         return (
-                            <li key={comment.id}>
-                                <p>{comment.comment.content}</p>
-                                <p>By: {comment.comment.user}</p>
-                            </li>
+                            <div key={comment.id} className="post-details__comment">
+                                <p className="post-details__comment-content">Comment: {comment.comment.content}</p>
+                                <p className="post-details__comment-user">By: {comment.comment.user}</p>
+                                <p className="post-details__comment-timestamp">
+                                    Created: {Timestamp.fromMillis(comment.comment.timestamp.seconds * 1000)
+                                    .toDate()
+                                    .toLocaleString()}
+                                </p>
+                            </div>
                         );
                     })}
                 </ul>
             )}
-            <h2>Add Comment</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
+            <h1 className="post-details__title">Add Comment</h1>
+            <form onSubmit={handleSubmit} className="post-details__form">
+                <label className="post-details__label">
                     Comment:
-                    <textarea name="content" />
+                    <textarea name="content" className="post-details__textarea" />
                 </label>
                 <br />
-                <button type="submit">Add Comment</button>
+                <button type="submit" className="post-details__button">Add Comment</button>
             </form>
         </div>
     );
