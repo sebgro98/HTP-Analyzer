@@ -471,6 +471,16 @@ button:hover {
 }
 
 /* ------------------------------------------- Display data --------------------------------- */
+
+.display-view {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 .cardLight {
   display:flex; 
   font-family: orbitron;
@@ -489,21 +499,23 @@ button:hover {
   text-align:center;
   width: 100%;
   justify-content: space-between;
-}
 
+}
 
 .column {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-basis: 100%;
+  margin-bottom: 2rem;
 }
 
 .box {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 2rem;
+  margin: 7rem;
 }
 
 .svg-icon {
@@ -513,6 +525,7 @@ button:hover {
 
 .measurement {
   font-size: 1.5rem;
+  margin-top: 1rem;
 }
 
 .parameter {
@@ -539,6 +552,7 @@ button:hover {
   font-size: 2rem;
   margin-left: 100px;
   font-family: orbitron;
+   
 }
 
 .header-icons {
@@ -549,7 +563,7 @@ button:hover {
 
 .main-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
   gap: 2rem;
   padding: 2rem;
@@ -564,8 +578,7 @@ button:hover {
 .display-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  
+  align-items: flex-start;
 }
 
 .dark-mode-switch {
@@ -577,15 +590,6 @@ button:hover {
   font-size: 3rem;
   font-family: orbitron;
   font-weight: 100;
-}
-
-
-.display-view {
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 /* ------------------------------------------- Max/Min button --------------------------------- */
