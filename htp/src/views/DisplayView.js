@@ -9,7 +9,6 @@ import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import { darkModeAtom } from "../views/MainPageView";
 import { useRecoilState } from "recoil";
-import moment from "moment";
 
 function DisplayView() {
   const [data, setData] = useState({
