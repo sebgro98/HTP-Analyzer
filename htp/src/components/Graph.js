@@ -18,8 +18,8 @@ const Graph = ({ data, type, darkMode }) => {
   useEffect(() => {
     if (data && data.length > 0) {
       const formattedData = data.map((d) => ({
-        //date: d.timestamp.toDate().toLocaleString(),
-        value: d[type],
+        date: d.Time.toDate().toLocaleString(),
+        value: d[type][0],
       }));
       setGraphData(formattedData);
     }
@@ -49,12 +49,33 @@ const Graph = ({ data, type, darkMode }) => {
         </div>
       );
     }
-  
+
     return null;
   };
-  
+
   return (
-    <Box>
+    <Box
+      sx={{
+        backgroundColor: darkMode ? "#1f1f1f" : "#fff",
+        padding: "20px",
+        borderRadius: "10px",
+        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+      }}
+    >
+      <h2 style={{ textAlign: "center", fontSize: "24px", margin: "0 0 20px" }}>
+        {type === "humidity"
+          ? "Humidity over Time"
+          : type === "temperature"
+          ? "Temperature over Time"
+          : "Pressure over Time"}
+      </h2>
+      <h3 style={{ textAlign: "center", fontSize: "18px", margin: "0 0 10px" }}>
+        {graphData.length > 0
+          ? `Data from ${graphData[0].date} to ${
+              graphData[graphData.length - 1].date
+            }`
+          : ""}
+      </h3>
       {graphData.length === 0 ? (
         <Box>
           <Skeleton variant="rectangular" height={400} />
@@ -62,7 +83,7 @@ const Graph = ({ data, type, darkMode }) => {
         </Box>
       ) : (
         <ComposedChart
-          width={500}
+          width={600}
           height={400}
           data={graphData}
           margin={{
@@ -72,12 +93,12 @@ const Graph = ({ data, type, darkMode }) => {
             left: 20,
           }}
         >
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid opacity={0.3} />
           <XAxis
-            // dataKey="date"
-            // label={{ dy: 10, fontSize: 14 }}
-            // padding={{ left: 20, right: 20 }}
-            // tick={{ fontSize: 12 }}
+            dataKey="date"
+            label={{ dy: 10, fontSize: 14 }}
+            padding={{ left: 20, right: 20 }}
+            tick={{ fontSize: 12 }}
           />
           <YAxis
             label={{
@@ -102,8 +123,8 @@ const Graph = ({ data, type, darkMode }) => {
             dot={false}
           />
           <text
-            x={260}
-            y={400}
+            x={300}
+            y={420}
             textAnchor="middle"
             fontSize={14}
             fontWeight="bold"
