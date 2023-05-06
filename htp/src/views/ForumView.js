@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import './Styled.css';
+import './StyledForumView.css';
 import AddPostForm from '../presenters/ForumAddPostPresenter';
 import PostDetails from '../presenters/AddCommentForumPresenter';
 import { Timestamp } from 'firebase/firestore';

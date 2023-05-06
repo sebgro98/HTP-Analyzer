@@ -156,7 +156,7 @@ class Model {
             console.log("commentsCollectionRef", commentsCollectionRef);
 
             const querySnapshot = await getDocs(
-                query(commentsCollectionRef, orderBy("comment.timestamp", "desc"))
+                query(commentsCollectionRef, orderBy("comment.timestamp", "asc"))
             );
             console.log("querySnapshot.empty", querySnapshot.empty);
 
@@ -199,7 +199,10 @@ class Model {
               const userPostsSnapshot = await getDocs(userPostsCollectionRef);
 
               const userPosts = userPostsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-              allPosts.push(...userPosts);
+
+              const orderedPosts = userPosts.sort((a, b) => b.timestamp - a.timestamp);
+
+              allPosts.push(...orderedPosts);
             }
 
             console.log(allPosts);
@@ -219,6 +222,8 @@ class Model {
       throw error;
     }
   }
+
+
 
 
   async addPost(title, content) {
