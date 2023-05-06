@@ -2,6 +2,7 @@ import React from "react";
 import MainPageView from "../views/MainPageView";
 import { RecoilRoot } from "recoil";
 
+
 const MainPage = ({ isLoggedIn, handleLogout }) => {
     return (
         <RecoilRoot>

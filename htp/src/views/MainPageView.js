@@ -33,7 +33,7 @@ const MainPageView = () => {
   return (
     <div className={`MainPageView ${theme}`}>
       <header className="header">
-      <h1 className="header-title"><div style={{ color: "#499BDA"}}>HTP-Analyzer</div><DateTimeView darkMode={darkMode} /></h1>
+      <h1 className="header-title"><div style={{ color: "#499BDA"}}>HTP-Analyzer</div><DateTimeView/></h1>
         <div className="header-icons">
           <NotificationPresenter/>
           <DarkModeSwitch

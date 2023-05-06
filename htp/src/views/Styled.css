@@ -16,6 +16,8 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
+
+
 /* -----------------------------------------------------------Login Style------------------------------------------------- */
 /* Container */
 .login-container {
@@ -212,116 +214,213 @@ body {
 }
 
 /* ----------------------------------------------------Profile style ---------------------------------------------------- */
+:root {
+  --primary-color:green;
+}
 
-/* Mobile devices (portrait) */
-@media only screen and (max-width: 480px) {
-  .profile-image {
-    width: 10em;
-    height: 10em;
+/* Add margin and padding to the page body to create some space */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Use flexbox to center the profile page vertically */
+.profil-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f7f7f7;
+}
+
+/* Use a box shadow to create a subtle border around the profile container */
+.profil-container {
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 20px;
+  width: 80%;
+  max-width: 800px;
+  position: relative;
+}
+
+/* Style the greeting at the top of the page */
+.profil-container .greeting {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Style the profile picture container */
+.profile-picture-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Style the profile picture */
+.profile-picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: #ddd;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Style the input fields for the user details */
+.details-container label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #555;
+  display: block;
+}
+
+.details-container input[type="text"] {
+  font-size: 1em;
+  padding: 0.8em 1em;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 1em;
+  color: #555;
+  background-color: #f7f7f7;
+  width: 100%;
+}
+
+.details-container input[type="text"]:focus {
+  outline: none;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.details-container input[type="file"] {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 1em;
+}
+
+.profile-view-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-view-form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.profile-view-input {
+  margin-bottom: 10px;
+}
+
+.profile-view-label {
+  margin-bottom: 5px;
+}
+
+.profile-view-image-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.profile-view-error {
+  color: red;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: var(--primary-color);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: darken(var(--primary-color), 10%);
+}
+
+.input-details input:focus {
+  outline: none;
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.input-details input::placeholder {
+  color: #999;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+}
+@media screen and (max-width: 768px) {
+  /* Adjust the padding on the profile container for smaller screens */
+  .profil-container {
+    padding: 10px;
   }
 
-  .upload-profile-button {
-    font-size: 0.8em;
-    padding: 0.5em 1em;
+  /* Reduce the font size of the greeting for smaller screens */
+  .profil-container .greeting {
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 10px;
   }
 
-  .details-container {
-    width: 80%;
+  /* Reduce the size of the profile picture for smaller screens */
+  .profile-picture {
+    width: 100px;
+    height: 100px;
   }
 
-  .input-details input {
-    font-size: 1em;
+  /* Adjust the layout of the profile view form for smaller screens */
+  .profile-view-form {
+    margin-bottom: 10px;
   }
 
-  .save-button {
-    font-size: 1em;
-    padding: 0.8em 1.5em;
+  /* Reduce the font size of the input labels for smaller screens */
+  .profile-view-label {
+    font-size: 14px;
+  }
+
+  /* Reduce the font size of the input fields for smaller screens */
+  .profile-view-input {
+    font-size: 14px;
   }
 }
 
-/* Tablet devices (landscape) */
-@media only screen and (min-width: 481px) and (max-width: 768px) {
-  .profile-image {
-    width: 12em;
-    height: 12em;
+@media screen and (max-width: 480px) {
+  /* Adjust the font size of the greeting for even smaller screens */
+  .profil-container .greeting {
+    font-size: 16px;
+    margin-top: 20px;
+    margin-bottom: 5px;
   }
 
-  .upload-profile-button {
-    font-size: 0.8em;
-    padding: 0.7em 1.5em;
+  /* Reduce the size of the profile picture for even smaller screens */
+  .profile-picture {
+    width: 80px;
+    height: 80px;
   }
 
-  .details-container {
-    width: 70%;
+  /* Reduce the font size of the input labels and fields for even smaller screens */
+  .profile-view-label {
+    font-size: 12px;
   }
 
-  .input-details input {
-    font-size: 1.2em;
-  }
-
-  .save-button {
-    font-size: 1.2em;
-    padding: 1em 2em;
+  .profile-view-input {
+    font-size: 12px;
   }
 }
 
-/* Small desktop devices */
-@media only screen and (min-width: 769px) and (max-width: 1024px) {
-  .profile-image {
-    width: 15em;
-    height: 15em;
-  }
-
-  .upload-profile-button {
-    font-size: 1em;
-    padding: 1em 2em;
-  }
-
-  .details-container {
-    width: 50%;
-  }
-
-  .input-details input {
-    font-size: 1.5em;
-  }
-
-  .save-button {
-    font-size: 1.5em;
-    padding: 1em 2em;
-  }
-}
-
-/* Large devices (laptops/desktops, 992px and up) */
-@media (min-width: 992px) {
-  .container {
-    max-width: 70%;
-  }
-
-  .input-details {
-    flex-direction: row;
-    margin-top: 5em;
-  }
-
-  .profile {
-    margin-right: 5em;
-  }
-
-  .details-container {
-    width: 50%;
-  }
-
-  .input-details input {
-    font-size: 1.4em;
-  }
-
-  .input-details label {
-    width: 40%;
-  }
-
-  .save-button {
-    font-size: 1.2em;
-  }
-}
 
 /* ------------------------------------------- DateTime --------------------------------- */
 
@@ -372,11 +471,24 @@ body {
 }
 
 /* ------------------------------------------- Display data --------------------------------- */
+
+.display-view {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
 .cardLight {
   display:flex; 
   font-family: orbitron;
   position: relative;
   font-weight: normal;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .cardDark {
@@ -384,6 +496,10 @@ body {
   font-family: orbitron;
   position: relative;
   font-weight: normal;
+  text-align:center;
+  width: 100%;
+  justify-content: space-between;
+
 }
 
 .column {
@@ -391,13 +507,15 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  flex-basis: 100%;
+  margin-bottom: 2rem;
 }
 
 .box {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 2rem;
+  margin: 7rem;
 }
 
 .svg-icon {
@@ -407,6 +525,7 @@ body {
 
 .measurement {
   font-size: 1.5rem;
+  margin-top: 1rem;
 }
 
 .parameter {
@@ -433,6 +552,7 @@ body {
   font-size: 2rem;
   margin-left: 100px;
   font-family: orbitron;
+   
 }
 
 .header-icons {
@@ -443,12 +563,13 @@ body {
 
 .main-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
   gap: 2rem;
   padding: 2rem;
   height: calc(100% - 5rem);
 }
+
 
 .datetime-container {
   grid-column: 1 / 2;
@@ -457,8 +578,7 @@ body {
 .display-container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  
+  align-items: flex-start;
 }
 
 .dark-mode-switch {
@@ -472,6 +592,7 @@ body {
   font-weight: 100;
 }
 
+/* ------------------------------------------- Max/Min button --------------------------------- */
 .noData {
   font-size: 2rem;
   font-family: orbitron;
@@ -513,5 +634,119 @@ body {
   color: #499BDA;
   border: #1a1a1a;
 }
+.forum-title {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-align: center
+}
 
+/* Search bar */
+.search-bar {
+  margin-bottom: 2rem;
+}
 
+.search-bar input {
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+
+/* Add post form container */
+.add-post-form-container1 {
+  margin-bottom: 2rem;
+}
+
+/* Post list */
+.post-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+/* Post container */
+.post-container {
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+/* Post title */
+.post-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+
+}
+
+/* Post details */
+.post-details {
+  margin-top: 1rem;
+}
+
+.post-details p {
+  margin: 0.5rem 0;
+}
+
+.add-post-form-container2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.add-post-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.add-post-form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.add-post-form input,
+.add-post-form textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.add-post-form button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.add-post-form button:hover {
+  background-color: #0069d9;
+}
+
+.add-post-toggle {
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 8px;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 16px;
+}
