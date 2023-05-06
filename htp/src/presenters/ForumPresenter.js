@@ -27,7 +27,7 @@ function Forum() {
 
         const intervalId = setInterval(() => {
             fetchPosts();
-        }, 100000);
+        }, 10000);
 
         return () => clearInterval(intervalId);
     }, []);
