@@ -1,16 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Orbitron");
 @import "rsuite/dist/rsuite.css";
 
-:root {
-  /* Add variables for commonly used values */
-  --color-blue: #0095ff;
-  --color-red: #ff3b3b;
-  --color-grey: #cccccc;
-  --color-white: #ffffff;
-  --color-bg: #f2f2f2;
-  --spacing-small: 10px;
-  --spacing-medium: 20px;
-}
 body {
   background-size: cover;
   background-repeat: no-repeat;
@@ -329,12 +319,6 @@ body {
   color: #1a1a1a;
 }
 
-.button {
-  position: absolute;
-  right: 50px;
-  top: 50px;
-}
-
 /* ------------------------------------------- Display data --------------------------------- */
 
 .display-view {
@@ -498,6 +482,17 @@ body {
 .test {
   color: #499BDA;
   border: #1a1a1a;
+}
+
+button {
+  background-color:#3e8e41 ;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 button {
