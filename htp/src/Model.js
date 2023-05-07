@@ -30,10 +30,10 @@ class Model {
         },
 
         WeatherData: {
-          Time: [],
           Hum: [],
           Temp: [],
           Pres: [],
+          Time: [],
         },
         CurrentIntervals: {
           TempMin: [],
