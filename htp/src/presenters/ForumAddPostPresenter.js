@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Model from '../Model';
-import'../views/Styled.css';
+import'../views/StyledAddPost.css';
 
 function AddPostForm() {
     const model = new Model();
@@ -11,7 +11,19 @@ function AddPostForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!title) {
+            alert("Please enter a title.");
+            return;
+        }
+
+        if (!content) {
+            alert("Please enter content.");
+            return;
+        }
+
         await model.addPost(title, content, author);
+
         setTitle('');
         setContent('');
         setAuthor('');
@@ -28,26 +40,28 @@ function AddPostForm() {
             </button>
             {isFormVisible && (
                 <form className="add-post-form" onSubmit={handleSubmit}>
-                    <label className="add-post-label">
+                    <label className="add-post-label add-post-label-wide">
                         Title:
-                        <input
-                            className="add-post-input"
+                        <textarea
+                            className="add-post-input add-post-input-wide"
                             type="text"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
                     </label>
                     <br />
-                    <label className="add-post-label">
+                    <label className="add-post-label add-post-label-wide">
                         Content:
                         <textarea
-                            className="add-post-input"
+                            className="add-post-input add-post-input-wide"
                             value={content}
                             onChange={(e) => setContent(e.target.value)}
                         />
                     </label>
                     <br />
-                    <button className="add-post-submit" type="submit">Add Post</button>
+                    <button className="add-post-submit" type="submit">
+                        Submit
+                    </button>
                 </form>
             )}
         </div>

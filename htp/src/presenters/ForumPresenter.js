@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Model from '../Model';
 import ForumView from '../views/ForumView';
+import {serverTimestamp} from "firebase/firestore";
 
 function Forum() {
     const model = new Model();
@@ -15,20 +16,9 @@ function Forum() {
             const allPosts = await model.getAllPosts();
             console.log("Fetched posts successfully:", allPosts);
             setPosts(allPosts);
-            setFilteredPosts(allPosts); // update filtered posts state
+            setFilteredPosts(allPosts);
         } catch (error) {
             console.error("Error fetching posts:", error);
-        }
-    }, [model]);
-
-    const handleAddComment = useCallback(async (postId, comment) => {
-        try {
-            const post = await model.getPostById(postId);
-            const updatedPosts = await model.addComment(postId, comment, post.author);
-            setPosts(updatedPosts);
-            console.log("helo")
-        } catch (error) {
-            console.error(error);
         }
     }, [model]);
 
@@ -43,6 +33,7 @@ function Forum() {
     }, []);
 
     const handleAddPost = async (title, content) => {
+        console.log("hello???")
         await model.addPost(title, content);
         fetchPosts();
     };
@@ -74,17 +65,26 @@ function Forum() {
         setFilteredPosts(filtered);
     };
 
+    const handleAddComment = async (postId, author, content) => {
+        const comment = {
+            content: content,
+            author: author,
+            timestamp: serverTimestamp(),
+        };
+        console.log('postId', postId)
+        await model.addComment(postId, comment);
+    };
+
     return (
         <ForumView
             searchQuery={searchQuery}
-            handleAddComment={handleAddComment}
             onSearchChange={handleSearchChange}
             handleAddPost={handleAddPost}
             filteredPosts={filteredPosts}
             selectedPost={selectedPost}
             handlePostClick={handlePostClick}
-        >
-        </ForumView>
+            handleAddComment ={handleAddComment }
+        />
     );
 }
 

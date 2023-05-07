@@ -4,6 +4,7 @@ import { RecoilRoot } from "recoil";
 import TemplateView from "../views/templateView";
 import Model from "../Model";
 
+
 const MainPage = ({ isLoggedIn, handleLogout }) => {
     const [showTemplates, setShowTemplates] = useState(false);
     const [templates, setTemplates] = useState([]);

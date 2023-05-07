@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { darkModeAtom } from '../views/MainPageView';
+import { useRecoilState } from 'recoil';
 
-export const DateTimeView = ({darkMode}) => {
+export const DateTimeView = () => {
+    const [darkMode] = useRecoilState(darkModeAtom);
+
     var [date, setDate] = useState(new Date());
 
     useEffect(() => {
