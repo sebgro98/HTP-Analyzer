@@ -1,16 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Orbitron");
 @import "rsuite/dist/rsuite.css";
 
-:root {
-  /* Add variables for commonly used values */
-  --color-blue: #0095ff;
-  --color-red: #ff3b3b;
-  --color-grey: #cccccc;
-  --color-white: #ffffff;
-  --color-bg: #f2f2f2;
-  --spacing-small: 10px;
-  --spacing-medium: 20px;
-}
 body {
   background-size: cover;
   background-repeat: no-repeat;
@@ -135,95 +125,7 @@ body {
   background-color: #e60000;
 }
 
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.input-details {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 3em;
-}
-
-.profile {
-  position: relative;
-}
-
-.profile-image {
-  width: 20em;
-  height: 20em;
-  border-radius: 50%;
-  background-image: url("");
-  background-size: cover;
-  box-shadow: 0px 0px 1.5em rgba(0, 0, 0, 0.3);
-  margin-bottom: 3vh;
-}
-
-.upload-profile-button {
-  position: absolute;
-  bottom: -2vh;
-  right: 50%;
-  transform: translateX(50%);
-  background-color: #0077b5;
-  color: white;
-  padding: 1em 2em;
-  font-size: 1em;
-  line-height: 1em;
-  border-radius: 2em;
-  border: none;
-}
-
-.input-details input {
-  width: 100%;
-  padding: 1em;
-  margin-bottom: 2vh;
-  border: none;
-  border-bottom: 0.2em solid gray;
-  font-size: 1.2em;
-}
-
-.input-details label {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 2vh;
-}
-
-.input-details label span {
-  font-size: 0.8em;
-  margin-bottom: 0.5vh;
-}
-
-.save-button {
-  background-color: #0077b5;
-  color: white;
-  border-radius: 2em;
-  border: none;
-  padding: 1em 2em;
-  display: block;
-  margin: 0 auto;
-}
-
-.details-container {
-  margin-top: 3em;
-}
-
 /* ----------------------------------------------------Profile style ---------------------------------------------------- */
-:root {
-  --primary-color:green;
-}
-
-/* Add margin and padding to the page body to create some space */
-body {
-  margin: 0;
-  padding: 0;
-}
-
 /* Use flexbox to center the profile page vertically */
 .profil-page {
   display: flex;
@@ -251,25 +153,6 @@ body {
   margin-top: 50px;
   margin-bottom: 20px;
   text-align: center;
-}
-
-/* Style the profile picture container */
-.profile-picture-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-/* Style the profile picture */
-.profile-picture {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  background-color: #ddd;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 /* Style the input fields for the user details */
@@ -334,21 +217,6 @@ body {
   margin-bottom: 10px;
 }
 
-button {
-  background-color: var(--primary-color);
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 10px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-button:hover {
-  background-color: darken(var(--primary-color), 10%);
-}
-
 .input-details input:focus {
   outline: none;
   border-bottom: 2px solid var(--primary-color);
@@ -375,12 +243,6 @@ button:hover {
     margin-bottom: 10px;
   }
 
-  /* Reduce the size of the profile picture for smaller screens */
-  .profile-picture {
-    width: 100px;
-    height: 100px;
-  }
-
   /* Adjust the layout of the profile view form for smaller screens */
   .profile-view-form {
     margin-bottom: 10px;
@@ -405,12 +267,6 @@ button:hover {
     margin-bottom: 5px;
   }
 
-  /* Reduce the size of the profile picture for even smaller screens */
-  .profile-picture {
-    width: 80px;
-    height: 80px;
-  }
-
   /* Reduce the font size of the input labels and fields for even smaller screens */
   .profile-view-label {
     font-size: 12px;
@@ -420,7 +276,6 @@ button:hover {
     font-size: 12px;
   }
 }
-
 
 /* ------------------------------------------- DateTime --------------------------------- */
 
@@ -462,12 +317,6 @@ button:hover {
 .light {
   background-color: #ffffff;
   color: #1a1a1a;
-}
-
-.button {
-  position: absolute;
-  right: 50px;
-  top: 50px;
 }
 
 /* ------------------------------------------- Display data --------------------------------- */
@@ -749,4 +598,15 @@ button:hover {
   text-align: center;
   width: 100%;
   margin-bottom: 16px;
+}
+
+button {
+  background-color:#3e8e41 ;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
 }
