@@ -1,7 +1,7 @@
 import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,  setPersistence,
   browserLocalPersistence, onAuthStateChanged} from "firebase/auth";
 import {db} from "./firebaseModel";
-import {collection, doc, getDoc, getDocs, setDoc, serverTimestamp, addDoc,} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, serverTimestamp, addDoc, orderBy, query} from "firebase/firestore";
 
 class Model {
   constructor() {
@@ -67,9 +67,8 @@ class Model {
 
   async addComment(postId, comment, author) {
     try {
-      author = "hej"
       const auth = getAuth();
-      const user = auth.currentUser;
+      const user = auth.currentUser.email;
       console.log('postId model:', postId);
       console.log('comment:', comment)
       console.log('author:', author)
@@ -78,7 +77,7 @@ class Model {
         throw new Error('User not authenticated');
       }
 
-      const postRef = doc(db, 'Posts', user.email, 'user_posts', postId);
+      const postRef = doc(db, 'Posts', author, 'user_posts', postId);
       const postDoc = await getDoc(postRef);
 
       if (!postDoc.exists()) {
@@ -97,7 +96,7 @@ class Model {
       throw error;
     }
   }
-  async getPostById(postId) {
+  /*async getPostById(postId) {
     try {
       const auth = getAuth();
       const user = auth.currentUser;
@@ -110,7 +109,7 @@ class Model {
         return {
           id: postDoc.id,
           ...postData,
-          author: user.email // add the author to the returned post data
+          author: user.email //
         };
       } else {
         throw new Error('Post not found');
@@ -119,7 +118,7 @@ class Model {
       console.error(error);
       throw error;
     }
-  }
+  }*/
 
   /*async getPostsForUser(email) {
     const auth = getAuth();
@@ -144,6 +143,46 @@ class Model {
     });
   }*/
 
+
+  async getAllComments(postId, author) {
+    try {
+      const auth = getAuth();
+      return new Promise((resolve, reject) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+          if (user) {
+            const postRef = doc(db, "Posts", author, "user_posts", postId);
+            const commentsCollectionRef = collection(postRef, "comments");
+            console.log("commentsCollectionRef", commentsCollectionRef);
+
+            const querySnapshot = await getDocs(
+                query(commentsCollectionRef, orderBy("comment.timestamp", "asc"))
+            );
+            console.log("querySnapshot.empty", querySnapshot.empty);
+
+            const allComments = querySnapshot.docs.map((doc) => ({
+              id: doc.id,
+              ...doc.data(),
+            }));
+            console.log("allComments", allComments);
+
+            resolve(allComments);
+          } else {
+            console.log("No user found");
+            resolve([]);
+          }
+          unsubscribe();
+        }, (error) => {
+          console.error(error);
+          reject(error);
+        });
+      });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+
+
   async getAllPosts() {
     try {
       const auth = getAuth();
@@ -159,7 +198,10 @@ class Model {
               const userPostsSnapshot = await getDocs(userPostsCollectionRef);
 
               const userPosts = userPostsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-              allPosts.push(...userPosts);
+
+              const orderedPosts = userPosts.sort((a, b) => b.timestamp - a.timestamp);
+
+              allPosts.push(...orderedPosts);
             }
 
             console.log(allPosts);
@@ -179,6 +221,8 @@ class Model {
       throw error;
     }
   }
+
+
 
 
   async addPost(title, content) {

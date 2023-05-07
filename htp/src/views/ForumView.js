@@ -1,33 +1,50 @@
-import React, { useState } from 'react';
-import './Styled.css';
+import React, {useEffect, useState} from 'react';
+import './StyledForumView.css';
 import AddPostForm from '../presenters/ForumAddPostPresenter';
-import AddCommentForm from '../presenters/AddCommentForumPresenter';
+import PostDetails from '../presenters/AddCommentForumPresenter';
 import { Timestamp } from 'firebase/firestore';
 
-function PostTitle({ title, onPostClick, postId, handleCommentFormSubmit,  }) {
-    const [selectedPost, setSelectedPost] = useState(null);
+
+
+
+function PostTitle({ title, post, handleCommentFormSubmit }) {
+    const [selected, setSelected] = useState(false);
+
+    const handleClick = () => {
+        setSelected(prevSelected => !prevSelected);
+    };
 
     return (
-        <div>
+        <div className="post-title-container">
             <h2
-                onClick={onPostClick}
-                style={{ cursor: "pointer", textDecoration: "underline" }}
-                onMouseOver={(e) => (e.target.style.color = "#007bff")}
-                onMouseLeave={(e) => (e.target.style.color = "#000000")}
+                onClick={handleClick}
+                className="post-title"
             >
                 {title}
             </h2>
-            <button onClick={() => setSelectedPost(postId)} disabled={!postId}>
-                Comment
-            </button>
-            {selectedPost === postId && (
+            {selected && (
                 <div>
-                    <AddCommentForm postId={postId} onSubmit={handleCommentFormSubmit} />
+                    <p className="post-content"><strong>Content:</strong> {post.content}</p>
+                    <p className="post-details"><strong>Author:</strong> {post.author}</p>
+                    {post.timestamp ? (
+                        <p className="post-details">
+                            {Timestamp.fromMillis(post.timestamp.seconds * 1000)
+                                .toDate()
+                                .toLocaleString()}
+                        </p>
+                    ) : (
+                        <p className="post-details">No timestamp available</p>
+                    )}
+                    <PostDetails post={post} onSubmit={handleCommentFormSubmit} />
                 </div>
             )}
         </div>
     );
 }
+
+
+
+
 
 function ForumView({
                        searchQuery,
@@ -38,15 +55,13 @@ function ForumView({
                        handlePostClick,
                    }) {
     const [showCommentForm, setShowCommentForm] = useState(false);
-    const [postId, setPostId] = useState(null);
-    const [selectedPost, setSelectedPost] = useState(null);
 
     if (filteredPosts === null || filteredPosts === undefined) {
         return <p>Loading...</p>;
     }
 
-    const handleCommentFormSubmit = async (comment) => {
-        await handleAddComment(selectedPost.id, comment);
+    const handleCommentFormSubmit = async (post, comment) => {
+        await handleAddComment(post, comment);
         setShowCommentForm(false);
     };
 
@@ -71,41 +86,14 @@ function ForumView({
                     <div className="post-container" key={post.id}>
                         <PostTitle
                             title={post.title}
+                            post={post}
                             onPostClick={() => handlePostClick(post)}
-                            onCommentClick={() => {
-                                setSelectedPost(post);
-                                setPostId(post.id);
-                                setShowCommentForm(true);
-                            }}
-                            postId={post.id}
+                            handleCommentFormSubmit={handleCommentFormSubmit}
                         />
-                        {post.showDetails && (
-                            <div className="post-details">
-                                <p><strong>Content:</strong> {post.content}</p>
-                                <p><strong>Author:</strong> {post.author}</p>
-                                {post.timestamp ? (
-                                    <p>
-                                        {Timestamp.fromMillis(post.timestamp.seconds * 1000)
-                                            .toDate()
-                                            .toLocaleString()}
-                                    </p>
-                                ) : (
-                                    <p>No timestamp available</p>
-                                )}
-                            </div>
-                        )}
+
                     </div>
                 ))}
             </div>
-            {showCommentForm && (
-                <div className="add-comment-form-container1">
-                    <AddCommentForm
-                        postId={postId}
-                        selectedPost={selectedPost}
-                        onSubmit={handleCommentFormSubmit}
-                    />
-                </div>
-            )}
         </div>
     );
 }
