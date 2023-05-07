@@ -1,102 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import MaxMinPresenter from "../presenters/MaxMinPresenter";
 import Graph from "../components/Graph";
 import "./Styled.css";
-import { db } from "../firebaseModel";
-import { collection, onSnapshot } from "firebase/firestore";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import { darkModeAtom } from "../views/MainPageView";
 import { useRecoilState } from "recoil";
+import { darkModeAtom } from "../views/MainPageView";
 
-function DisplayView() {
-  const [data, setData] = useState({
-    WeatherData: {},
-    CurrentIntervals: {},
-    Outlets: {},
-  });
-
+function DisplayView({ data, formatGraphData }) {
   const [darkMode] = useRecoilState(darkModeAtom);
-
   const { WeatherData, CurrentIntervals, Outlets } = data || {};
 
-  const formatGraphData = (data, type) => {
-    if (!data || Object.keys(data).length === 0) {
-      return [];
-    }
-    const groupedData = [];
-  
-    data.forEach((item) => {
-      if (!item.Time) {
-        return;
-      }
-  
-      const date = item.Time.toDate();
-      const formattedDate = `${
-        date.getMonth() + 1
-      }, ${date.getDate()}, ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-  
-      const value = Number(item[type][0]); 
-  
-      groupedData.push({
-        date: formattedDate,
-        value,
-      });
-    });
-  
-    return groupedData;
-  };
-  
-  useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "Data"), (querySnapshot) => {
-      const data = [];
-      querySnapshot.forEach((doc) => {
-        data.push(doc.data());
-      });
-      console.log("Checking data fetched from firestore");
-      console.log("Data from Firebase:", data);
-      console.log("End checking data fetched from firestore");
-      console.log("New log statement");
-      setData(data[0]);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (WeatherData) {
-      console.log("================");
-      console.log("WeatherData:", WeatherData);
-      console.log("Type: humidity");
-      console.log(
-        "Formatted data:",
-        formatGraphData(WeatherData.Hum, "humidity")
-      );
-      console.log("Type: temperature");
-      console.log(
-        "Formatted data:",
-        formatGraphData(WeatherData.Temp, "temperature")
-      );
-      console.log("Type: pressure");
-      console.log(
-        "Formatted data:",
-        formatGraphData(WeatherData.Pres, "pressure")
-      );
-
-      console.log("================");
-    }
-  }, [WeatherData]);
-
   if (
-    !WeatherData ||
-    !WeatherData.Hum ||
-    !WeatherData.Temp ||
-    !WeatherData.Pres
+    !WeatherData?.Hum ||
+    !WeatherData?.Temp ||
+    !WeatherData?.Pres
   ) {
-    return <p>Loading data...</p>;
+    return (
+      <div className="loading">
+        <img src="http://www.ppimusic.ie/images/loading_anim.gif" alt="Loading data..." />
+      </div>
+    );
   }
-
+ 
   return (
     <div className="display-view">
       <div className={`card${darkMode ? "Dark" : "Light"}`}>
@@ -119,8 +46,8 @@ function DisplayView() {
             />
             {Array.isArray(WeatherData.Hum) && WeatherData.Hum.length > 0 && (
               <Graph
-                data={formatGraphData(WeatherData.Hum)}
-                type="humidity"
+                data={formatGraphData(WeatherData, "Hum")}
+                type="Hum"
                 darkMode={darkMode}
               />
             )}
@@ -146,8 +73,8 @@ function DisplayView() {
             />
             {Array.isArray(WeatherData.Temp) && WeatherData.Temp.length > 0 && (
               <Graph
-                data={formatGraphData(WeatherData.Temp)}
-                type="temperature"
+                data={formatGraphData(WeatherData, "Temp")}
+                type="Temp"
                 darkMode={darkMode}
               />
             )}
@@ -173,8 +100,8 @@ function DisplayView() {
             />
             {Array.isArray(WeatherData.Pres) && WeatherData.Pres.length > 0 && (
               <Graph
-                data={formatGraphData(WeatherData.Pres)}
-                type="pressure"
+                data={formatGraphData(WeatherData, "Pres")}
+                type="Pres"
                 darkMode={darkMode}
               />
             )}
