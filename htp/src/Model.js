@@ -1,7 +1,7 @@
 import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,  setPersistence,
   browserLocalPersistence, onAuthStateChanged} from "firebase/auth";
 import {db} from "./firebaseModel";
-import {collection, doc, getDoc, getDocs, setDoc, serverTimestamp, addDoc, orderBy, query} from "firebase/firestore";
+import {collection, doc, getDoc, getDocs, setDoc, serverTimestamp, addDoc, updateDoc, orderBy, query} from "firebase/firestore";
 
 class Model {
   constructor() {
@@ -19,16 +19,10 @@ class Model {
           password
       );
       await setDoc(doc(db, "Data", email), {
-        Template: {
-          Name: [],
-          TempMin: [],
-          TempMax: [],
-          HumMin: [],
-          HumMax: [],
-          PresMin: [],
-          PresMax: [],
-        },
+        CurrentTemplate: null,
 
+        Templates: {
+        },
         WeatherData: {
           Hum: [],
           Temp: [],
@@ -223,8 +217,6 @@ class Model {
   }
 
 
-
-
   async addPost(title, content) {
     const auth = getAuth();
     const user = auth.currentUser;
@@ -248,9 +240,6 @@ class Model {
       timestamp: serverTimestamp()
     });
   }
-
-
-
 
   async getUser() {
     return new Promise((resolve, reject) => {
@@ -302,7 +291,7 @@ class Model {
     }
   }
 
-  async getTemplateList() {
+  async getGeneralTemplateList() {
     let template = [];
     await getDocs(collection(db, "Templates")).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
@@ -312,6 +301,32 @@ class Model {
     });
   }
 
+  async setCurrentTemplate(template) {
+    if (!template.id || !template.HumidityMin || !template.HumidityMax || !template.TempMin || !template.TempMax || !template.PressureMin || !template.PressureMax) return;
+    const user = await this.getUser();
+    const docRef = doc(db, "Data", user.email);
+    updateDoc(docRef, {
+      CurrentTemplate: template.id,
+      CurrentIntervals: {
+        TempMin: [template.TempMin],
+        TempMax: [template.TempMax],
+        HumMin: [template.HumidityMin],
+        HumMax: [template.HumidityMax],
+        PresMin: [template.PressureMin],
+        PresMax: [template.PressureMax],
+      }
+    });
+  }
+
+  async createTemplate(data) {
+    const user = await this.getUser();
+    const getTemplates = doc(db, "Data", user.email);
+    console.log("yo");
+    await getDocs(collection(db, "Data", user.email)).then((snapshot) => {
+      console.log(snapshot);
+    });
+
+  }
 }
 
 export default Model;

@@ -23,7 +23,7 @@ function DisplayView({ data, formatGraphData }) {
       </div>
     );
   }
- 
+
   return (
     <div className="display-view">
       <div className={`card${darkMode ? "Dark" : "Light"}`}>

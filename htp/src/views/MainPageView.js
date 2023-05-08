@@ -4,6 +4,7 @@ import { DarkModeSwitch } from "react-toggle-dark-mode";
 import DisplayPresenter from "../presenters/DisplayPresenter";
 import { FaBell } from "react-icons/fa";
 import "./Styled.css";
+import temicon from "./images/template-icon.svg"
 import NotificationPresenter from "../presenters/NotificationPresenter";
 
 import { atom, useRecoilState} from "recoil";
@@ -13,7 +14,7 @@ export const darkModeAtom = atom({
   default: false
 })
 
-const MainPageView = () => {
+const MainPageView = ({onTemplateClick}) => {
   const [darkMode, setDarkMode] = useRecoilState(darkModeAtom);
 
   const [theme, setTheme] = useState("light");
@@ -35,6 +36,10 @@ const MainPageView = () => {
       <header className="header">
       <h1 className="header-title"><div style={{ color: "#499BDA"}}>HTP-Analyzer</div><DateTimeView/></h1>
         <div className="header-icons">
+          <div onClick={onTemplateClick} className="template-icon">
+            <img src={temicon} width="40"/>
+            <h2>Templates</h2>
+          </div>
           <NotificationPresenter/>
           <DarkModeSwitch
             checked={darkMode}
