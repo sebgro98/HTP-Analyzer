@@ -7,7 +7,8 @@ class Model {
   constructor() {
     this.currentUserUID = undefined;
     this.correctLogInInfo = undefined;
-    this.templates = {};
+    this.defaultTemplates = {};
+    this.userTemplates = {};
     this.currentLoggedInUser = undefined;
   }
 
@@ -291,22 +292,30 @@ class Model {
     }
   }
 
-  async getGeneralTemplateList() {
+  async getDefaultTemplateList() {
     let template = [];
     await getDocs(collection(db, "Templates")).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
-        template.push({ ...doc.data(), id: doc.id });
+        template.push({ ...doc.data(), templateName: doc.id });
       });
-      this.templates = template;
+      this.defaultTemplates = template;
     });
   }
 
+  async getUserTemplateList() {
+    const user = await this.getUser();
+    const docRef = doc(db, "Data", user.email);
+    const snapshot = await getDoc(docRef);
+    const docData = snapshot.data();
+    this.userTemplates = docData.Templates;
+  }
+
   async setCurrentTemplate(template) {
-    if (!template.id || !template.HumidityMin || !template.HumidityMax || !template.TempMin || !template.TempMax || !template.PressureMin || !template.PressureMax) return;
+    if (!template.templateName || !template.HumidityMin || !template.HumidityMax || !template.TempMin || !template.TempMax || !template.PressureMin || !template.PressureMax) return;
     const user = await this.getUser();
     const docRef = doc(db, "Data", user.email);
     updateDoc(docRef, {
-      CurrentTemplate: template.id,
+      CurrentTemplate: template.templateName,
       CurrentIntervals: {
         TempMin: [template.TempMin],
         TempMax: [template.TempMax],
@@ -319,12 +328,39 @@ class Model {
   }
 
   async createTemplate(data) {
+    let returnFalse = false;
+    await this.getDefaultTemplateList();
+    this.defaultTemplates.map((defaultTemplate) => {
+      if (defaultTemplate.templateName === data.templateName) {
+        alert("Cannot choose the same name as a default template, choose another one.");
+        returnFalse = true;
+      }
+    })
+
+    if (returnFalse) return false;
+
+    await this.getUserTemplateList();
+    Object.keys(this.userTemplates).forEach((userTemplate) => {
+      if (userTemplate === data.templateName) {
+        alert("Template name taken, choose another one.");
+        returnFalse = true;
+      }
+    })
+
+    if (returnFalse) return false;
+
+    if (data.HumidityMin > data.HumidityMax || data.TempMin > data.TempMax || data.PressureMin > data.PressureMax) {
+      alert("Min is higher than max, please change your values.");
+      return false;
+    }
+
+    this.userTemplates[data.templateName] = data;
     const user = await this.getUser();
-    const getTemplates = doc(db, "Data", user.email);
-    console.log("yo");
-    await getDocs(collection(db, "Data", user.email)).then((snapshot) => {
-      console.log(snapshot);
-    });
+    const docRef = doc(db, "Data", user.email);
+    updateDoc(docRef, {
+      Templates: this.userTemplates
+    })
+    return true;
 
   }
 }

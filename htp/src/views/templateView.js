@@ -3,21 +3,12 @@ import "./Styled.css";
 import closetab from "./images/close-tab.svg";
 import temicon from "./images/template-icon.svg"
 
-const TemplateView = ({onTemplateButtonClick, onTemplateClick, defaultTemplates, onSubmitClickButton}) => {
-    const [createTemplate, setCreateTemplate] = useState(false);
-
-    function onCreateTemplateButtonClick() {
-        setCreateTemplate(true);
-    }
-
-    function onCloseCreateTemplateButtonClick() {
-        setCreateTemplate(false);
-    }
+const TemplateView = ({onTemplateButtonClick, onTemplateClick, defaultTemplates, onSubmitClickButton, onCreateTemplateButtonClick, createTemplateViewer, userTemplates}) => {
 
     return (
         <div className="template-root">
             <div className="template-background"></div>
-            {!createTemplate && <div className="template-main">
+            {!createTemplateViewer && <div className="template-main">
                     <div className="close-tab">
                         <img src={closetab} onClick={onTemplateButtonClick}/>
                     </div>
@@ -32,14 +23,24 @@ const TemplateView = ({onTemplateButtonClick, onTemplateClick, defaultTemplates,
                             <h2>Create Template</h2>
                             <h6>+</h6>
                         </div>
-
+                        {Object.keys(userTemplates).length !== 0 && Object.entries(userTemplates).map(([key, template]) => (
+                            <div className="template-item" key={key} onClick={() => onTemplateClick(template)}>
+                                <h2>{template.templateName}</h2>
+                                <h3>Humidity</h3>
+                                <h4>Min: {template.HumidityMin} Max: {template.HumidityMax}</h4>
+                                <h3>Temperature</h3>
+                                <h4>Min: {template.TempMin} Max: {template.TempMax}</h4>
+                                <h3>Pressure</h3>
+                                <h4>Min: {template.PressureMin} Max: {template.PressureMax}</h4>
+                            </div>
+                        ))}
                     </div>
                     <hr/>
                     <h5>Default Templates</h5>
                     <div className="template-section">
                        {Object.keys(defaultTemplates).length !== 0 && defaultTemplates.map((template, index) => (
                             <div className="template-item" key={index} onClick={() => onTemplateClick(template)}>
-                                <h2>{template.id}</h2>
+                                <h2>{template.templateName}</h2>
                                 <h3>Humidity</h3>
                                 <h4>Min: {template.HumidityMin} Max: {template.HumidityMax}</h4>
                                 <h3>Temperature</h3>
@@ -51,9 +52,9 @@ const TemplateView = ({onTemplateButtonClick, onTemplateClick, defaultTemplates,
                     </div>
                 </div>
             }
-            {createTemplate && <div className="template-create">
+            {createTemplateViewer && <div className="template-create">
                 <div className="close-tab">
-                    <img src={closetab} onClick={onCloseCreateTemplateButtonClick}/>
+                    <img src={closetab} onClick={onCreateTemplateButtonClick}/>
                 </div>
                 <h2>Create Template</h2>
                 <form onSubmit={onSubmitClickButton}>
