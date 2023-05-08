@@ -1,31 +1,15 @@
-import { useState, useEffect } from "react";
-import Model from "../Model";
-import { db } from '../firebaseModel';
-import { doc, onSnapshot } from "firebase/firestore";
 import { StyledEngineProvider } from "@mui/material/styles";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/ReactToastify.min.css";
 import NotificationView from "../views/NotificationView";import Stack from '@mui/material/Stack';
-import CircularProgress from '@mui/material/CircularProgress';
 import Spinner from 'react-bootstrap/Spinner';
+import { dataAtom } from "./DisplayPresenter";
+import { useRecoilState } from 'recoil';
 
 const types = ["success", "info", "warning", "error"];
 
 function NotificationPresenter() {
-  // data fields from firebase
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-      async function fetchData() {
-          const model = new Model();
-          const user = await model.getUser();
-          const docRef = doc(db, "Data", user.email);
-          onSnapshot(docRef, (doc) => {
-              setData(doc.data());
-          })
-      }
-      fetchData();
-  }, []);
+    const [data] = useRecoilState(dataAtom);
 
   return (
     <div className="DisplayPresenter">

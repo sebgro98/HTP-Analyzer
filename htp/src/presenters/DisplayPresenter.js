@@ -4,8 +4,16 @@ import DisplayView from '../views/DisplayView';
 import { db } from '../firebaseModel';
 import { doc, onSnapshot } from "firebase/firestore";
 
+import { atom, useRecoilState} from "recoil";
+
+export const dataAtom = atom({
+    key: "data",
+    default: null
+  })
+
+
 function DisplayPresenter() {
-    const [data, setData] = useState(null);
+    const [data, setData] = useRecoilState(dataAtom);
     useEffect(() => {
         async function fetchData() {
             const model = new Model();
@@ -23,7 +31,7 @@ function DisplayPresenter() {
     return (
         <div className="DisplayPresenter">
             {data ? (
-                <DisplayView data={data} />
+                <DisplayView/>
             ) : (
                 <p className='noData'>You need to sign in/register to see your data</p>
             )}
