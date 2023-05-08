@@ -24,10 +24,10 @@ class Model {
         Templates: {
         },
         WeatherData: {
-          Time: [],
           Hum: [],
           Temp: [],
           Pres: [],
+          Time: [],
         },
         CurrentIntervals: {
           TempMin: [],

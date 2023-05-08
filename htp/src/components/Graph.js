@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import {
   ComposedChart,
   Line,
@@ -8,50 +8,39 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import { Box, Skeleton } from "@mui/material";
+import { Box } from "@mui/material";
 import { scaleOrdinal } from "d3-scale";
 import { schemeSet2 } from "d3-scale-chromatic";
+import { CustomTooltip, formatXAxis } from "./CustomTooltip";
 
 const Graph = ({ data, type, darkMode }) => {
-  const [graphData, setGraphData] = useState([]);
+  console.log("Checking:");
+  console.log("Graph Data:", data);
+  console.log("Done Checking:");
 
-  useEffect(() => {
-    if (data && data.length > 0) {
-      const formattedData = data.map((d) => ({
-        date: d.Time.toDate().toLocaleString(),
-        value: d[type][0],
-      }));
-      setGraphData(formattedData);
-    }
-  }, [data, type]);
+  let yAxisLabel;
+  let xAxisLabel;
 
-  const yAxisLabel =
-    type === "humidity"
-      ? "Humidity (%)"
-      : type === "temperature"
-      ? "Temperature (°C)"
-      : "Pressure (hPa)";
-  const xAxisLabel =
-    type === "humidity"
-      ? "Time (minutes)"
-      : type === "temperature"
-      ? "Time (hours)"
-      : "Time (days)";
-
+  if (type === "Hum") {
+    yAxisLabel = "Humidity (%)";
+    xAxisLabel = "Time (hours)";
+  } else if (type === "Temp") {
+    yAxisLabel = "Temperature (°C)";
+    xAxisLabel = "Time (hours)";
+  } else {
+    yAxisLabel = "Pressure (hPa)";
+    xAxisLabel = "Time (hours)";
+  }
   const colorScale = scaleOrdinal().range(schemeSet2);
 
-  const CustomTooltip = ({ active, payload }) => {
-    if (active && payload && payload.length) {
-      const data = payload[0].payload;
-      return (
-        <div className="custom-tooltip">
-          <p className="value">{`${data.value} ${yAxisLabel}`}</p>
-        </div>
-      );
-    }
-
-    return null;
-  };
+  let graphTitle;
+  if (type === "Hum") {
+    graphTitle = "Humidity over Time";
+  } else if (type === "Temp") {
+    graphTitle = "Temperature over Time";
+  } else {
+    graphTitle = "Pressure over Time";
+  }
 
   return (
     <Box
@@ -62,30 +51,37 @@ const Graph = ({ data, type, darkMode }) => {
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
       }}
     >
-      <h2 style={{ textAlign: "center", fontSize: "24px", margin: "0 0 20px" }}>
-        {type === "humidity"
-          ? "Humidity over Time"
-          : type === "temperature"
-          ? "Temperature over Time"
-          : "Pressure over Time"}
+      <h2 style={{ textAlign: "center", fontSize: "20px", margin: "0 0 20px" }}>
+        {graphTitle}
       </h2>
       <h3 style={{ textAlign: "center", fontSize: "18px", margin: "0 0 10px" }}>
-        {graphData.length > 0
-          ? `Data from ${graphData[0].date} to ${
-              graphData[graphData.length - 1].date
-            }`
+        {data.length > 0
+          ? `${data[0].date.toDateString()} ${data[0].date.getHours()}:00 to ${data[
+              data.length - 1
+            ].date.toDateString()} ${data[data.length - 1].date.getHours()}:00`
           : ""}
       </h3>
-      {graphData.length === 0 ? (
-        <Box>
-          <Skeleton variant="rectangular" height={400} />
-          <Skeleton variant="text" height={50} />
+
+      {!data.length ? (
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: 400,
+          }}
+        >
+          <img
+            src="http://www.ppimusic.ie/images/loading_anim.gif"
+            alt="Loading data..."
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
+          />
         </Box>
       ) : (
         <ComposedChart
           width={600}
           height={400}
-          data={graphData}
+          data={data}
           margin={{
             top: 20,
             right: 20,
@@ -99,6 +95,7 @@ const Graph = ({ data, type, darkMode }) => {
             label={{ dy: 10, fontSize: 14 }}
             padding={{ left: 20, right: 20 }}
             tick={{ fontSize: 12 }}
+            tickFormatter={formatXAxis}
           />
           <YAxis
             label={{
@@ -111,16 +108,16 @@ const Graph = ({ data, type, darkMode }) => {
             domain={["auto", "auto"]}
             tick={{ fontSize: 12 }}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip yAxisLabel={yAxisLabel} />} />
           <Legend fontSize={14} />
           <Line
             type="monotone"
             connectNulls
-            data={graphData}
+            data={data}
             name={type}
             dataKey="value"
             stroke={colorScale(0)}
-            dot={false}
+            dot={true}
           />
           <text
             x={300}

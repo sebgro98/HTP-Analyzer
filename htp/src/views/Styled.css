@@ -329,27 +329,22 @@ body {
   color: #1a1a1a;
 }
 
-.button {
-  position: absolute;
-  right: 50px;
-  top: 50px;
-}
-
 /* ------------------------------------------- Display data --------------------------------- */
 
 .display-view {
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  overflow: auto;
 }
+
 .cardLight {
-  display:flex;
+  /* Removed position: relative */
+  display: flex;
   font-family: orbitron;
-  position: relative;
   font-weight: normal;
   align-items: center;
   width: 100%;
@@ -357,14 +352,13 @@ body {
 }
 
 .cardDark {
+  /* Removed position: relative */
   display: flex;
   font-family: orbitron;
-  position: relative;
   font-weight: normal;
-  text-align:center;
+  text-align: center;
   width: 100%;
   justify-content: space-between;
-
 }
 
 .column {
@@ -380,7 +374,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 7rem;
+  margin: 6rem;
 }
 
 .svg-icon {
@@ -397,7 +391,6 @@ body {
   font-size: 1.5rem;
 }
 
-
 .MainPageView {
   height: 100vh;
   display: grid;
@@ -411,13 +404,13 @@ body {
   align-items: center;
   background-color: auto;
   color: #1a1a1b;
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 .header-title {
   font-size: 2rem;
-  margin-left: 100px;
   font-family: orbitron;
+  margin-left: 7rem;
 }
 
 .header-icons {
@@ -432,7 +425,7 @@ body {
   grid-template-rows: auto 1fr;
   gap: 2rem;
   padding: 2rem;
-  height: calc(100% - 5rem);
+  height: 100vh;
 }
 
 .datetime-container {
@@ -497,6 +490,17 @@ body {
 .test {
   color: #499BDA;
   border: #1a1a1a;
+}
+
+button {
+  background-color:#3e8e41 ;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
 button {
