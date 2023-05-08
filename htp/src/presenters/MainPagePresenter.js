@@ -18,33 +18,47 @@ const MainPage = ({ isLoggedIn, handleLogout }) => {
         fetchData();
     }, []);
 
-    const toggleShowTemplates = () => {
+    function toggleShowTemplates() {
         setShowTemplates(!showTemplates);
     }
 
     function changeTemplate(template) {
         model.setCurrentTemplate(template);
     }
+
+    function createTemplate(event) {
+        async function templateCreator() {
+            await model.createTemplate(templateData);
+        }
+
+        event.preventDefault();
+        const data = event.target.elements;
+
+        /*for (let i = 0; i < 7; i++) {
+            if (!data[i].value) {
+                console.log("Invalid data");
+                return;
+            }
+        }*/
+
+        const templateData = {template: data[0].value, humMin: data[1].value, humMax: data[2].value,
+            tempMin: data[3].value, tempMax: data[4].value, presMin: data[5].value, presMax: data[6].value};
+        templateCreator();
+    }
+
     return (
         <div style={{ position: "relative", display: "flex" }}>
             <RecoilRoot>
                 <MainPageView
-                    isLoggedIn={isLoggedIn}
-                    handleLogout={handleLogout}
                     onTemplateClick={toggleShowTemplates}/>;
             </RecoilRoot>
             {showTemplates && <TemplateView
                 onTemplateButtonClick={toggleShowTemplates}
                 onTemplateClick={changeTemplate}
-                defaultTemplates={templates}/>}
+                defaultTemplates={templates}
+                onSubmitClickButton={createTemplate}/>}
         </div>
     )
-    return (
-        <RecoilRoot>
-            <MainPageView isLoggedIn={isLoggedIn} handleLogout={handleLogout} />;
-        </RecoilRoot>
-    )
-
 };
 
 export default MainPage;

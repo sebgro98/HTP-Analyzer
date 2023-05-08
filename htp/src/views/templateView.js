@@ -3,7 +3,7 @@ import "./Styled.css";
 import closetab from "./images/close-tab.svg";
 import temicon from "./images/template-icon.svg"
 
-const TemplateView = ({onTemplateButtonClick, onTemplateClick, defaultTemplates}) => {
+const TemplateView = ({onTemplateButtonClick, onTemplateClick, defaultTemplates, onSubmitClickButton}) => {
     const [createTemplate, setCreateTemplate] = useState(false);
 
     function onCreateTemplateButtonClick() {
@@ -56,16 +56,16 @@ const TemplateView = ({onTemplateButtonClick, onTemplateClick, defaultTemplates}
                     <img src={closetab} onClick={onCloseCreateTemplateButtonClick}/>
                 </div>
                 <h2>Create Template</h2>
-                <form>
+                <form onSubmit={onSubmitClickButton}>
                     <h3>Template Name</h3>
-                    <input type="text"/>
+                    <input type="text" />
                     <h4>Humidity</h4>
-                    <h5>Min: </h5><input type="text"/> <h5>Max: </h5><input type="text"/>
+                    <h5>Min: </h5><input type="text" on/> <h5>Max: </h5><input type="text"/>
                     <h4>Temperature</h4>
                     <h5>Min: </h5><input type="text"/> <h5>Max: </h5><input type="text"/>
                     <h4>Pressure</h4>
                     <h5>Min: </h5><input type="text"/> <h5>Max: </h5><input type="text"/>
-                    <button>Create template</button>
+                    <button type="submit">Create template</button>
                 </form>
             </div>
             }

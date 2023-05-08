@@ -14,7 +14,7 @@ export const darkModeAtom = atom({
   default: false
 })
 
-const MainPageView = (onTemplateClick) => {
+const MainPageView = ({onTemplateClick}) => {
   const [darkMode, setDarkMode] = useRecoilState(darkModeAtom);
 
   const [theme, setTheme] = useState("light");
@@ -41,7 +41,6 @@ const MainPageView = (onTemplateClick) => {
             <h2>Templates</h2>
           </div>
           <NotificationPresenter/>
-          <FaBell className="fa-bell" />
           <DarkModeSwitch
             checked={darkMode}
             onChange={toggleTheme}

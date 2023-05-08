@@ -317,6 +317,16 @@ class Model {
       }
     });
   }
+
+  async createTemplate(data) {
+    const user = await this.getUser();
+    const getTemplates = doc(db, "Data", user.email);
+    console.log("yo");
+    await getDocs(collection(db, "Data", user.email)).then((snapshot) => {
+      console.log(snapshot);
+    });
+
+  }
 }
 
 export default Model;
