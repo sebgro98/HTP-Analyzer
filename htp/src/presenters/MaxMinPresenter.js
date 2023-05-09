@@ -1,32 +1,47 @@
 import '../views/Styled.css';
 import { Toggle } from 'rsuite';
-import { useState} from 'react';
+import { useState, useEffect} from 'react';
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebaseModel';
 import 'bootstrap/dist/css/bootstrap.css';
 import Model from "../Model";
+import { Slider, RangeSlider, Row, Col, InputGroup, InputNumber } from 'rsuite';
+  
 
 const MaxMinPresenter = ({maxName, minName, initMax, initMin}) => {
-   
+    const [value, setValue] = useState([initMin, initMax]);
+    
     const updateData = async () => {
         const model = new Model();
         const user =  await model.getUser();
         const docRef = doc(db, "Data", user.email);
             updateDoc(docRef, {
-            [minName]: [min],
-            [maxName]: [max]
+            [minName]:parseFloat(value[0]),
+            [maxName]: parseFloat(value[1])
         })
             .then(() => {
-                initMin = min;
-                initMax = max;
+                initMin = parseFloat(value[0]);
+                initMax = parseFloat(value[1])
             })
             .catch((error) => {
                 console.error("Error updating document: ", error);
             });
     }
 
-    const [min, setMin] = useState(initMin);
-    const [max, setMax] = useState(initMax);
+    const [maxMin, setMaxMin] = useState([value[0], value[1]]);
+
+    useEffect(() => {
+        const setMaxMinCB = () => {
+            if(minName=="CurrentIntervals.HumMin" && maxName=="CurrentIntervals.HumMax") {
+                setMaxMin([-1, 101])
+            } else  if(minName=="CurrentIntervals.TempMin" && maxName=="CurrentIntervals.TempMax") {
+                setMaxMin([-52, 52])
+            } else  if(minName=="CurrentIntervals.PresMin" && maxName=="CurrentIntervals.PresMax") {
+                setMaxMin([860, 1100])
+            }
+        }
+        setMaxMinCB();
+    }, []);
 
     const [toggle, setToggle] = useState(false);
 
@@ -42,25 +57,59 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin}) => {
             }}
         />
         {toggle && (
-
-            <form>
-                <div class="input-group input-group-sm mb-3" >
-                <span class="input-group-text" id="inputGroup-sizing-sm" >Min</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value={min} onChange={event => setMin(event.target.value)}/>
-                </div>
-
-                <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Max</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value={max} onChange={event => setMax(event.target.value)}/>
-                </div>
+            <Row style={{ marginBottom: "16px"}}>
+                <Col md={10}>
+                  <RangeSlider
+                    max={maxMin[1]}
+                    min={maxMin[0]}
+                    size ="sm"
+                    progress
+                    style={{ marginTop: 16 }}
+                    step={0.5}
+                    value={value}
+                    onChange={value => {
+                      setValue(value);
+                    }}
+                  />
+                </Col>
+                <Col md={14}>
+                  <InputGroup size ="sm">
+                    <InputNumber
+                      max={maxMin[1]}
+                      min={maxMin[0]}
+                      value={value[0]}
+                      step={0.5}
+                      onChange={nextValue => {
+                        const [start, end] = value;
+                        if (nextValue > end) {
+                          return;
+                        }
+                        setValue([nextValue, end]);
+                      }}
+                    />
+                    <InputGroup.Addon>to</InputGroup.Addon>
+                    <InputNumber
+                      max={maxMin[1]}
+                      min={maxMin[0]}
+                      value={value[1]}
+                      step={0.5}
+                      onChange={nextValue => {
+                        const [start, end] = value;
+                        if (start > nextValue) {
+                          return;
+                        }
+                        setValue([start, nextValue]);
+                      }}
+                    />
+                  </InputGroup>
+                </Col>
                 <button type="button" class="btn btn-outline-primary btn-sm" onClick={updateData}>Sumbit</button>
-            </form>
+            </Row>
         )
 
         }
        </div>
     )
 }
-
 
 export default MaxMinPresenter;

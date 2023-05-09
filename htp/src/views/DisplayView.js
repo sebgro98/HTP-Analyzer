@@ -41,8 +41,8 @@ function DisplayView({ data, formatGraphData }) {
             <MaxMinPresenter
               maxName="CurrentIntervals.HumMax"
               minName="CurrentIntervals.HumMin"
-              initMax={CurrentIntervals.HumMax}
-              initMin={CurrentIntervals.HumMin}
+              initMax={data.CurrentIntervals.HumMax}
+              initMin={data.CurrentIntervals.HumMin}
             />
             {Array.isArray(WeatherData.Hum) && WeatherData.Hum.length > 0 && (
               <Graph
@@ -68,8 +68,8 @@ function DisplayView({ data, formatGraphData }) {
             <MaxMinPresenter
               maxName="CurrentIntervals.TempMax"
               minName="CurrentIntervals.TempMin"
-              initMax={CurrentIntervals.TempMax}
-              initMin={CurrentIntervals.TempMin}
+              initMax={data.CurrentIntervals.TempMax}
+              initMin={data.CurrentIntervals.TempMin}
             />
             {Array.isArray(WeatherData.Temp) && WeatherData.Temp.length > 0 && (
               <Graph
@@ -95,8 +95,8 @@ function DisplayView({ data, formatGraphData }) {
             <MaxMinPresenter
               maxName="CurrentIntervals.PresMax"
               minName="CurrentIntervals.PresMin"
-              initMax={CurrentIntervals.PresMax}
-              initMin={CurrentIntervals.PresMin}
+              initMax={data.CurrentIntervals.PresMax}
+              initMin={data.CurrentIntervals.PresMin}
             />
             {Array.isArray(WeatherData.Pres) && WeatherData.Pres.length > 0 && (
               <Graph
