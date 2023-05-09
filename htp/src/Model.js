@@ -234,8 +234,8 @@ class Model {
 
     // Create a new post document with server timestamp
     await addDoc(userPostsCollectionRef, {
-      title: title,
-      content: content,
+      title: content.title,
+      content: content.content,
       author: user.email,
       timestamp: serverTimestamp()
     });
