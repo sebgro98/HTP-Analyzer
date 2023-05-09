@@ -46,8 +46,8 @@ const Graph = ({ data, type, darkMode }) => {
     <Box
       sx={{
         backgroundColor: darkMode ? "#1f1f1f" : "#fff",
-        padding: "20px",
-        borderRadius: "10px",
+        padding: "5px",
+        borderRadius: "5px",
         boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
       }}
     >
@@ -68,19 +68,19 @@ const Graph = ({ data, type, darkMode }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            height: 400,
+            height: 200,
           }}
         >
           <img
             src="http://www.ppimusic.ie/images/loading_anim.gif"
             alt="Loading data..."
-            style={{ maxWidth: "100%", maxHeight: "100%" }}
+            style={{ maxWidth: "30%", maxHeight: "30%" }}
           />
         </Box>
       ) : (
         <ComposedChart
-          width={600}
-          height={400}
+          width={500}
+          height={300}
           data={data}
           margin={{
             top: 20,
