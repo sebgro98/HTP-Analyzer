@@ -3,31 +3,36 @@ import Model from '../Model';
 import'../views/StyledAddPost.css';
 
 function AddPostForm() {
-    const model = new Model();
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('');
-    const [author, setAuthor] = useState('');
-    const [isFormVisible, setIsFormVisible] = useState(false);
+        const model = new Model();
+        const [isFormVisible, setIsFormVisible] = useState(false);
+        const [title, setTitle] = useState('');
+        const [content, setContent] = useState('');
+        const [author, setAuthor] = useState('');
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+        const handleSubmit = async (e) => {
+            e.preventDefault();
 
-        if (!title) {
-            alert("Please enter a title.");
-            return;
-        }
+            if (!title) {
+                alert("Please enter a title.");
+                return;
+            }
 
-        if (!content) {
-            alert("Please enter content.");
-            return;
-        }
+            if (!content) {
+                alert("Please enter content.");
+                return;
+            }
 
-        await model.addPost(title, content, author);
+           const got = await model.addPost(title, content, author);
 
-        setTitle('');
-        setContent('');
-        setAuthor('');
-    };
+            setTitle('');
+            setContent('');
+            setAuthor('');
+            if(got){
+                window.location.href = "/forum";
+            }
+
+
+        };
 
     const handleToggleForm = () => {
         setIsFormVisible(!isFormVisible);

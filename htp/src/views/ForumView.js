@@ -3,6 +3,9 @@ import './StyledForumView.css';
 import AddPostForm from '../presenters/ForumAddPostPresenter';
 import PostDetails from '../presenters/AddCommentForumPresenter';
 import { Timestamp } from 'firebase/firestore';
+import model from "../Model";
+import Model from "../Model";
+import {getAuth, onAuthStateChanged} from "firebase/auth";
 
 
 
@@ -55,6 +58,22 @@ function ForumView({
                        handlePostClick,
                    }) {
     const [showCommentForm, setShowCommentForm] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const model = new Model();
+
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setUser(user);
+        });
+        return unsubscribe;
+    }, []);
+
+    if (!user) {
+        return <p className="Please-login">Please log in to view the forum.</p>;
+    }
 
     if (filteredPosts === null || filteredPosts === undefined) {
         return <p>Loading...</p>;

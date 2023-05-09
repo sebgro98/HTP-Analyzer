@@ -21,6 +21,7 @@ function ReactRoot() {
             .then(() => {
                 localStorage.setItem("isLoggedIn", JSON.stringify(false));
                 setIsLoggedIn(false);
+                window.location.href = "/";
             })
             .catch((error) => {
                 console.log(error);
@@ -32,10 +33,10 @@ function ReactRoot() {
             <Sidebar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
 
             <Routes>
-                <Route path="/forum" element={ <Forum /> } />
-                <Route path="/profile" element={ <ProfilePage /> } />
-                <Route path="/" element={<MainPage />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/forum" element={<Forum isLoggedIn={isLoggedIn} />} />
+                <Route path="/profile" element={<ProfilePage isLoggedIn={isLoggedIn} />} />
+                <Route path="/" element={<MainPage isLoggedIn={isLoggedIn} />} />
+                <Route path="/login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
             </Routes>
         </div>
     );

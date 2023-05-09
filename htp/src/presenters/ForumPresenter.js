@@ -32,6 +32,7 @@ function Forum() {
         return () => clearInterval(intervalId);
     }, []);
 
+
     const handleAddPost = async (title, content) => {
         console.log("hello???")
         await model.addPost(title, content);
