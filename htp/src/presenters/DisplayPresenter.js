@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import Model from "../Model";
 import DisplayView from "../views/DisplayView";
 import { db } from "../firebaseModel";
-import { doc, onSnapshot } from "firebase/firestore";
-import { Timestamp } from "firebase/firestore";
+import { doc, onSnapshot, Timestamp } from "firebase/firestore";
 
 function DisplayPresenter() {
   const [data, setData] = useState(null);
