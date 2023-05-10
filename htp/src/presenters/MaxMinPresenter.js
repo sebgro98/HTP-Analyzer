@@ -4,17 +4,16 @@ import { useState} from 'react';
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebaseModel';
 import 'bootstrap/dist/css/bootstrap.css';
-import Model from "../Model";
 
-const MaxMinPresenter = ({maxName, minName, initMax, initMin}) => {
-   
+const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
     const updateData = async () => {
-        const model = new Model();
+        model.currentTemplate.templateName = null;
         const user =  await model.getUser();
         const docRef = doc(db, "Data", user.email);
             updateDoc(docRef, {
             [minName]: [min],
-            [maxName]: [max]
+            [maxName]: [max],
+            CurrentTemplate: null,
         })
             .then(() => {
                 initMin = min;
@@ -34,9 +33,9 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin}) => {
        <div>
         <div style={{fontSize:"1rem", color: "#499BDA"}}>Set maximum and minimum value?</div>
          <Toggle style={{marginTop: '10px', marginBottom: '10px'}}
-            size="md" 
-            checkedChildren="Yes" 
-            unCheckedChildren="No" 
+            size="md"
+            checkedChildren="Yes"
+            unCheckedChildren="No"
             onClick={() => {
                 setToggle(!toggle);
             }}
@@ -44,16 +43,16 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin}) => {
         {toggle && (
 
             <form>
-                <div class="input-group input-group-sm mb-3" >
-                <span class="input-group-text" id="inputGroup-sizing-sm" >Min</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value={min} onChange={event => setMin(event.target.value)}/>
+                <div className="input-group input-group-sm mb-3" >
+                <span className="input-group-text" id="inputGroup-sizing-sm" >Min</span>
+                <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value={min} onChange={event => setMin(Number(event.target.value))}/>
                 </div>
 
-                <div class="input-group input-group-sm mb-3">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Max</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value={max} onChange={event => setMax(event.target.value)}/>
+                <div className="input-group input-group-sm mb-3">
+                <span className="input-group-text" id="inputGroup-sizing-sm">Max</span>
+                <input type="text" className="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value={max} onChange={event => setMax(Number(event.target.value))}/>
                 </div>
-                <button type="button" class="btn btn-outline-primary btn-sm" onClick={updateData}>Sumbit</button>
+                <button type="button" className="btn btn-outline-primary btn-sm" onClick={updateData}>Sumbit</button>
             </form>
         )
 

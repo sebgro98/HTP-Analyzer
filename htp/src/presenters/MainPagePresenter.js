@@ -2,22 +2,21 @@ import React, {useState, useEffect} from "react";
 import MainPageView from "../views/MainPageView";
 import { RecoilRoot } from "recoil";
 import TemplateView from "../views/templateView";
-import Model from "../Model";
 
 
-const MainPage = ({ isLoggedIn, handleLogout }) => {
+const MainPage = ({model}) => {
     const [showTemplates, setShowTemplates] = useState(false);
     const [defaultTemplates, setDefaultTemplates] = useState([]);
-    const [userTemplates, serUserTemplates] = useState([]);
+    const [userTemplates, setUserTemplates] = useState([]);
+    const [currentTemplate, setCurrentTemplate] = useState([]);
     const [createTemplateViewer, setCreateTemplateViewer] = useState(false);
-    const model = new Model();
 
     useEffect(() => {
         async function fetchData() {
-            await model.getDefaultTemplateList()
+            await model.getTemplates()
             setDefaultTemplates(model.defaultTemplates);
-            await model.getUserTemplateList();
-            serUserTemplates(model.userTemplates);
+            setUserTemplates(model.userTemplates);
+            setCurrentTemplate(model.currentTemplate)
         }
         fetchData();
     }, []);
@@ -31,7 +30,11 @@ const MainPage = ({ isLoggedIn, handleLogout }) => {
     }
 
     function changeTemplate(template) {
-        model.setCurrentTemplate(template);
+        async function setChangedTemplate() {
+            await model.setCurrentTemplate(template);
+            setCurrentTemplate(model.currentTemplate);
+        }
+        setChangedTemplate();
     }
 
     function createTemplate(event) {
@@ -40,7 +43,7 @@ const MainPage = ({ isLoggedIn, handleLogout }) => {
             if (disableTemplateCreateViewer) {
                 setCreateTemplateViewer(!createTemplateViewer);
                 await model.getUserTemplateList();
-                serUserTemplates(model.userTemplates);
+                setUserTemplates(model.userTemplates);
             }
         }
 
@@ -70,7 +73,9 @@ const MainPage = ({ isLoggedIn, handleLogout }) => {
         <div style={{ position: "relative", display: "flex" }}>
             <RecoilRoot>
                 <MainPageView
-                    onTemplateClick={toggleShowTemplates}/>;
+                    onTemplateClick={toggleShowTemplates}
+                    model={model}
+                />;
             </RecoilRoot>
             {showTemplates && <TemplateView
                 onTemplateButtonClick={toggleShowTemplates}
@@ -79,7 +84,10 @@ const MainPage = ({ isLoggedIn, handleLogout }) => {
                 onSubmitClickButton={createTemplate}
                 onCreateTemplateButtonClick={toggleCreateTemplateViewer}
                 createTemplateViewer = {createTemplateViewer}
-                userTemplates = {userTemplates}/>}
+                userTemplates = {userTemplates}
+                currentTemplate = {currentTemplate}
+            />}
+
         </div>
     )
 };

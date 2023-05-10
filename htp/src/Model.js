@@ -9,6 +9,7 @@ class Model {
     this.correctLogInInfo = undefined;
     this.defaultTemplates = {};
     this.userTemplates = {};
+    this.currentTemplate = {};
     this.currentLoggedInUser = undefined;
   }
 
@@ -292,7 +293,7 @@ class Model {
     }
   }
 
-  async getDefaultTemplateList() {
+  async getTemplates() {
     let template = [];
     await getDocs(collection(db, "Templates")).then((snapshot) => {
       snapshot.docs.forEach((doc) => {
@@ -300,6 +301,24 @@ class Model {
       });
       this.defaultTemplates = template;
     });
+
+    const user = await this.getUser();
+    const docRef = doc(db, "Data", user.email);
+    const snapshot = await getDoc(docRef);
+    const docData = snapshot.data();
+    this.userTemplates = docData.Templates;
+
+    if (docData.CurrentTemplate !== null) {
+      this.currentTemplate = {
+        templateName: docData.CurrentTemplate,
+        TempMin: docData.CurrentIntervals.TempMin[0],
+        TempMax: docData.CurrentIntervals.TempMax[0],
+        HumMin: docData.CurrentIntervals.HumMin[0],
+        HumMax: docData.CurrentIntervals.HumMax[0],
+        PresMin: docData.CurrentIntervals.PresMin[0],
+        PresMax: docData.CurrentIntervals.PresMax[0],
+      }
+    }
   }
 
   async getUserTemplateList() {
@@ -312,6 +331,15 @@ class Model {
 
   async setCurrentTemplate(template) {
     if (!template.templateName || !template.HumidityMin || !template.HumidityMax || !template.TempMin || !template.TempMax || !template.PressureMin || !template.PressureMax) return;
+    this.currentTemplate = {
+      templateName: template.templateName,
+      TempMin: template.TempMin,
+      TempMax: template.TempMax,
+      HumMin: template.HumidityMin,
+      HumMax: template.HumidityMax,
+      PresMin: template.PressureMin,
+      PresMax: template.PressureMax,
+    }
     const user = await this.getUser();
     const docRef = doc(db, "Data", user.email);
     updateDoc(docRef, {

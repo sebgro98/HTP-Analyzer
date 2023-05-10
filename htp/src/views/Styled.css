@@ -582,6 +582,18 @@ button {
   margin-bottom: 20px;
 }
 
+.current-item {
+  border: 5px solid;
+  text-align: center;
+  width: 15.2%;
+  padding: 20px;
+  border-radius: 30px;
+  margin-left: 4%;
+  display: inline-block;
+  margin-bottom: 20px;
+  background-color: orange;
+}
+
 .template-item h2 {
   font-size: 30px;
 }

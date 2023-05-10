@@ -5,7 +5,7 @@ import { db } from "../firebaseModel";
 import { doc, onSnapshot } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
 
-function DisplayPresenter() {
+function DisplayPresenter({model}) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -19,7 +19,7 @@ function DisplayPresenter() {
           return;
         }
         const docRef = doc(db, "Data", user.email);
-        
+
         onSnapshot(docRef, (doc) => {
           const fetchedData = doc.data();
           if (!fetchedData?.WeatherData?.Time) {
@@ -41,7 +41,7 @@ function DisplayPresenter() {
     if (!data?.[type]?.length || !data?.Time?.length) {
       return [];
     }
-  
+
     const formattedData = data[type].map((value, index) => {
       const date = data.Time[index] instanceof Timestamp ? data.Time[index].toDate() : data.Time[index];
       return {
@@ -49,16 +49,16 @@ function DisplayPresenter() {
         value: Number(value),
       };
     });
-  
+
     return formattedData;
   };
-  
+
   return (
     <div className="DisplayPresenter">
       {error ? (
         <p className="noData">{error}</p>
       ) : (
-        <DisplayView data={data} formatGraphData={formatGraphData} />
+        <DisplayView data={data} formatGraphData={formatGraphData} model={model}/>
       )}
     </div>
   );

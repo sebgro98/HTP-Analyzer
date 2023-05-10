@@ -33,8 +33,8 @@ function ReactRoot() {
 
             <Routes>
                 <Route path="/forum" element={ <Forum /> } />
-                <Route path="/profile" element={ <ProfilePage /> } />
-                <Route path="/" element={<MainPage />} />
+                <Route path="/profile" element={ <ProfilePage model={model}/> } />
+                <Route path="/" element={<MainPage model={model} />} />
                 <Route path="/login" element={<Login />} />
             </Routes>
         </div>

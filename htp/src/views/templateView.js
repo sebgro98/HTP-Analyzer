@@ -1,10 +1,8 @@
-import React, {useState, useEffect} from "react";
 import "./Styled.css";
 import closetab from "./images/close-tab.svg";
 import temicon from "./images/template-icon.svg"
 
-const TemplateView = ({onTemplateButtonClick, onTemplateClick, defaultTemplates, onSubmitClickButton, onCreateTemplateButtonClick, createTemplateViewer, userTemplates}) => {
-
+const TemplateView = ({onTemplateButtonClick, onTemplateClick, defaultTemplates, onSubmitClickButton, onCreateTemplateButtonClick, createTemplateViewer, userTemplates, currentTemplate}) => {
     return (
         <div className="template-root">
             <div className="template-background"></div>
@@ -24,14 +22,14 @@ const TemplateView = ({onTemplateButtonClick, onTemplateClick, defaultTemplates,
                             <h6>+</h6>
                         </div>
                         {Object.keys(userTemplates).length !== 0 && Object.entries(userTemplates).map(([key, template]) => (
-                            <div className="template-item" key={key} onClick={() => onTemplateClick(template)}>
-                                <h2>{template.templateName}</h2>
-                                <h3>Humidity</h3>
-                                <h4>Min: {template.HumidityMin} Max: {template.HumidityMax}</h4>
-                                <h3>Temperature</h3>
-                                <h4>Min: {template.TempMin} Max: {template.TempMax}</h4>
-                                <h3>Pressure</h3>
-                                <h4>Min: {template.PressureMin} Max: {template.PressureMax}</h4>
+                            <div className={template.templateName === currentTemplate.templateName ? "current-item" : "template-item"} key={key} onClick={() => onTemplateClick(template)}>
+                            <h2>{template.templateName}</h2>
+                            <h3>Humidity</h3>
+                            <h4>Min: {template.HumidityMin} Max: {template.HumidityMax}</h4>
+                            <h3>Temperature</h3>
+                            <h4>Min: {template.TempMin} Max: {template.TempMax}</h4>
+                            <h3>Pressure</h3>
+                            <h4>Min: {template.PressureMin} Max: {template.PressureMax}</h4>
                             </div>
                         ))}
                     </div>
@@ -39,7 +37,7 @@ const TemplateView = ({onTemplateButtonClick, onTemplateClick, defaultTemplates,
                     <h5>Default Templates</h5>
                     <div className="template-section">
                        {Object.keys(defaultTemplates).length !== 0 && defaultTemplates.map((template, index) => (
-                            <div className="template-item" key={index} onClick={() => onTemplateClick(template)}>
+                            <div className={template.templateName === currentTemplate.templateName ? "current-item" : "template-item"} key={index} onClick={() => onTemplateClick(template)}>
                                 <h2>{template.templateName}</h2>
                                 <h3>Humidity</h3>
                                 <h4>Min: {template.HumidityMin} Max: {template.HumidityMax}</h4>

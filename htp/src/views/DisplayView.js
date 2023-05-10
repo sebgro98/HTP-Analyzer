@@ -6,9 +6,9 @@ import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import { useRecoilState } from "recoil";
-import { darkModeAtom } from "../views/MainPageView";
+import { darkModeAtom } from "./MainPageView";
 
-function DisplayView({ data, formatGraphData }) {
+function DisplayView({ data, formatGraphData, model}) {
   const [darkMode] = useRecoilState(darkModeAtom);
   const { WeatherData, CurrentIntervals, Outlets } = data || {};
 
@@ -41,8 +41,9 @@ function DisplayView({ data, formatGraphData }) {
             <MaxMinPresenter
               maxName="CurrentIntervals.HumMax"
               minName="CurrentIntervals.HumMin"
-              initMax={CurrentIntervals.HumMax}
-              initMin={CurrentIntervals.HumMin}
+              initMax={CurrentIntervals.HumMax[0]}
+              initMin={CurrentIntervals.HumMin[0]}
+              model={model}
             />
             {Array.isArray(WeatherData.Hum) && WeatherData.Hum.length > 0 && (
               <Graph
@@ -68,8 +69,9 @@ function DisplayView({ data, formatGraphData }) {
             <MaxMinPresenter
               maxName="CurrentIntervals.TempMax"
               minName="CurrentIntervals.TempMin"
-              initMax={CurrentIntervals.TempMax}
-              initMin={CurrentIntervals.TempMin}
+              initMax={CurrentIntervals.TempMax[0]}
+              initMin={CurrentIntervals.TempMin[0]}
+              model={model}
             />
             {Array.isArray(WeatherData.Temp) && WeatherData.Temp.length > 0 && (
               <Graph
@@ -95,8 +97,9 @@ function DisplayView({ data, formatGraphData }) {
             <MaxMinPresenter
               maxName="CurrentIntervals.PresMax"
               minName="CurrentIntervals.PresMin"
-              initMax={CurrentIntervals.PresMax}
-              initMin={CurrentIntervals.PresMin}
+              initMax={CurrentIntervals.PresMax[0]}
+              initMin={CurrentIntervals.PresMin[0]}
+              model={model}
             />
             {Array.isArray(WeatherData.Pres) && WeatherData.Pres.length > 0 && (
               <Graph
