@@ -1,4 +1,5 @@
 import "./Styled.css";
+import "./StyledTemplate.css"
 import closetab from "./images/close-tab.svg";
 import temicon from "./images/template-icon.svg"
 

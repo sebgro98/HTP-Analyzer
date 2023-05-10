@@ -70,7 +70,7 @@ const MainPage = ({model}) => {
     }
 
     return (
-        <div style={{ position: "relative", display: "flex" }}>
+        <div className="root">
             <RecoilRoot>
                 <MainPageView
                     onTemplateClick={toggleShowTemplates}
