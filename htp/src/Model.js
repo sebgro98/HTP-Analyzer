@@ -1,12 +1,10 @@
-import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,  setPersistence,
-  browserLocalPersistence, onAuthStateChanged} from "firebase/auth";
-import {db} from "./firebaseModel";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, setPersistence, browserLocalPersistence, onAuthStateChanged } from "firebase/auth";
+import { db } from "./firebaseModel";
 import {collection, doc, getDoc, getDocs, setDoc, serverTimestamp, addDoc, updateDoc, orderBy, query} from "firebase/firestore";
+
 
 class Model {
   constructor() {
-    this.currentUserUID = undefined;
-    this.correctLogInInfo = undefined;
     this.templates = {};
     this.currentLoggedInUser = undefined;
   }
@@ -30,17 +28,20 @@ class Model {
           Time: [],
         },
         CurrentIntervals: {
-          TempMin: [],
-          TempMax: [],
-          HumMin: [],
-          HumMax: [],
-          PresMin: [],
-          PresMax: [],
+          TempMin: -50,
+          TempMax: 50,
+          HumMin: 0,
+          HumMax: 100,
+          PresMin: 860,
+          PresMax: 1100,
         },
         Notifications: {
-          Type: [],
-          Value: [],
-          LimitValue: [],
+          HumMaxNotified: false,
+          HumMinNotified: false,
+          PresMaxNotified: false,
+          PresMinNotified: false,
+          TempMaxNotified: false,
+          TempMinNotified: false,
         },
         Outlets: {
           Temp: [],
@@ -90,54 +91,6 @@ class Model {
       throw error;
     }
   }
-  /*async getPostById(postId) {
-    try {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      const postRef = doc(db, 'Posts', user.email, 'user_posts', postId);
-      console.log("haha", postRef)
-      const postDoc = await getDoc(postRef);
-
-      if (postDoc.exists()) {
-        const postData = postDoc.data();
-        return {
-          id: postDoc.id,
-          ...postData,
-          author: user.email //
-        };
-      } else {
-        throw new Error('Post not found');
-      }
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }*/
-
-  /*async getPostsForUser(email) {
-    const auth = getAuth();
-    return new Promise((resolve, reject) => {
-      const unsubscribe = onAuthStateChanged(email, async (user) => {
-        unsubscribe();
-        if (user) {
-          try {
-            const postsCollectionRef = collection(db, 'Posts', user.email, 'user_posts');
-            const postsSnapshot = await getDocs(postsCollectionRef);
-            const posts = postsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            console.log(posts);
-            resolve(posts);
-          } catch (error) {
-            reject(error);
-          }
-        } else {
-          console.log("getPostsForUser: user not authenticated");
-          resolve([]);
-        }
-      });
-    });
-  }*/
-
-
   async getAllComments(postId, author) {
     try {
       const auth = getAuth();
@@ -254,8 +207,6 @@ class Model {
 
   async logIn(email, password) {
     const auth = getAuth();
-
-
     await setPersistence(auth, browserLocalPersistence);
 
     try {
