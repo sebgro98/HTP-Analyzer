@@ -8,6 +8,7 @@ import ProfilePage from "./presenters/ProfilePresenter"
 import Forum from "./presenters/ForumPresenter"
 import {useState} from "react";
 import Model from "./Model";
+import AboutPresenter from "./presenters/AboutPresenter";
 
 function ReactRoot() {
     const model = new Model();
@@ -35,6 +36,7 @@ function ReactRoot() {
             <Routes>
                 <Route path="/forum" element={ <Forum isLoggedIn={isLoggedIn}/> } />
                 <Route path="/profile" element={ <ProfilePage model={model} isLoggedIn={isLoggedIn}/> } />
+                <Route path="/about" element={ <AboutPresenter isLoggedIn={isLoggedIn}/> } />
                 <Route path="/" element={<MainPage model={model} isLoggedIn={isLoggedIn}/>} />
                 <Route path="/login" element={<Login isLoggedIn={isLoggedIn}/>} />
             </Routes>

@@ -730,3 +730,110 @@ button {
   flex-direction: column;
 }
 
+/* ------------------------------------------- About --------------------------------- */
+
+.aboutContent {
+  display: flex;
+  justify-content: center;
+  padding: 5px;
+  margin-top:20px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.aboutCard {
+  background-color: rgba(234, 244, 255, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 20px;
+  margin-left: 10px;
+  height: 400px;
+  text-align: center;
+}
+
+.aboutCardImage {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+
+}
+
+.aboutCardImage1 {
+  background-image: url("images/robot-svgrepo-com.svg");
+}
+
+.aboutCardImage2 {
+  background-image: url("images/robot-svgrepo-com2.svg");
+}
+
+.aboutCardImage3 {
+  background-image: url("images/robot-svgrepo-com3.svg");
+}
+
+.aboutCardImage4 {
+  background-image: url("images/robot-svgrepo-com4.svg");
+}
+
+.aboutCardImage5 {
+  background-image: url("images/robot-svgrepo-com1.svg");
+}
+
+.aboutCardImage6 {
+  background-image: url("images/robot-svgrepo-com6.svg");
+}
+
+.aboutCardImage7 {
+  background-image: url("images/robot-svgrepo-com5.svg");
+}
+
+.aboutTitleText {
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: Georgia, serif;
+}
+
+.aboutContentText {
+  font-size: 1rem;
+  font-weight: normal;
+  font-family: Georgia, serif;
+}
+
+.aboutEmail {
+  font-size: 1rem;
+  font-weight: normal;
+  font-family: Tahoma, sans-serif;
+}
+
+.blurBackground {
+  backdrop-filter: blur(30px);
+  border-radius: 20px;
+  margin: 10px;
+  border: 0.5px solid rgba(255, 255, 255, 0.342);
+  box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.119);
+}
+.aboutTitle {
+  font-family: orbitron;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  font-size: 3rem;
+  margin-top: 100px;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-weight: bold;
+  color: #499BDA;
+}
+
+.test {
+  color: #f5f5dc;
+}
+

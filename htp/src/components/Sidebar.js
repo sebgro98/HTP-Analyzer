@@ -6,15 +6,15 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { IconButton } from "@mui/material";
-import { FaHome, FaSignOutAlt, FaSignInAlt, FaBars, FaUserAlt,  FaComments } from "react-icons/fa";
+import { FaHome, FaSignOutAlt, FaSignInAlt, FaBars, FaUserAlt,  FaComments, FaAddressCard } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 export default function Sidebar({ isLoggedIn, handleLogout }) {
 
     console.log("Is this true or false:" + isLoggedIn)
     const [sidebarOpen, setSidebarOpen] = React.useState(false);
-    const routes = ["/", "/profile", "/forum"];
-    const icons = [<FaHome />, <FaUserAlt />, <FaComments />];
+    const routes = ["/", "/profile", "/forum", "/about"];
+    const icons = [<FaHome />, <FaUserAlt />, <FaComments />, <FaAddressCard />];
 
     const toggleDrawer = (open) => (event) => {
         if (event && event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {
@@ -71,6 +71,19 @@ export default function Sidebar({ isLoggedIn, handleLogout }) {
                     </ListItemIcon>
                     <ListItemText primary="Forum" />
                 </ListItemButton>
+
+                <ListItemButton
+                    key="/about"
+                    component={Link}
+                    to="/about"
+                    onClick={() => setSidebarOpen(false)}
+                >
+                    <ListItemIcon>
+                        <FaAddressCard />
+                    </ListItemIcon>
+                    <ListItemText primary="About" />
+                </ListItemButton>
+
                 {!isLoggedIn ? (
                     <ListItemButton
                         component={Link}
