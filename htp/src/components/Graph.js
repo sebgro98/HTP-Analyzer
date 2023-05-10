@@ -72,7 +72,7 @@ const Graph = ({ data, type, darkMode }) => {
           }}
         >
           <img
-            src="http://www.ppimusic.ie/images/loading_anim.gif"
+            src="https://tenor.com/view/minecraft-pink-spin-gif-14444226"
             alt="Loading data..."
             style={{ maxWidth: "30%", maxHeight: "30%" }}
           />

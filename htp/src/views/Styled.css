@@ -340,7 +340,7 @@ body {
   overflow: none;
 }
 /*@media screen and (min-width: 1800px) {*/
-@media screen and (min-width: 1500px) {
+@media screen and (min-width: 1550px) {
     .cardLight {
       /* Removed position: relative */
       display: flex;
@@ -349,17 +349,18 @@ body {
       align-items: center;
       width: 100%;
     }
+
+    .cardDark {
+      /* Removed position: relative */
+      display: flex;
+      font-family: orbitron;
+      font-weight: normal;
+      text-align: center;
+      width: 100%;
+      justify-content: space-between;
+    }
 }
 
-.cardDark {
-  /* Removed position: relative */
-  display: flex;
-  font-family: orbitron;
-  font-weight: normal;
-  text-align: center;
-  width: 100%;
-  justify-content: space-between;
-}
 
 .column {
   display: flex;
@@ -737,3 +738,4 @@ button {
   width: 100%;
   margin-bottom: 16px;
 }
+
