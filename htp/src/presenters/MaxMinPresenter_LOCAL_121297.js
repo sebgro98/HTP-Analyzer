@@ -46,7 +46,7 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin}) => {
     const [toggle, setToggle] = useState(false);
 
     return (
-       <div class="minmax_drawer">
+       <div>
         <div style={{fontSize:"1rem", color: "#499BDA"}}>Set maximum and minimum value?</div>
          <Toggle style={{marginTop: '10px', marginBottom: '10px'}}
             size="md" 

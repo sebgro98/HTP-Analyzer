@@ -4,9 +4,15 @@ import DisplayView from "../views/DisplayView";
 import { db } from "../firebaseModel";
 import { doc, onSnapshot } from "firebase/firestore";
 import { Timestamp } from "firebase/firestore";
+import { atom, useRecoilState} from "recoil";
+
+export const dataAtom = atom({
+  key: "data",
+  default: null
+})
 
 function DisplayPresenter() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useRecoilState(dataAtom);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -19,7 +25,7 @@ function DisplayPresenter() {
           return;
         }
         const docRef = doc(db, "Data", user.email);
-        
+
         onSnapshot(docRef, (doc) => {
           const fetchedData = doc.data();
           if (!fetchedData?.WeatherData?.Time) {
@@ -41,18 +47,26 @@ function DisplayPresenter() {
     if (!data?.[type]?.length || !data?.Time?.length) {
       return [];
     }
-  
+
     const formattedData = data[type].map((value, index) => {
-      const date = data.Time[index] instanceof Timestamp ? data.Time[index].toDate() : data.Time[index];
+      let date;
+      if (typeof data.Time[index] === 'string') {
+        date = new Date(data.Time[index]);
+      } else if (data.Time[index] instanceof Timestamp) {
+        date = data.Time[index].toDate();
+      } else {
+        return null;
+      }
+
       return {
         date: date,
         value: Number(value),
       };
-    });
-  
+    }).filter((item) => item !== null);
+
     return formattedData;
   };
-  
+
   return (
     <div className="DisplayPresenter">
       {error ? (

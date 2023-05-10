@@ -112,4 +112,9 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin}) => {
     )
 }
 
+<<<<<<< HEAD
 export default MaxMinPresenter;
+=======
+
+export default MaxMinPresenter;
+>>>>>>> css_save

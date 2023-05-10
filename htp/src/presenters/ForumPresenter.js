@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Model from '../Model';
 import ForumView from '../views/ForumView';
 import {serverTimestamp} from "firebase/firestore";
+import AddPostForm from "./ForumAddPostPresenter";
 
 function Forum() {
     const model = new Model();
@@ -24,16 +25,12 @@ function Forum() {
 
     useEffect(() => {
         fetchPosts();
-
-        const intervalId = setInterval(() => {
-            fetchPosts();
-        }, 100000);
-
-        return () => clearInterval(intervalId);
     }, []);
 
-    const handleAddPost = async (title, content) => {
-        console.log("hello???")
+
+    const handleAddPost = async (content, title) => {
+        console.log("title", title)
+        console.log("content ", content.title)
         await model.addPost(title, content);
         fetchPosts();
     };
@@ -76,6 +73,7 @@ function Forum() {
     };
 
     return (
+        <div>
         <ForumView
             searchQuery={searchQuery}
             onSearchChange={handleSearchChange}
@@ -85,6 +83,7 @@ function Forum() {
             handlePostClick={handlePostClick}
             handleAddComment ={handleAddComment }
         />
+        </div>
     );
 }
 

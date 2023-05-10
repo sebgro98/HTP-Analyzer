@@ -50,6 +50,7 @@ const Login = () => {
         .catch((error) => {
           setError(<span style={{ color: 'red' }}>error.message</span>);
           if (error.message) {
+            console.log(error.message)
             setIsLoggedIn(false);
           }
         });
