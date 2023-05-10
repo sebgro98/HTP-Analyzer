@@ -1,7 +1,21 @@
-import {createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword,  setPersistence,
-  browserLocalPersistence, onAuthStateChanged} from "firebase/auth";
-import {db} from "./firebaseModel";
-import {collection, doc, getDoc, getDocs, setDoc, serverTimestamp, addDoc, updateDoc, orderBy, query} from "firebase/firestore";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, setPersistence, browserLocalPersistence, onAuthStateChanged } from "firebase/auth";
+import { db } from "./firebaseModel";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  serverTimestamp,
+  addDoc,
+  updateDoc,
+  orderBy,
+  query,
+  FieldValue,
+  Timestamp,
+  arrayUnion
+} from "firebase/firestore";
+
 
 class Model {
   constructor() {
@@ -12,6 +26,7 @@ class Model {
   }
 
   async Registration(email, password) {
+    const timestamp = Timestamp.now();
     try {
       const userCredential = await createUserWithEmailAndPassword(
           getAuth(),
@@ -27,7 +42,7 @@ class Model {
           Hum: [],
           Temp: [],
           Pres: [],
-          Time: [],
+          Time: arrayUnion(timestamp),
         },
         CurrentIntervals: {
           TempMin: [],
@@ -38,9 +53,12 @@ class Model {
           PresMax: [],
         },
         Notifications: {
-          Type: [],
-          Value: [],
-          LimitValue: [],
+          HumMaxNotified: false,
+          HumMinNotified: false,
+          PresMaxNotified: false,
+          PresMinNotified: false,
+          TempMaxNotified: false,
+          TempMinNotified: false,
         },
         Outlets: {
           Temp: [],
