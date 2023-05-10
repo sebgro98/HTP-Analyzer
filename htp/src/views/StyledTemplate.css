@@ -1,0 +1,188 @@
+@import url("https://fonts.googleapis.com/css?family=Orbitron");
+
+.template-icon {
+    display: flex;
+    border: 5px solid;
+    padding: 8px;
+    border-radius: 15px;
+}
+
+.template-icon img {
+    margin-right: 10px;
+}
+
+.template-root {
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    font-family: orbitron;
+    display: flex;
+    flex-direction: column;
+}
+
+.template-background {
+    width: 100%;
+    background-color: black;
+    opacity: 70%;
+    position: inherit;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+}
+
+.template-main {
+    background-color: white;
+    margin-left: 6%;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    padding-bottom: 20px;
+    width: 88%;
+    height: auto;
+    position: relative;
+    z-index: 3;
+    border-radius: 50px;
+    flex-grow: 1;
+}
+
+.template-header {
+    justify-content: center;
+    display: flex;
+}
+
+.template-header img {
+    width: 70px;
+}
+
+.template-header h1 {
+    font-size: 60px;
+    margin-left: 10px;
+}
+
+.close-tab {
+    text-align: right;
+}
+
+.close-tab img {
+    display: inline-block;
+    width: 100px;
+    margin: 10px;
+    transition: transform 0.2s ease; /* Add transition for smooth effect */
+}
+
+.close-tab img:hover {
+    transform: scale(1.2); /* Increase the size of the image on hover */
+}
+
+
+.template-main hr {
+    background-color: black;
+    height: 5px;
+    opacity: 100%;
+    width: 92%;
+    margin-left: 4%;
+}
+
+.template-section {
+    padding-top: 20px;
+    margin: auto;
+}
+
+.template-item {
+    border: 5px solid;
+    text-align: center;
+    width: 15.2%;
+    padding: 20px;
+    border-radius: 30px;
+    margin-left: 4%;
+    display: inline-block;
+    margin-bottom: 20px;
+    background-color: white;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+}
+
+.template-item:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 1);
+}
+
+.current-item {
+    border: 5px solid;
+    text-align: center;
+    width: 15.2%;
+    padding: 20px;
+    border-radius: 30px;
+    margin-left: 4%;
+    display: inline-block;
+    margin-bottom: 20px;
+    background-color: #5cbffa;
+    overflow: hidden;
+    transition: box-shadow 0.2s ease;
+}
+
+.current-item:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 1);
+}
+
+.template-main h2 {
+    font-size: 20px;
+}
+.template-main h3 {
+    padding-top: 10px;
+    font-size: 16px;
+}
+.template-main h4 {
+    font-size: 13px;
+}
+
+.template-main h5 {
+    font-size: 50px;
+    margin-left: 4%;
+}
+
+.template-main h6 {
+    font-size: 200px;
+    text-align: center;
+    color: #0ff30f;
+    margin-top: -50px;
+    margin-bottom: -30px;
+    transition: transform 0.2s ease;
+}
+
+.template-main h6:hover {
+    transform: scale(1.1);
+}
+
+.template-main input {
+    width: 30px;
+}
+
+.template-main label {
+    font-size: 20px;
+}
+
+.template-main button {
+    background-color: #0ff30f;
+    font-size: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 20px;
+    margin-top: 15px;
+}
+
+.template-create {
+    background-color: #e0e0e0;
+    margin-left: 25%;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    width: 50%;
+    height: auto;
+    position: relative;
+    z-index: 3;
+    border-radius: 50px;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.template-create h2 {
+    font-size: 30px;
+}

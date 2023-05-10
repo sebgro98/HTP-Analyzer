@@ -17,7 +17,6 @@ body {
   background-attachment: fixed;
 }
 
-
 /* -----------------------------------------------------------Login Style------------------------------------------------- */
 /* Container */
 .login-container {
@@ -361,7 +360,6 @@ body {
     }
 }
 
-
 .column {
   display: flex;
   flex-direction: column;
@@ -394,11 +392,9 @@ body {
 }
 
 .MainPageView {
-  height: 80vh;
-  width: 90vh;
+  height: 100vh;
   display: grid;
   grid-template-rows: auto 1fr;
-  position: relative;
 }
 
 .header {
@@ -468,11 +464,11 @@ body {
     z-index: 1;
 }
 .btn btn-outline-primary btn-sm {
-   align-items: center; 
+   align-items: center;
 }
 .input-group input-group-sm mb-3 {
-   align-items: center; 
-   align-content: space-around; 
+   align-items: center;
+   align-content: space-around;
 }
 
 
@@ -726,5 +722,11 @@ button {
   text-align: center;
   width: 100%;
   margin-bottom: 16px;
+}
+/* ------------------------------------------- MainPage--------------------------------- */
+.root {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
 }
 

@@ -2,18 +2,21 @@ import React, {useState, useEffect} from "react";
 import MainPageView from "../views/MainPageView";
 import { RecoilRoot } from "recoil";
 import TemplateView from "../views/templateView";
-import Model from "../Model";
 
 
-const MainPage = ({ isLoggedIn, handleLogout }) => {
+const MainPage = ({model}) => {
     const [showTemplates, setShowTemplates] = useState(false);
-    const [templates, setTemplates] = useState([]);
-    const model = new Model();
+    const [defaultTemplates, setDefaultTemplates] = useState([]);
+    const [userTemplates, setUserTemplates] = useState([]);
+    const [currentTemplate, setCurrentTemplate] = useState([]);
+    const [createTemplateViewer, setCreateTemplateViewer] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
-            await model.getGeneralTemplateList()
-            setTemplates(model.templates);
+            await model.getTemplates()
+            setDefaultTemplates(model.defaultTemplates);
+            setUserTemplates(model.userTemplates);
+            setCurrentTemplate(model.currentTemplate)
         }
         fetchData();
     }, []);
@@ -22,41 +25,69 @@ const MainPage = ({ isLoggedIn, handleLogout }) => {
         setShowTemplates(!showTemplates);
     }
 
+    function toggleCreateTemplateViewer() {
+        setCreateTemplateViewer(!createTemplateViewer);
+    }
+
     function changeTemplate(template) {
-        model.setCurrentTemplate(template);
+        async function setChangedTemplate() {
+            await model.setCurrentTemplate(template);
+            setCurrentTemplate(model.currentTemplate);
+        }
+        setChangedTemplate();
     }
 
     function createTemplate(event) {
         async function templateCreator() {
-            await model.createTemplate(templateData);
+            const disableTemplateCreateViewer = await model.createTemplate(templateData);
+            if (disableTemplateCreateViewer) {
+                setCreateTemplateViewer(!createTemplateViewer);
+                await model.getUserTemplateList();
+                setUserTemplates(model.userTemplates);
+            }
         }
 
         event.preventDefault();
         const data = event.target.elements;
 
-        /*for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < 7; i++) {
             if (!data[i].value) {
-                console.log("Invalid data");
+                alert("Please, fill in the format.");
                 return;
             }
-        }*/
+        }
 
-        const templateData = {template: data[0].value, humMin: data[1].value, humMax: data[2].value,
-            tempMin: data[3].value, tempMax: data[4].value, presMin: data[5].value, presMax: data[6].value};
+        const templateData = {
+            templateName: data[0].value,
+            HumidityMin: Number(data[1].value),
+            HumidityMax: Number(data[2].value),
+            TempMin: Number(data[3].value),
+            TempMax: Number(data[4].value),
+            PressureMin: Number(data[5].value),
+            PressureMax: Number(data[6].value)
+        };
         templateCreator();
     }
 
     return (
-        <div style={{ position: "relative", display: "flex" }}>
+        <div className="root">
             <RecoilRoot>
                 <MainPageView
-                    onTemplateClick={toggleShowTemplates}/>;
+                    onTemplateClick={toggleShowTemplates}
+                    model={model}
+                />;
             </RecoilRoot>
             {showTemplates && <TemplateView
                 onTemplateButtonClick={toggleShowTemplates}
                 onTemplateClick={changeTemplate}
-                defaultTemplates={templates}
-                onSubmitClickButton={createTemplate}/>}
+                defaultTemplates={defaultTemplates}
+                onSubmitClickButton={createTemplate}
+                onCreateTemplateButtonClick={toggleCreateTemplateViewer}
+                createTemplateViewer = {createTemplateViewer}
+                userTemplates = {userTemplates}
+                currentTemplate = {currentTemplate}
+            />}
+
         </div>
     )
 };

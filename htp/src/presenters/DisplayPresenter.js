@@ -11,14 +11,13 @@ export const dataAtom = atom({
   default: null
 })
 
-function DisplayPresenter() {
+function DisplayPresenter({model}) {
   const [data, setData] = useRecoilState(dataAtom);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const model = new Model();
         const user = await model.getUser();
         if (!user) {
           setError("You need to sign in/register to see your data");
@@ -72,7 +71,7 @@ function DisplayPresenter() {
       {error ? (
         <p className="noData">{error}</p>
       ) : (
-        <DisplayView data={data} formatGraphData={formatGraphData} />
+        <DisplayView data={data} formatGraphData={formatGraphData} model={model}/>
       )}
     </div>
   );

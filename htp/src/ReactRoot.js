@@ -33,10 +33,10 @@ function ReactRoot() {
             <Sidebar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
 
             <Routes>
-                <Route path="/forum" element={<Forum isLoggedIn={isLoggedIn} />} />
-                <Route path="/profile" element={<ProfilePage isLoggedIn={isLoggedIn} />} />
-                <Route path="/" element={<MainPage isLoggedIn={isLoggedIn} />} />
-                <Route path="/login" element={<Login isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                <Route path="/forum" element={ <Forum isLoggedIn={isLoggedIn}/> } />
+                <Route path="/profile" element={ <ProfilePage model={model} isLoggedIn={isLoggedIn}/> } />
+                <Route path="/" element={<MainPage model={model} isLoggedIn={isLoggedIn}/>} />
+                <Route path="/login" element={<Login isLoggedIn={isLoggedIn}/>} />
             </Routes>
         </div>
     );

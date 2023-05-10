@@ -14,7 +14,7 @@ export const darkModeAtom = atom({
   default: false
 })
 
-const MainPageView = ({onTemplateClick}) => {
+const MainPageView = ({onTemplateClick, model}) => {
   const [darkMode, setDarkMode] = useRecoilState(darkModeAtom);
 
   const [theme, setTheme] = useState("light");
@@ -50,7 +50,7 @@ const MainPageView = ({onTemplateClick}) => {
         </div>
       </header>
         <div className="display-container">
-          <DisplayPresenter/>
+          <DisplayPresenter model={model}/>
         </div>
     </div>
   );

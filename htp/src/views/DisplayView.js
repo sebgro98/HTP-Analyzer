@@ -6,9 +6,9 @@ import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import { useRecoilState } from "recoil";
-import { darkModeAtom } from "../views/MainPageView";
+import { darkModeAtom } from "./MainPageView";
 
-function DisplayView({ data, formatGraphData }) {
+function DisplayView({ data, formatGraphData, model}) {
   const [darkMode] = useRecoilState(darkModeAtom);
   const { WeatherData, CurrentIntervals, Outlets } = data || {};
 
@@ -70,6 +70,7 @@ function DisplayView({ data, formatGraphData }) {
               minName="CurrentIntervals.TempMin"
               initMax={data.CurrentIntervals.TempMax}
               initMin={data.CurrentIntervals.TempMin}
+              model={model}
             />
             {Array.isArray(WeatherData.Temp) && WeatherData.Temp.length > 0 && (
               <Graph
@@ -95,8 +96,9 @@ function DisplayView({ data, formatGraphData }) {
             <MaxMinPresenter
               maxName="CurrentIntervals.PresMax"
               minName="CurrentIntervals.PresMin"
-              initMax={data.CurrentIntervals.PresMax}
-              initMin={data.CurrentIntervals.PresMin}
+              initMax={CurrentIntervals.PresMax}
+              initMin={CurrentIntervals.PresMin}
+              model={model}
             />
             {Array.isArray(WeatherData.Pres) && WeatherData.Pres.length > 0 && (
               <Graph

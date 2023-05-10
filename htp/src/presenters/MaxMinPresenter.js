@@ -6,18 +6,19 @@ import { db } from '../firebaseModel';
 import 'bootstrap/dist/css/bootstrap.css';
 import Model from "../Model";
 import { Slider, RangeSlider, Row, Col, InputGroup, InputNumber } from 'rsuite';
-  
 
-const MaxMinPresenter = ({maxName, minName, initMax, initMin}) => {
+
+const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
     const [value, setValue] = useState([initMin, initMax]);
-    
+
     const updateData = async () => {
-        const model = new Model();
+        model.currentTemplate.templateName = null;
         const user =  await model.getUser();
         const docRef = doc(db, "Data", user.email);
             updateDoc(docRef, {
             [minName]:parseFloat(value[0]),
-            [maxName]: parseFloat(value[1])
+            [maxName]: parseFloat(value[1]),
+            CurrentTemplate: null,
         })
             .then(() => {
                 initMin = parseFloat(value[0]);
