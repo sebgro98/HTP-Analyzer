@@ -297,19 +297,19 @@ class Model {
     updateDoc(docRef, {
       CurrentTemplate: template.templateName,
       CurrentIntervals: {
-        TempMin: [template.TempMin],
-        TempMax: [template.TempMax],
-        HumMin: [template.HumidityMin],
-        HumMax: [template.HumidityMax],
-        PresMin: [template.PressureMin],
-        PresMax: [template.PressureMax],
+        TempMin: template.TempMin,
+        TempMax: template.TempMax,
+        HumMin: template.HumidityMin,
+        HumMax: template.HumidityMax,
+        PresMin: template.PressureMin,
+        PresMax: template.PressureMax,
       }
     });
   }
 
   async createTemplate(data) {
     let returnFalse = false;
-    await this.getDefaultTemplateList();
+    await this.getTemplates()
     this.defaultTemplates.map((defaultTemplate) => {
       if (defaultTemplate.templateName === data.templateName) {
         alert("Cannot choose the same name as a default template, choose another one.");

@@ -4,7 +4,6 @@ import { useState, useEffect} from 'react';
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebaseModel';
 import 'bootstrap/dist/css/bootstrap.css';
-import Model from "../Model";
 import { Slider, RangeSlider, Row, Col, InputGroup, InputNumber } from 'rsuite';
 
 
@@ -47,7 +46,7 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
     const [toggle, setToggle] = useState(false);
 
     return (
-       <div class="minmax_drawer">
+       <div className="minmax_drawer">
         <div style={{fontSize:"1rem", color: "#499BDA"}}>Set maximum and minimum value?</div>
          <Toggle style={{marginTop: '10px', marginBottom: '10px'}}
             size="md" 
@@ -104,7 +103,7 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
                     />
                   </InputGroup>
                 </Col>
-                <button type="button" class="btn btn-outline-primary btn-sm" onClick={updateData}>Sumbit</button>
+                <button type="button" className="btn btn-outline-primary btn-sm" onClick={updateData}>Sumbit</button>
             </Row>
         )
 

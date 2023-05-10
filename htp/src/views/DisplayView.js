@@ -43,6 +43,7 @@ function DisplayView({ data, formatGraphData, model}) {
               minName="CurrentIntervals.HumMin"
               initMax={data.CurrentIntervals.HumMax}
               initMin={data.CurrentIntervals.HumMin}
+              model={model}
             />
             {Array.isArray(WeatherData.Hum) && WeatherData.Hum.length > 0 && (
               <Graph
