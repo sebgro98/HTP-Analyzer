@@ -49,12 +49,20 @@ function DisplayPresenter() {
     }
 
     const formattedData = data[type].map((value, index) => {
-      const date = data.Time[index] instanceof Timestamp ? data.Time[index].toDate() : data.Time[index];
+      let date;
+      if (typeof data.Time[index] === 'string') {
+        date = new Date(data.Time[index]);
+      } else if (data.Time[index] instanceof Timestamp) {
+        date = data.Time[index].toDate();
+      } else {
+        return null;
+      }
+
       return {
         date: date,
         value: Number(value),
       };
-    });
+    }).filter((item) => item !== null);
 
     return formattedData;
   };
