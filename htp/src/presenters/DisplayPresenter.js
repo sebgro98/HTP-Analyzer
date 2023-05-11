@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react";
 import Model from "../Model";
 import DisplayView from "../views/DisplayView";
 import { db } from "../firebaseModel";
-import { doc, onSnapshot } from "firebase/firestore";
-import { Timestamp } from "firebase/firestore";
-import { atom, useRecoilState} from "recoil";
+import { doc, onSnapshot, Timestamp } from "firebase/firestore";
+import { atom, useRecoilState } from "recoil";
+import moment from "moment";
 
 export const dataAtom = atom({
   key: "data",
-  default: null
-})
+  default: null,
+});
 
-function DisplayPresenter({model}) {
+function DisplayPresenter({ model }) {
   const [data, setData] = useRecoilState(dataAtom);
   const [error, setError] = useState(null);
 
@@ -48,20 +48,27 @@ function DisplayPresenter({model}) {
     }
 
     const formattedData = data[type].map((value, index) => {
-      let date;
-      if (typeof data.Time[index] === 'string') {
-        date = new Date(data.Time[index]);
-      } else if (data.Time[index] instanceof Timestamp) {
-        date = data.Time[index].toDate();
-      } else {
-        return null;
+      let date = data.Time[index];
+
+      if (typeof date === "string") {
+        // Try parsing the date string using multiple formats
+        const formats = ["YYYY-MM-DD HH:mm:ss", "MMMM D, YYYY [at] HH:mm:ssA", "LLL"];
+        for (const format of formats) {
+          const parsedDate = moment(date, format);
+          if (parsedDate.isValid()) {
+            date = parsedDate.toDate();
+            break;
+          }
+        }
+      } else if (date instanceof Timestamp) {
+        date = date.toDate();
       }
 
       return {
         date: date,
         value: Number(value),
       };
-    }).filter((item) => item !== null);
+    });
 
     return formattedData;
   };
@@ -71,7 +78,7 @@ function DisplayPresenter({model}) {
       {error ? (
         <p className="noData">{error}</p>
       ) : (
-        <DisplayView data={data} formatGraphData={formatGraphData} model={model}/>
+        <DisplayView data={data} formatGraphData={formatGraphData} model={model} />
       )}
     </div>
   );
