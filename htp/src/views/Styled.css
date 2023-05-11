@@ -578,12 +578,11 @@ body {
 }
 
 /* ------------------------------------------- About --------------------------------- */
-
 .aboutContent {
   display: flex;
   justify-content: center;
   padding: 5px;
-  margin-top:20px;
+  margin-top: 20px;
   margin-left: 15px;
   margin-right: 15px;
 }
@@ -610,7 +609,6 @@ body {
   margin-top: 10px;
   margin-bottom: 10px;
   border-radius: 50%;
-
 }
 
 .aboutCardImage1 {
@@ -648,7 +646,13 @@ body {
   font-family: Georgia, serif;
 }
 
-.aboutContentText {
+.aboutUniversity {
+  font-size: 1rem;
+  font-weight: normal;
+  font-family: Georgia, serif;
+}
+
+.aboutDeveloperRole {
   font-size: 1rem;
   font-weight: normal;
   font-family: Georgia, serif;
@@ -667,6 +671,7 @@ body {
   border: 0.5px solid rgba(255, 255, 255, 0.342);
   box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.119);
 }
+
 .aboutTitle {
   font-family: orbitron;
   padding: 10px;
@@ -683,4 +688,5 @@ body {
 .test {
   color: #f5f5dc;
 }
+
 
