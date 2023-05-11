@@ -36,7 +36,7 @@ function ProfileView(props){
       <Grid item xs={12}>
         <Box justifyContent="center" alignContent="center">
         <TextField
-            labelId="gender-select-label"
+            labelid="gender-select-label"
             id="gender-select"
             value={props.gender}
             label="Gender"
