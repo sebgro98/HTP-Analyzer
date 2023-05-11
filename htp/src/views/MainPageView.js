@@ -37,8 +37,7 @@ const MainPageView = ({onTemplateClick, model}) => {
       <h1 className="header-title"><div style={{ color: "#499BDA"}}>HTP-Analyzer</div><DateTimeView/></h1>
         <div className="header-icons">
           <div onClick={onTemplateClick} className="template-icon">
-            <img src={temicon} width="40"/>
-            <h2>Templates</h2>
+            <img src={temicon} width="25"/>
           </div>
           <NotificationPresenter/>
           <DarkModeSwitch
