@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProfileView from "../views/ProfileView";
 import { db, auth } from "../firebaseModel";
 import { getAuth } from "firebase/auth";
-import { doc, updateDoc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, updateDoc, onSnapshot } from "firebase/firestore";
 
 const ProfilePage = () => {
   const [firstName, setFirstName] = useState("");
@@ -14,7 +14,6 @@ const ProfilePage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
       if (!user) {
@@ -25,9 +24,9 @@ const ProfilePage = () => {
         const unsubscribeFirestore = onSnapshot(docRef, (doc) => {
           if (doc.exists) {
             const data = doc.data();
-            setFirstName(data?.firstName || '');
-            setLastName(data?.lastName || '');
-            setGender(data?.gender || '');
+            setFirstName(data?.firstName || "");
+            setLastName(data?.lastName || "");
+            setGender(data?.gender || "");
             setEmail(user.email);
           }
         });
@@ -36,7 +35,7 @@ const ProfilePage = () => {
     });
     return () => unsubscribeAuth();
   }, []);
-  
+
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value);
   };
@@ -63,28 +62,20 @@ const ProfilePage = () => {
 
   const handleSaveChanges = async (event) => {
     event.preventDefault();
-  
+
     const user = getAuth().currentUser;
-  
+
     if (!user) {
       setErrorMessage("User not authenticated");
       return;
     }
-  
-    if (password && password !== confirmPassword) {
-      setErrorMessage("Passwords do not match");
-      return;
-    }
-  
+
     try {
-      // Update the user's email and password
+      // Update the user's email
       if (email !== user.email) {
         await user.updateEmail(email);
       }
-      if (password) {
-        await user.updatePassword(password);
-      }
-  
+
       // Update the user's Firestore document
       const docRef = doc(db, "Users", user.uid);
       await updateDoc(docRef, {
@@ -93,7 +84,7 @@ const ProfilePage = () => {
         gender,
         email,
       });
-  
+
       setSuccessMessage("Changes saved successfully!");
       setTimeout(() => {
         setSuccessMessage("");
@@ -102,8 +93,6 @@ const ProfilePage = () => {
       setErrorMessage(`Error: ${error.message}`);
     }
   };
-  
-  
 
   if (errorMessage) {
     return (
