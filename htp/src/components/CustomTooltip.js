@@ -2,9 +2,23 @@ import React from "react";
 
 const formatXAxis = (tickItem) => {
   const date = new Date(tickItem);
-  const hours = date.getHours().toString().padStart(2, "0");
-  return hours;
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  return `${hours.toString().padStart(2, "0")}:${minutes
+    .toString()
+    .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 };
+
+const formatTime = (date) =>
+date.toLocaleString(undefined, {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  second: "numeric",
+});
 
 const CustomTooltip = ({ active, payload, yAxisLabel }) => {
   if (active && payload && payload.length) {
@@ -19,4 +33,4 @@ const CustomTooltip = ({ active, payload, yAxisLabel }) => {
   return null;
 };
 
-export {CustomTooltip, formatXAxis};
+export {CustomTooltip, formatXAxis, formatTime};
