@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Model from '../Model';
 import ForumView from '../views/ForumView';
 import {serverTimestamp} from "firebase/firestore";
-import AddPostForm from "./ForumAddPostPresenter";
 
 function Forum() {
     const model = new Model();
@@ -32,7 +31,7 @@ function Forum() {
         console.log("title", title)
         console.log("content ", content.title)
         await model.addPost(title, content);
-        fetchPosts();
+        //fetchPosts();
     };
 
     const handleSearchChange = (event) => {

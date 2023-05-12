@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Model from '../Model';
 import'../views/StyledAddPost.css';
 
 function AddPostForm({ onAddPost }) {

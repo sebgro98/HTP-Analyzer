@@ -149,8 +149,8 @@ class Model {
 
               const userPosts = userPostsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-              const orderedPosts = userPosts.sort((a, b) => b.timestamp - a.timestamp);
-
+              const orderedPosts = userPosts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+              console.log("Ordered: ",orderedPosts)
               allPosts.push(...orderedPosts);
             }
 

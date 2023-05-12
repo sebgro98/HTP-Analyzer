@@ -3,7 +3,6 @@ import './StyledForumView.css';
 import AddPostForm from '../presenters/ForumAddPostPresenter';
 import PostDetails from '../presenters/AddCommentForumPresenter';
 import { Timestamp } from 'firebase/firestore';
-import model from "../Model";
 import Model from "../Model";
 import {getAuth, onAuthStateChanged} from "firebase/auth";
 
