@@ -149,13 +149,12 @@ class Model {
 
               const userPosts = userPostsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-              const orderedPosts = userPosts.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-              console.log("Ordered: ",orderedPosts)
-              allPosts.push(...orderedPosts);
+              allPosts.push(...userPosts);
             }
 
-            console.log(allPosts);
-            resolve(allPosts);
+            const orderedPosts = allPosts.sort((a, b) => b.timestamp - a.timestamp);
+            console.log(orderedPosts);
+            resolve(orderedPosts);
           } else {
             console.log('No user found');
             resolve([]);
