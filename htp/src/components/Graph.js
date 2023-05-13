@@ -11,7 +11,7 @@ import {
 import { Box } from "@mui/material";
 import { scaleOrdinal } from "d3-scale";
 import { schemeSet2 } from "d3-scale-chromatic";
-import { CustomTooltip, formatXAxis, formatTime } from "./CustomTooltip";
+import { CustomTooltip, formatXAxis, } from "./CustomTooltip";
 
 const Graph = ({ data, type, darkMode }) => {
   console.log("Checking:");
@@ -54,13 +54,6 @@ const Graph = ({ data, type, darkMode }) => {
       <h2 style={{ textAlign: "center", fontSize: "20px", margin: "0 0 20px" }}>
         {graphTitle}
       </h2>
-      <h3 style={{ textAlign: "center", fontSize: "18px", margin: "0 0 10px" }}>
-        {data.length > 0
-          ? `${formatTime(data[0].date)} to ${formatTime(
-              data[data.length - 1].date
-            )}`
-          : ""}
-      </h3>
 
       {!data.length ? (
         <Box
