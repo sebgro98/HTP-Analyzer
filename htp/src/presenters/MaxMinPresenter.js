@@ -5,9 +5,14 @@ import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebaseModel';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Slider, RangeSlider, Row, Col, InputGroup, InputNumber } from 'rsuite';
+import TextField from '@mui/material/TextField';
+import { useRecoilState } from 'recoil';
+import { darkModeAtom } from '../views/MainPageView';
+
 
 
 const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
+    const [darkMode] = useRecoilState(darkModeAtom);
     const [value, setValue] = useState([initMin, initMax]);
 
     const updateData = async () => {
@@ -28,7 +33,7 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
             });
     }
 
-    const [maxMin, setMaxMin] = useState([value[0], value[1]]);
+    const [maxMin, setMaxMin] = useState(null);
 
     useEffect(() => {
         const setMaxMinCB = () => {
@@ -45,9 +50,19 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
 
     const [toggle, setToggle] = useState(false);
 
+
     return (
        <div className="minmax_drawer">
-        <div style={{fontSize:"1rem", color: "#499BDA"}}>Set maximum and minimum value?</div>
+        <div style={{fontSize:"1rem", color: darkMode ? "#ffffff" : "#1a1a1a", marginTop: "40px"}}>Notification set on these values</div>
+        <div style={{marginTop: "15px"}}>
+          <div class="input-group input-group-sm mb-3">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Min</span>
+              <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" value={initMin} style={{width: "80px", textAlign: "center", borderRadius: "0 5px 5px 0"}} readOnly/>
+              <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" value={initMax} style={{width: "80px", textAlign: "center", borderRadius: "5px 0px 0px 5px", marginLeft: "50px"}} readOnly/>
+            <span class="input-group-text" id="inputGroup-sizing-sm">Max</span>
+          </div>
+        </div>
+        <div style={{fontSize:"1rem", color: darkMode ? "#ffffff" : "#1a1a1a", marginTop: "15px"}}>Change max and min values?</div>
          <Toggle style={{marginTop: '10px', marginBottom: '10px'}}
             size="md" 
             checkedChildren="Yes" 
@@ -57,8 +72,8 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
             }}
         />
         {toggle && (
-            <Row style={{ marginBottom: "16px"}}>
-                <Col md={10}>
+            <>
+                <Row style={{marginBottom: "16px", width: "300px"}}>
                   <RangeSlider
                     max={maxMin[1]}
                     min={maxMin[0]}
@@ -71,8 +86,8 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
                       setValue(value);
                     }}
                   />
-                </Col>
-                <Col md={14}>
+                </Row>
+                <Row style={{marginBottom: "16px", width: "300px"}}>
                   <InputGroup size ="sm">
                     <InputNumber
                       max={maxMin[1]}
@@ -102,9 +117,9 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
                       }}
                     />
                   </InputGroup>
-                </Col>
+                </Row>
                 <button type="button" className="btn btn-outline-primary btn-sm" onClick={updateData}>Sumbit</button>
-            </Row>
+            </>
         )
 
         }

@@ -39,7 +39,7 @@ const MainPageView = ({onTemplateClick, model}) => {
           <div onClick={onTemplateClick} className="template-icon">
             <img src={temicon} width="25"/>
           </div>
-          <NotificationPresenter/>
+          <NotificationPresenter model={model}/>
           <DarkModeSwitch
             checked={darkMode}
             onChange={toggleTheme}

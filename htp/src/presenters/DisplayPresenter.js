@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Model from "../Model";
 import DisplayView from "../views/DisplayView";
 import { db } from "../firebaseModel";
 import { doc, onSnapshot, Timestamp } from "firebase/firestore";
-import { atom, useRecoilState } from "recoil";
 import moment from "moment";
 
-export const dataAtom = atom({
-  key: "data",
-  default: null,
-});
-
 function DisplayPresenter({ model }) {
-  const [data, setData] = useRecoilState(dataAtom);
+  const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
