@@ -33,18 +33,11 @@ function DisplayView({ data, formatGraphData, model}) {
               style={{ color: darkMode ? "#ffffff" : "#1a1a1a" }}
               sx={{ fontSize: 60 }}
             />
-            <div className="measurement">Humidity</div>
-            <div className="parameter">
+            <div style={{marginTop: "10px", marginBottom: "5px"}}> 
+            <span className="measurement">Humidity | </span>
               <span className="value">{WeatherData.Hum[WeatherData.Hum.length - 1]}</span>
-              <span>%</span>
+              <span className="value"> %</span>
             </div>
-            <MaxMinPresenter
-              maxName="CurrentIntervals.HumMax"
-              minName="CurrentIntervals.HumMin"
-              initMax={data.CurrentIntervals.HumMax}
-              initMin={data.CurrentIntervals.HumMin}
-              model={model}
-            />
             {Array.isArray(WeatherData.Hum) && WeatherData.Hum.length > 0 && (
               <Graph
                 data={formatGraphData(WeatherData, "Hum")}
@@ -52,6 +45,13 @@ function DisplayView({ data, formatGraphData, model}) {
                 darkMode={darkMode}
               />
             )}
+            <MaxMinPresenter
+              maxName="CurrentIntervals.HumMax"
+              minName="CurrentIntervals.HumMin"
+              initMax={data.CurrentIntervals.HumMax}
+              initMin={data.CurrentIntervals.HumMin}
+              model={model}
+            />
           </div>
         </div>
 
@@ -61,18 +61,11 @@ function DisplayView({ data, formatGraphData, model}) {
               style={{ color: darkMode ? "#ffffff" : "#1a1a1a" }}
               sx={{ fontSize: 60 }}
             />
-            <div className="measurement">Temperature</div>
-            <div className="parameter">
-              <span className="value">{WeatherData.Temp[WeatherData.Temp.length - 1]}</span>
-              <span>&deg;C</span>
+            <div style={{marginTop: "10px", marginBottom: "5px"}}> 
+                <span className="measurement">Temperature  |  </span>
+                <span className="value">{WeatherData.Temp[WeatherData.Temp.length - 1]}</span>
+                <span className="value"> &deg;C</span>
             </div>
-            <MaxMinPresenter
-              maxName="CurrentIntervals.TempMax"
-              minName="CurrentIntervals.TempMin"
-              initMax={data.CurrentIntervals.TempMax}
-              initMin={data.CurrentIntervals.TempMin}
-              model={model}
-            />
             {Array.isArray(WeatherData.Temp) && WeatherData.Temp.length > 0 && (
               <Graph
                 data={formatGraphData(WeatherData, "Temp")}
@@ -80,6 +73,13 @@ function DisplayView({ data, formatGraphData, model}) {
                 darkMode={darkMode}
               />
             )}
+            <MaxMinPresenter
+              maxName="CurrentIntervals.TempMax"
+              minName="CurrentIntervals.TempMin"
+              initMax={data.CurrentIntervals.TempMax}
+              initMin={data.CurrentIntervals.TempMin}
+              model={model}
+            />
           </div>
         </div>
 
@@ -89,18 +89,11 @@ function DisplayView({ data, formatGraphData, model}) {
               style={{ color: darkMode ? "#ffffff" : "#1a1a1a" }}
               sx={{ fontSize: 60 }}
             />
-            <div className="measurement">Pressure</div>
-            <div className="parameter">
+            <div style={{marginTop: "10px", marginBottom: "5px"}}> 
+                <span className="measurement">Pressure | </span>
               <span className="value">{WeatherData.Pres[WeatherData.Pres.length - 1]}</span>
-              <span>hPa</span>
+              <span className="value"> hPa</span>
             </div>
-            <MaxMinPresenter
-              maxName="CurrentIntervals.PresMax"
-              minName="CurrentIntervals.PresMin"
-              initMax={CurrentIntervals.PresMax}
-              initMin={CurrentIntervals.PresMin}
-              model={model}
-            />
             {Array.isArray(WeatherData.Pres) && WeatherData.Pres.length > 0 && (
               <Graph
                 data={formatGraphData(WeatherData, "Pres")}
@@ -108,6 +101,13 @@ function DisplayView({ data, formatGraphData, model}) {
                 darkMode={darkMode}
               />
             )}
+            <MaxMinPresenter
+              maxName="CurrentIntervals.PresMax"
+              minName="CurrentIntervals.PresMin"
+              initMax={CurrentIntervals.PresMax}
+              initMin={CurrentIntervals.PresMin}
+              model={model}
+            />
           </div>
         </div>
       </div>

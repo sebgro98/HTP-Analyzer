@@ -67,7 +67,7 @@ function DisplayPresenter({ model }) {
   };
 
   return (
-    <div className="DisplayPresenter">
+    <div>
       {error ? (
         <p className="noData">{error}</p>
       ) : (

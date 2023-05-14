@@ -22,24 +22,21 @@ const Graph = ({ data, type, darkMode }) => {
   let xAxisLabel;
 
   if (type === "Hum") {
-    yAxisLabel = "Humidity (%)";
     xAxisLabel = "Time (hours)";
   } else if (type === "Temp") {
-    yAxisLabel = "Temperature (°C)";
     xAxisLabel = "Time (hours)";
   } else {
-    yAxisLabel = "Pressure (hPa)";
     xAxisLabel = "Time (hours)";
   }
   const colorScale = scaleOrdinal().range(schemeSet2);
 
   let graphTitle;
   if (type === "Hum") {
-    graphTitle = "Humidity over Time";
+    graphTitle = "";
   } else if (type === "Temp") {
-    graphTitle = "Temperature over Time";
+    graphTitle = "";
   } else {
-    graphTitle = "Pressure over Time";
+    graphTitle = "";
   }
 
   return (

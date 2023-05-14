@@ -52,28 +52,27 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
 
 
     return (
-       <div className="minmax_drawer">
-        <div style={{fontSize:"1rem", color: darkMode ? "#ffffff" : "#1a1a1a", marginTop: "40px"}}>Notification set on these values</div>
-        <div style={{marginTop: "15px"}}>
-          <div class="input-group input-group-sm mb-3">
-              <span class="input-group-text" id="inputGroup-sizing-sm">Min</span>
-              <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" value={initMin} style={{width: "80px", textAlign: "center", borderRadius: "0 5px 5px 0"}} readOnly/>
-              <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" value={initMax} style={{width: "80px", textAlign: "center", borderRadius: "5px 0px 0px 5px", marginLeft: "50px"}} readOnly/>
-            <span class="input-group-text" id="inputGroup-sizing-sm">Max</span>
-          </div>
+        <div style={{fontSize:"1rem", color: darkMode ? "#ffffff" : "#1a1a1a", marginTop: "40px"}}>
+        <div style={{marginTop: "5px"}}>
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Min</span>
+                    <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" value={initMin} style={{width: "80px", textAlign: "center", borderRadius: "0 5px 5px 0"}} readOnly/>
+                    <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" value={initMax} style={{width: "80px", textAlign: "center", borderRadius: "5px 0px 0px 5px", marginLeft: "50px"}} readOnly/>
+                <span class="input-group-text" id="inputGroup-sizing-sm">Max</span>
+            </div>
         </div>
-        <div style={{fontSize:"1rem", color: darkMode ? "#ffffff" : "#1a1a1a", marginTop: "15px"}}>Change max and min values?</div>
-         <Toggle style={{marginTop: '10px', marginBottom: '10px'}}
+        <div style={{fontSize:"1rem", color: darkMode ? "#ffffff" : "#1a1a1a", marginTop: "15px", alignText: "center", alignItems: "center"}}>Edit range...</div>
+         <Toggle style={{marginTop: '10px', marginBottom: '10px', alignItems: "center"}}
             size="md" 
-            checkedChildren="Yes" 
-            unCheckedChildren="No" 
+            checkedChildren=" " 
+            unCheckedChildren=" " 
             onClick={() => {
                 setToggle(!toggle);
             }}
         />
         {toggle && (
             <>
-                <Row style={{marginBottom: "16px", width: "300px"}}>
+                <Row style={{marginBottom: "16px", width: "322px"}}>
                   <RangeSlider
                     max={maxMin[1]}
                     min={maxMin[0]}
@@ -87,8 +86,8 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
                     }}
                   />
                 </Row>
-                <Row style={{marginBottom: "16px", width: "300px"}}>
-                  <InputGroup size ="sm">
+                <Row style={{marginBottom: "16px", width: "322px"}}>
+                  <InputGroup size ="m">
                     <InputNumber
                       max={maxMin[1]}
                       min={maxMin[0]}
@@ -102,7 +101,7 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
                         setValue([nextValue, end]);
                       }}
                     />
-                    <InputGroup.Addon>to</InputGroup.Addon>
+                    <InputGroup.Addon>To</InputGroup.Addon>
                     <InputNumber
                       max={maxMin[1]}
                       min={maxMin[0]}

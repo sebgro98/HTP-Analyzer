@@ -332,7 +332,8 @@ body {
 
 .display-view {
   width: 100vw;
-  display: flex;
+  height: 80vh;
+  display: block;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -345,8 +346,11 @@ body {
       display: flex;
       font-family: orbitron;
       font-weight: normal;
-      align-items: center;
+      align-items: flex-start;
+      text-align: center;
       width: 100%;
+      height: 100%;
+      justify-content: space-between;
     }
 
     .cardDark {
@@ -354,6 +358,7 @@ body {
       display: flex;
       font-family: orbitron;
       font-weight: normal;
+      align-items: flex-start;
       text-align: center;
       width: 100%;
       justify-content: space-between;
@@ -363,10 +368,10 @@ body {
 .column {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   flex-basis: 100%;
-  margin-bottom: 2rem;
+  margin-top: 5em;
+  margin-bottom: 20px;
 }
 
 .box {
@@ -431,9 +436,7 @@ body {
 }
 
 .display-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  display: block;
 }
 
 .dark-mode-switch {
@@ -442,9 +445,10 @@ body {
 }
 
 .value {
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-family: orbitron;
   font-weight: 100;
+  color: #0095ff;
 }
 
 .MuiBox-root css-13zekb7 {
@@ -463,7 +467,8 @@ body {
 }
 
 .minmax_drawer {
-    z-index: 1;
+    font-size: 1rem;
+
 }
 .btn btn-outline-primary btn-sm {
    align-items: center;
