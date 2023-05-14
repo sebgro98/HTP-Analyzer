@@ -94,9 +94,9 @@ function NotificationView ({ data }) {
   };
 
 
-const currentHum = data.WeatherData.Hum[0];
-const currentTemp = data.WeatherData.Temp[0];
-const currentPres = data.WeatherData.Pres[0];
+const currentHum = data.WeatherData.Hum[data.WeatherData.Hum.length - 1];
+const currentTemp = data.WeatherData.Temp[data.WeatherData.Temp.length - 1];
+const currentPres = data.WeatherData.Pres[data.WeatherData.Pres.length - 1];
   
   useEffect(() => {
     // maxHum

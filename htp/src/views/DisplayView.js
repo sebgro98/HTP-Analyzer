@@ -35,7 +35,7 @@ function DisplayView({ data, formatGraphData, model}) {
             />
             <div className="measurement">Humidity</div>
             <div className="parameter">
-              <span className="value">{WeatherData.Hum[0]}</span>
+              <span className="value">{WeatherData.Hum[WeatherData.Hum.length - 1]}</span>
               <span>%</span>
             </div>
             <MaxMinPresenter
@@ -63,7 +63,7 @@ function DisplayView({ data, formatGraphData, model}) {
             />
             <div className="measurement">Temperature</div>
             <div className="parameter">
-              <span className="value">{WeatherData.Temp[0]}</span>
+              <span className="value">{WeatherData.Temp[WeatherData.Temp.length - 1]}</span>
               <span>&deg;C</span>
             </div>
             <MaxMinPresenter
@@ -91,7 +91,7 @@ function DisplayView({ data, formatGraphData, model}) {
             />
             <div className="measurement">Pressure</div>
             <div className="parameter">
-              <span className="value">{WeatherData.Pres[0]}</span>
+              <span className="value">{WeatherData.Pres[WeatherData.Pres.length - 1]}</span>
               <span>hPa</span>
             </div>
             <MaxMinPresenter
