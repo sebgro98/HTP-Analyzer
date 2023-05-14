@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext, useContext } from "react";
 import {
   Alert,
   Badge,
@@ -16,23 +16,15 @@ import {
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MarkChatReadIcon from "@mui/icons-material/MarkChatRead";
 import CheckIcon from "@mui/icons-material/Check";
-import { useNotificationCenter } from "react-toastify/addons/use-notification-center";
-import { toast } from "react-toastify";
-import ding from "./sounds/ding.mp3"
 import { useRecoilState } from 'recoil';
 import { darkModeAtom } from '../views/MainPageView';
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../firebaseModel';
 import Model from "../Model";
+import { NotificationContext } from "../components/NotificationContext";
 
-
-var notificationPlayer = new Audio(ding);
-notificationPlayer.volume = 0.5;
-
-const types = ["success", "info", "warning", "error"];
-
-function NotificationView ({ data }) {
-
+function NotificationView({ data }) {
+  
   const updateData = async (field, value) => {
     const model = new Model();
     const user =  await model.getUser();
@@ -48,103 +40,74 @@ function NotificationView ({ data }) {
         });
 }
 
+const {addNotification, notifications, clear, markAllAsRead, markAsRead, unreadCount } = useContext(NotificationContext);
 
-  const [darkMode] = useRecoilState(darkModeAtom);
+const currentHum = data.WeatherData.Hum[data.WeatherData.Hum.length - 1];
+const currentTemp = data.WeatherData.Temp[data.WeatherData.Temp.length - 1];
+const currentPres = data.WeatherData.Pres[data.WeatherData.Pres.length - 1];
 
-  const {
-    notifications,
-    clear,
-    markAllAsRead,
-    markAsRead,
-    unreadCount,
-  } = useNotificationCenter();
+useEffect(() => {
+  // maxHum
+  if (currentHum >= data.CurrentIntervals.HumMax && !data.Notifications.HumMaxNotified) {
+    updateData("Notifications.HumMaxNotified", true);
+    addNotification("Current humidity reached its maximum value!");
+  } else if (currentHum < data.CurrentIntervals.HumMax && data.Notifications.HumMaxNotified) {
+    updateData("Notifications.HumMaxNotified", false);
+  }
+
+  // minHum
+  if (currentHum <= data.CurrentIntervals.HumMin && !data.Notifications.HumMinNotified) {
+    updateData("Notifications.HumMinNotified", true);
+    addNotification("Current humidity reached its minimum value!");
+  } else if (currentHum > data.CurrentIntervals.HumMin && data.Notifications.HumMinNotified) {
+    updateData("Notifications.HumMinNotified", false);
+  }
+  // maxTemp
+  if ( currentTemp >= data.CurrentIntervals.TempMax && !data.Notifications.TempMaxNotified) {
+    updateData("Notifications.TempMaxNotified", true)
+    addNotification("Current temperature reached its maximum value!")
+  } else if (currentTemp < data.CurrentIntervals.TempMax && data.Notifications.TempMaxNotified) {
+    updateData("Notifications.TempMaxNotified", false)
+  }
+  // minTemp
+  if ( currentTemp <= data.CurrentIntervals.TempMin && !data.Notifications.TempMinNotified) {
+    updateData("Notifications.TempMinNotified", true)
+    addNotification("Current temperature reached its minimum value!")
+  } else if (currentTemp > data.CurrentIntervals.TempMin && data.Notifications.TempMinNotified) {
+    updateData("Notifications.TempMinNotified", false)
+  }
+  // maxPres
+  if ( currentPres >= data.CurrentIntervals.PresMax && !data.Notifications.PresMaxNotified) {
+    updateData("Notifications.PresMaxNotified", true)
+    addNotification("Current pressure reached its maximum value!")
+  } else if (currentPres < data.CurrentIntervals.PresMax && data.Notifications.PresMaxNotified) {
+    updateData("Notifications.PresMaxNotified", false)
+  }
+  // minPres
+  if ( currentPres <= data.CurrentIntervals.PresMin && !data.Notifications.PresMinNotified) {
+    updateData("Notifications.PresMinNotified", true)
+    addNotification("Current pressure reached its minimum value!")
+  } else if (currentPres > data.CurrentIntervals.PresMin && data.Notifications.PresMinNotified) {
+    updateData("Notifications.PresMinNotified", false)
+  }
+
+}, [currentHum, data.Notifications.HumMaxNotified, data.Notifications.HumMinNotified, currentTemp, data.Notifications.TempMaxNotified, data.Notifications.TempMinNotified, currentPres, data.Notifications.PresMaxNotified, data.Notifications.PresMinNotified]);
+
   const [showUnreadOnly, setShowUnreadOnly] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-
-  const dateFormat = new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    })
-
-  const addNotification = (msg) => {
-    const currentTime = new Date();
-    notificationPlayer.play();
-    toast(
-    <div className="msgText">
-      <div>{msg}</div>
-      <div style={{color: "#88CC88", fontSize: "0.5rem", marginTop: "10px"}}>
-        <span>{dateFormat.format(currentTime)}</span>
-        <span> at {currentTime.toLocaleTimeString()}</span>
-        
-      </div>
-    </div>, {
-      type: "info"
-    });
-  };
 
   const toggleNotificationCenter = (event) => {
     setAnchorEl(event.currentTarget);
     setIsOpen(!isOpen);
   };
 
-  const toggleFilter = (e) => {
+  const toggleFilter = () => {
     setShowUnreadOnly(!showUnreadOnly);
   };
 
+  const [darkMode] = useRecoilState(darkModeAtom);
 
-const currentHum = data.WeatherData.Hum[data.WeatherData.Hum.length - 1];
-const currentTemp = data.WeatherData.Temp[data.WeatherData.Temp.length - 1];
-const currentPres = data.WeatherData.Pres[data.WeatherData.Pres.length - 1];
-  
-  useEffect(() => {
-    // maxHum
-    if (currentHum >= data.CurrentIntervals.HumMax && !data.Notifications.HumMaxNotified) {
-      updateData("Notifications.HumMaxNotified", true);
-      addNotification("Current humidity reached its maximum value!");
-    } else if (currentHum < data.CurrentIntervals.HumMax && data.Notifications.HumMaxNotified) {
-      updateData("Notifications.HumMaxNotified", false);
-    }
-  
-    // minHum
-    if (currentHum <= data.CurrentIntervals.HumMin && !data.Notifications.HumMinNotified) {
-      updateData("Notifications.HumMinNotified", true);
-      addNotification("Current humidity reached its minimum value!");
-    } else if (currentHum > data.CurrentIntervals.HumMin && data.Notifications.HumMinNotified) {
-      updateData("Notifications.HumMinNotified", false);
-    }
-    // maxTemp
-    if ( currentTemp >= data.CurrentIntervals.TempMax && !data.Notifications.TempMaxNotified) {
-      updateData("Notifications.TempMaxNotified", true)
-      addNotification("Current temperature reached it's maximum value!")
-    } else if (currentTemp < data.CurrentIntervals.TempMax && data.Notifications.TempMaxNotified) {
-      updateData("Notifications.TempMaxNotified", false)
-    }
-    // minTemp
-    if ( currentTemp <= data.CurrentIntervals.TempMin && !data.Notifications.TempMinNotified) {
-      updateData("Notifications.TempMinNotified", true)
-      addNotification("Current temperature reached it's minimum value!")
-    } else if (currentTemp > data.CurrentIntervals.TempMin && data.Notifications.TempMinNotified) {
-      updateData("Notifications.TempMinNotified", false)
-    }
-    // maxPres
-    if ( currentPres >= data.CurrentIntervals.PresMax && !data.Notifications.PresMaxNotified) {
-      updateData("Notifications.PresMaxNotified", true)
-      addNotification("Current pressure reached it's maximum value!")
-    } else if (currentPres < data.CurrentIntervals.PresMax && data.Notifications.PresMaxNotified) {
-      updateData("Notifications.PresMaxNotified", false)
-    }
-    // minPres
-    if ( currentPres <= data.CurrentIntervals.PresMin && !data.Notifications.PresMinNotified) {
-      updateData("Notifications.PresMinNotified", true)
-      addNotification("Current pressure reached it's minimum value!")
-    } else if (currentPres > data.CurrentIntervals.PresMin && data.Notifications.PresMinNotified) {
-      updateData("Notifications.PresMinNotified", false)
-    }
-
-  }, [currentHum, data.Notifications.HumMaxNotified, data.Notifications.HumMinNotified, currentTemp, data.Notifications.TempMaxNotified, data.Notifications.TempMinNotified, currentPres, data.Notifications.PresMaxNotified, data.Notifications.PresMinNotified]);
- 
 return (
   <Box sx={{ marginRight: "10px", marginTop: "-50px" }}>
     <IconButton size="large" onClick={toggleNotificationCenter}>
@@ -208,6 +171,12 @@ return (
                 ? notifications.filter((v) => !v.read)
                 : notifications
               ).map((notification) => {
+                const notificationTime = new Date(notification.time);
+                const dateFormat = new Intl.DateTimeFormat('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })
                 return (
                   <Alert
                     severity={"info"}
@@ -227,7 +196,10 @@ return (
                       )
                     }
                   >
-                    {notification.content}
+                    <div className="msgText">{notification.content}</div>
+                    <div style={{ color: "#88CC88", fontSize: "0.5rem", marginTop: "10px" }}>
+                      {dateFormat.format(notificationTime)} at {notificationTime.toLocaleTimeString()}
+                    </div>
                   </Alert>
                 );
               })}

@@ -516,6 +516,10 @@ body {
   border-radius: 5px;
 }
 
+.notificatioFontFamily {
+  font-family: orbitron;
+}
+
 /* ------------------------------------------- Template --------------------------------- */
 
 .template-icon {

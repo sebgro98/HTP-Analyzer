@@ -9,7 +9,7 @@ import Forum from "./presenters/ForumPresenter"
 import {useState} from "react";
 import Model from "./Model";
 import AboutPresenter from "./presenters/AboutPresenter";
-
+import { NotificationProvider } from "./components/NotificationContext";
 function ReactRoot() {
     const model = new Model();
     const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -30,7 +30,8 @@ function ReactRoot() {
     };
 
     return (
-        <div style={{ width: "100%" }}>
+       <NotificationProvider>
+             <div style={{ width: "100%" }}>
             <Sidebar isLoggedIn={isLoggedIn} handleLogout={handleLogout} />
 
             <Routes>
@@ -41,6 +42,7 @@ function ReactRoot() {
                 <Route path="/login" element={<Login isLoggedIn={isLoggedIn}/>} />
             </Routes>
         </div>
+       </NotificationProvider>
     );
 }
 
