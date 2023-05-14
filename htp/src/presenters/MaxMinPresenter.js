@@ -117,7 +117,7 @@ const MaxMinPresenter = ({maxName, minName, initMax, initMin, model}) => {
                     />
                   </InputGroup>
                 </Row>
-                <button type="button" className="btn btn-outline-primary btn-sm" onClick={updateData}>Sumbit</button>
+                <button type="button" className="btn btn-outline-primary btn-sm" onClick={updateData}>Submit</button>
             </>
         )
 
