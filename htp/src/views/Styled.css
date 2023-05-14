@@ -588,7 +588,7 @@ body {
 }
 
 .aboutCard {
-  background-color: rgba(234, 244, 255, 0.8);
+  background-color: #f2f2f2;
   backdrop-filter: blur(8px);
   display: flex;
   flex-direction: column;
@@ -686,7 +686,8 @@ body {
 }
 
 .test {
-  color: #f5f5dc;
+  color: #b57368;
+  color: #499BDA;
 }
 
 
