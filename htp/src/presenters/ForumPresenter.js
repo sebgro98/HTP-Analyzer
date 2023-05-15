@@ -31,7 +31,7 @@ function Forum() {
         console.log("title", title)
         console.log("content ", content.title)
         await model.addPost(title, content);
-        //fetchPosts();
+        fetchPosts();
     };
 
     const handleSearchChange = (event) => {
