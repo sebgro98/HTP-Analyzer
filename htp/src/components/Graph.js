@@ -22,10 +22,13 @@ const Graph = ({ data, type, darkMode }) => {
   let xAxisLabel;
 
   if (type === "Hum") {
+    yAxisLabel = "Humidity (%)";
     xAxisLabel = "Time (hours)";
   } else if (type === "Temp") {
+    yAxisLabel = "Temperature (°C)";
     xAxisLabel = "Time (hours)";
   } else {
+    yAxisLabel = "Pressure (hPa)";
     xAxisLabel = "Time (hours)";
   }
   const colorScale = scaleOrdinal().range(schemeSet2);
