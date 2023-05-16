@@ -67,7 +67,7 @@ function DisplayPresenter({ model }) {
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
       {error ? (
         <p className="noData">{error}</p>
       ) : (
